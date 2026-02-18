@@ -14,7 +14,7 @@ router.patch('/', publicSpaceController.updatePublicSpace);
 // Route to delete a public space by ID
 router.delete('/', publicSpaceController.deletePublicSpace);
 
-// Route to get a public space by ID
-router.get('/', publicSpaceController.getPublicSpaceById);
+// Route to get a public space by name
+// router.get('/', publicSpaceController.findPublicSpacesByName);
 
 module.exports = router;

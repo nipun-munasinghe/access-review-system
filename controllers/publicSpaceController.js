@@ -94,7 +94,7 @@ exports.deletePublicSpace = async (req, res) => {
 };
 
 // Find space by name (Partial match, Case insensitive)
-exports.findPublicSpacesByName = async (req, res) => {
+exports.getPublicSpaceByName = async (req, res) => {
     try {
         const nameQuery = req.params.name;
 
