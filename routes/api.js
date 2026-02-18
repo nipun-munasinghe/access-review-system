@@ -470,6 +470,24 @@ router.route("/public-space/update/:id").patch(isValidToken, catchErrors(publicS
  *         description: Public space not found
  */
 router.route("/public-space/delete/:id").delete(isValidToken, catchErrors(publicSpaceController.deletePublicSpace));
+
+/**
+ * @swagger
+ * /api/public-space/search/{name}:
+ *  get:
+ *    summary: Search public spaces by name
+ *    tags: [Public Spaces]
+ *    parameters:
+ *      - in: path
+ *        name: name
+ *        required: true
+ *        schema:
+ *          type: string
+ *     responses:
+ *       200:
+ *         description: Search results
+ */
+router.route("/public-space/search/:name").get(catchErrors(publicSpaceController.getPublicSpaceByName));
 //Public spaces management ends here
 
 //___________________________________ Review management _________________________________
