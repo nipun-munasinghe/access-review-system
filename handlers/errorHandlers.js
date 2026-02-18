@@ -31,7 +31,7 @@ exports.notFound = (req, res, next) => {
 /*
   Development Error Handler
 
-  In development we show good error messages so if we hit a syntax error or any other previously un-handled error, we can show good info on what happened
+  In development, we show good error messages so if we hit a syntax error or any other previously un-handled error, we can show good info on what happened
 */
 exports.developmentErrors = (err, req, res, next) => {
   err.stack = err.stack || "";
@@ -53,7 +53,7 @@ exports.developmentErrors = (err, req, res, next) => {
 /*
   Production Error Handler
 
-  No stacktraces are leaked to admin
+  No stacktrace are leaked to admin
 */
 exports.productionErrors = (err, req, res, next) => {
   res.status(500).json({
