@@ -3,6 +3,7 @@ const router = express.Router();
 const { catchErrors } = require("../handlers/errorHandlers");
 const userController = require("../controllers/userController");
 const publicSpaceController = require('../controllers/publicSpaceController');
+const { isValidToken } = require("../controllers/authController");
 
 /**
  * @swagger
@@ -374,10 +375,54 @@ router
 //list of users ends here
 
 //_______________________________ Public spaces management_______________________________
-router.route("/public-space/create")
-  .post(catchErrors(publicSpaceController.createPublicSpace));
-router.route("/public-space/list")
-  .get(catchErrors(publicSpaceController.getAllPublicSpaces));
+/**
+ * @swagger
+ * /api/public-space/create:
+ *   post:
+ *     summary: Create a new public space
+ *     tags: [Public Spaces]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name: 
+ *                 type: string
+ *               category: 
+ *                 type: string
+ *                 enum: [Mall, Park, Hospital, Station, Other]
+ *               locationDetails:
+ *                 type: object
+ *                 properties:
+ *                   address: 
+ *                     type: string
+ *                   coordinates:
+ *                     type: object
+ *                     properties:
+ *                       lat: 
+ *                         type: number
+ *                       lng: 
+ *                         type: number
+ *     responses:
+ *       201:
+ *         description: Space created
+ */
+router.route("/public-space/create").post(catchErrors(publicSpaceController.createPublicSpace));
+
+/**
+ * @swagger
+ * /api/public-space/list:
+ *   get:
+ *     summary: Get all public spaces
+ *     tags: [Public Spaces]
+ *     responses:
+ *       200:
+ *         description: List of spaces
+ */
+router.route("/public-space/list").get(catchErrors(publicSpaceController.getAllPublicSpaces));
+//Public spaces management ends here
 
 //___________________________________ Review management _________________________________
 
