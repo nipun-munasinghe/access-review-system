@@ -1,5 +1,7 @@
 const express = require("express");
 const session = require("express-session");
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require("./docs/swagger");
 const MongoStore = require("connect-mongo");
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -65,6 +67,7 @@ app.use(function (req, res, next) {
 
 app.use("/api", authApiRouter);
 app.use("/api", isValidToken, apiRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // If that above routes didnt work, we 404 them and forward to error handler
 app.use(errorHandlers.notFound);
@@ -78,5 +81,4 @@ if (app.get("env") === "development") {
 // production error handler
 app.use(errorHandlers.productionErrors);
 
-// done! we export it so we can start the site in start.js
 module.exports = app;

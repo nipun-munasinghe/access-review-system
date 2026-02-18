@@ -16,6 +16,8 @@
 1) cd frontend
 2) pnpm start
 
+## API Docs 
+1) open http://localhost:8888/api-docs in your browser
 
 ModithaM
 Moditha2003
