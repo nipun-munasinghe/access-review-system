@@ -100,6 +100,8 @@ const userController = require("../controllers/userController");
  *   get:
  *     summary: Get a user by ID
  *     tags: [Users]
+ *     security:
+ *       - xAuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -137,6 +139,8 @@ router.route("/user/read/:id").get(catchErrors(userController.read));
  *   patch:
  *     summary: Update a user by ID
  *     tags: [Users]
+ *     security:
+ *       - xAuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -188,6 +192,8 @@ router.route("/user/update/:id").patch(catchErrors(userController.update));
  *   delete:
  *     summary: Delete a user by ID
  *     tags: [Users]
+ *     security:
+ *       - xAuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -224,6 +230,8 @@ router.route("/user/delete/:id").delete(catchErrors(userController.delete));
  *   get:
  *     summary: Search users by fields
  *     tags: [Users]
+ *     security:
+ *       - xAuthToken: []
  *     parameters:
  *       - in: query
  *         name: q
@@ -270,6 +278,8 @@ router.route("/user/search").get(catchErrors(userController.search));
  *   get:
  *     summary: Get all users with pagination
  *     tags: [Users]
+ *     security:
+ *       - xAuthToken: []
  *     parameters:
  *       - in: query
  *         name: page
@@ -326,6 +336,8 @@ router.route("/user/list").get(catchErrors(userController.list));
  *   patch:
  *     summary: Update a user's password by ID
  *     tags: [Users]
+ *     security:
+ *       - xAuthToken: []
  *     parameters:
  *       - in: path
  *         name: id
