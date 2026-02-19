@@ -28,6 +28,11 @@ const publicSpaceSchema = new mongoose.Schema({
             }
         }
     },
+    imageUrl: {
+        type: String,
+        trim: true,
+        default: '../public/uploads/publicSpaces/default-space.jpg'
+    },
     description: {
         type: String
     }
