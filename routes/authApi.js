@@ -1,14 +1,9 @@
-const express = require("express");
+const express = require('express');
 
 const router = express.Router();
 
-const { catchErrors } = require("../handlers/errorHandlers");
-const {
-  isValidToken,
-  login,
-  register,
-  logout,
-} = require("../controllers/authController");
+const { catchErrors } = require('../handlers/errorHandlers');
+const { isValidToken, login, register, logout } = require('../controllers/authController');
 
 /**
  * @swagger
@@ -52,7 +47,7 @@ const {
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.route("/login").post(catchErrors(login));
+router.route('/login').post(catchErrors(login));
 
 /**
  * @swagger
@@ -123,7 +118,7 @@ router.route("/login").post(catchErrors(login));
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.route("/register").post(catchErrors(register));
+router.route('/register').post(catchErrors(register));
 
 /**
  * @swagger
@@ -157,6 +152,6 @@ router.route("/register").post(catchErrors(register));
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.route("/logout").post(isValidToken, catchErrors(logout));
+router.route('/logout').post(isValidToken, catchErrors(logout));
 
 module.exports = router;

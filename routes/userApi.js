@@ -1,7 +1,7 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { catchErrors } = require("../handlers/errorHandlers");
-const userController = require("../controllers/userController");
+const { catchErrors } = require('../handlers/errorHandlers');
+const userController = require('../controllers/userController');
 
 /**
  * @swagger
@@ -185,7 +185,7 @@ const userController = require("../controllers/userController");
  *       500:
  *         description: Server error
  */
-router.route("/read/:id").get(catchErrors(userController.read));
+router.route('/read/:id').get(catchErrors(userController.read));
 
 /**
  * @swagger
@@ -238,7 +238,7 @@ router.route("/read/:id").get(catchErrors(userController.read));
  *       500:
  *         description: Server error
  */
-router.route("/update/:id").patch(catchErrors(userController.update));
+router.route('/update/:id').patch(catchErrors(userController.update));
 
 /**
  * @swagger
@@ -276,7 +276,7 @@ router.route("/update/:id").patch(catchErrors(userController.update));
  *       500:
  *         description: Server error
  */
-router.route("/delete/:id").delete(catchErrors(userController.delete));
+router.route('/delete/:id').delete(catchErrors(userController.delete));
 
 /**
  * @swagger
@@ -324,7 +324,7 @@ router.route("/delete/:id").delete(catchErrors(userController.delete));
  *       500:
  *         description: Server error
  */
-router.route("/search").get(catchErrors(userController.search));
+router.route('/search').get(catchErrors(userController.search));
 
 /**
  * @swagger
@@ -382,7 +382,7 @@ router.route("/search").get(catchErrors(userController.search));
  *       500:
  *         description: Server error
  */
-router.route("/list").get(catchErrors(userController.list));
+router.route('/list').get(catchErrors(userController.list));
 
 /**
  * @swagger
@@ -435,9 +435,7 @@ router.route("/list").get(catchErrors(userController.list));
  *       500:
  *         description: Server error
  */
-router
-  .route("/password-update/:id")
-  .patch(catchErrors(userController.updatePassword));
+router.route('/password-update/:id').patch(catchErrors(userController.updatePassword));
 //list of users ends here
 
 module.exports = router;

@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
-const bcrypt = require("bcryptjs");
+const bcrypt = require('bcryptjs');
 
 const userSchema = new Schema({
   removed: {
@@ -25,8 +25,8 @@ const userSchema = new Schema({
   },
   userType: {
     type: String,
-    enum: ["admin", "user", "guest"],
-    default: "user",
+    enum: ['admin', 'user', 'guest'],
+    default: 'user',
     required: true,
   },
   name: { type: String, required: true },
@@ -54,4 +54,4 @@ userSchema.methods.validPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema);

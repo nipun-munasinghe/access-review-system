@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 // Helper to get the model safely (avoids OverwriteModelError)
-const getModel = () => mongoose.model("AccessibilityReview");
+const getModel = () => mongoose.model('AccessibilityReview');
 
 /**
  *  Create a new accessibility review
@@ -18,7 +18,7 @@ exports.create = async (req, res) => {
       return res.status(400).json({
         success: false,
         result: null,
-        message: "spaceId, rating, and comment are required fields.",
+        message: 'spaceId, rating, and comment are required fields.',
       });
     }
 
@@ -27,7 +27,7 @@ exports.create = async (req, res) => {
       return res.status(400).json({
         success: false,
         result: null,
-        message: "Rating must be between 1 and 5.",
+        message: 'Rating must be between 1 and 5.',
       });
     }
 
@@ -38,23 +38,23 @@ exports.create = async (req, res) => {
       rating,
       comment,
       features: features || [],
-      title: title || "",
+      title: title || '',
     });
 
     const result = await newReview.save();
 
     // Populate user info before returning
     const populatedResult = await AccessibilityReview.findById(result._id)
-      .populate("userId", "name surname email")
+      .populate('userId', 'name surname email')
       .exec();
 
     return res.status(201).json({
       success: true,
       result: populatedResult,
-      message: "Accessibility review created successfully.",
+      message: 'Accessibility review created successfully.',
     });
   } catch (err) {
-    if (err.name === "ValidationError") {
+    if (err.name === 'ValidationError') {
       return res.status(400).json({
         success: false,
         result: null,
@@ -64,7 +64,7 @@ exports.create = async (req, res) => {
     return res.status(500).json({
       success: false,
       result: null,
-      message: "Oops there is an Error: " + err.message,
+      message: 'Oops there is an Error: ' + err.message,
     });
   }
 };
@@ -79,27 +79,27 @@ exports.read = async (req, res) => {
       _id: req.params.id,
       removed: false,
     })
-      .populate("userId", "name surname email")
+      .populate('userId', 'name surname email')
       .exec();
 
     if (!result) {
       return res.status(404).json({
         success: false,
         result: null,
-        message: "No review found by this id: " + req.params.id,
+        message: 'No review found by this id: ' + req.params.id,
       });
     }
 
     return res.status(200).json({
       success: true,
       result,
-      message: "Review found by this id: " + req.params.id,
+      message: 'Review found by this id: ' + req.params.id,
     });
   } catch (err) {
     return res.status(500).json({
       success: false,
       result: null,
-      message: "Oops there is an Error",
+      message: 'Oops there is an Error',
     });
   }
 };
@@ -121,7 +121,7 @@ exports.update = async (req, res) => {
       return res.status(404).json({
         success: false,
         result: null,
-        message: "No review found by this id: " + req.params.id,
+        message: 'No review found by this id: ' + req.params.id,
       });
     }
 
@@ -130,17 +130,15 @@ exports.update = async (req, res) => {
       return res.status(403).json({
         success: false,
         result: null,
-        message: "You are not authorized to update this review.",
+        message: 'You are not authorized to update this review.',
       });
     }
 
     // Only allow updating specific fields (not userId or spaceId)
     const allowedUpdates = {};
     if (req.body.rating !== undefined) allowedUpdates.rating = req.body.rating;
-    if (req.body.comment !== undefined)
-      allowedUpdates.comment = req.body.comment;
-    if (req.body.features !== undefined)
-      allowedUpdates.features = req.body.features;
+    if (req.body.comment !== undefined) allowedUpdates.comment = req.body.comment;
+    if (req.body.features !== undefined) allowedUpdates.features = req.body.features;
     if (req.body.title !== undefined) allowedUpdates.title = req.body.title;
 
     const result = await AccessibilityReview.findOneAndUpdate(
@@ -149,18 +147,18 @@ exports.update = async (req, res) => {
       {
         new: true,
         runValidators: true,
-      }
+      },
     )
-      .populate("userId", "name surname email")
+      .populate('userId', 'name surname email')
       .exec();
 
     return res.status(200).json({
       success: true,
       result,
-      message: "Review updated successfully by id: " + req.params.id,
+      message: 'Review updated successfully by id: ' + req.params.id,
     });
   } catch (err) {
-    if (err.name === "ValidationError") {
+    if (err.name === 'ValidationError') {
       return res.status(400).json({
         success: false,
         result: null,
@@ -170,7 +168,7 @@ exports.update = async (req, res) => {
     return res.status(500).json({
       success: false,
       result: null,
-      message: "Oops there is an Error",
+      message: 'Oops there is an Error',
     });
   }
 };
@@ -191,20 +189,19 @@ exports.delete = async (req, res) => {
       return res.status(404).json({
         success: false,
         result: null,
-        message: "No review found by this id: " + req.params.id,
+        message: 'No review found by this id: ' + req.params.id,
       });
     }
 
     // Check if the user is the owner OR an admin
-    const isOwner =
-      existingReview.userId.toString() === req.user._id.toString();
-    const isAdmin = req.user.userType === "admin";
+    const isOwner = existingReview.userId.toString() === req.user._id.toString();
+    const isAdmin = req.user.userType === 'admin';
 
     if (!isOwner && !isAdmin) {
       return res.status(403).json({
         success: false,
         result: null,
-        message: "You are not authorized to delete this review.",
+        message: 'You are not authorized to delete this review.',
       });
     }
 
@@ -212,19 +209,19 @@ exports.delete = async (req, res) => {
     const result = await AccessibilityReview.findOneAndUpdate(
       { _id: req.params.id },
       { removed: true },
-      { new: true }
+      { new: true },
     ).exec();
 
     return res.status(200).json({
       success: true,
       result,
-      message: "Review successfully deleted by id: " + req.params.id,
+      message: 'Review successfully deleted by id: ' + req.params.id,
     });
   } catch (err) {
     return res.status(500).json({
       success: false,
       result: null,
-      message: "Oops there is an Error",
+      message: 'Oops there is an Error',
     });
   }
 };
@@ -256,8 +253,8 @@ exports.list = async (req, res) => {
     const resultsPromise = AccessibilityReview.find(filter)
       .skip(skip)
       .limit(limit)
-      .sort({ createdAt: "desc" })
-      .populate("userId", "name surname email")
+      .sort({ createdAt: 'desc' })
+      .populate('userId', 'name surname email')
       .exec();
 
     const countPromise = AccessibilityReview.countDocuments(filter);
@@ -271,21 +268,21 @@ exports.list = async (req, res) => {
         success: true,
         result,
         pagination,
-        message: "Successfully found all reviews",
+        message: 'Successfully found all reviews',
       });
     } else {
       return res.status(203).json({
         success: false,
         result: [],
         pagination,
-        message: "No reviews found",
+        message: 'No reviews found',
       });
     }
   } catch (err) {
     return res.status(500).json({
       success: false,
       result: [],
-      message: "Oops there is an Error",
+      message: 'Oops there is an Error',
     });
   }
 };
@@ -294,52 +291,45 @@ exports.list = async (req, res) => {
  *  Search reviews by keyword in comment or title
  */
 exports.search = async (req, res) => {
-  if (
-    req.query.q === undefined ||
-    req.query.q === "" ||
-    req.query.q === " "
-  ) {
+  if (req.query.q === undefined || req.query.q === '' || req.query.q === ' ') {
     return res.status(202).json({
       success: false,
       result: [],
-      message: "No document found by this request",
+      message: 'No document found by this request',
     });
   }
 
   try {
     const AccessibilityReview = getModel();
-    const searchRegex = new RegExp(req.query.q, "i");
+    const searchRegex = new RegExp(req.query.q, 'i');
 
     const results = await AccessibilityReview.find({
       removed: false,
-      $or: [
-        { comment: { $regex: searchRegex } },
-        { title: { $regex: searchRegex } },
-      ],
+      $or: [{ comment: { $regex: searchRegex } }, { title: { $regex: searchRegex } }],
     })
-      .sort({ createdAt: "desc" })
+      .sort({ createdAt: 'desc' })
       .limit(10)
-      .populate("userId", "name surname email")
+      .populate('userId', 'name surname email')
       .exec();
 
     if (results.length >= 1) {
       return res.status(200).json({
         success: true,
         result: results,
-        message: "Successfully found matching reviews",
+        message: 'Successfully found matching reviews',
       });
     } else {
       return res.status(202).json({
         success: false,
         result: [],
-        message: "No reviews found matching your search",
+        message: 'No reviews found matching your search',
       });
     }
   } catch (err) {
     return res.status(500).json({
       success: false,
       result: null,
-      message: "Oops there is an Error",
+      message: 'Oops there is an Error',
     });
   }
 };
@@ -359,8 +349,8 @@ exports.myReviews = async (req, res) => {
     const resultsPromise = AccessibilityReview.find(filter)
       .skip(skip)
       .limit(limit)
-      .sort({ createdAt: "desc" })
-      .populate("userId", "name surname email")
+      .sort({ createdAt: 'desc' })
+      .populate('userId', 'name surname email')
       .exec();
 
     const countPromise = AccessibilityReview.countDocuments(filter);
@@ -374,21 +364,21 @@ exports.myReviews = async (req, res) => {
         success: true,
         result,
         pagination,
-        message: "Successfully found your reviews",
+        message: 'Successfully found your reviews',
       });
     } else {
       return res.status(203).json({
         success: false,
         result: [],
         pagination,
-        message: "You have no reviews yet",
+        message: 'You have no reviews yet',
       });
     }
   } catch (err) {
     return res.status(500).json({
       success: false,
       result: [],
-      message: "Oops there is an Error",
+      message: 'Oops there is an Error',
     });
   }
 };

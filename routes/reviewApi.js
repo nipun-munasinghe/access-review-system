@@ -1,8 +1,8 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { catchErrors } = require("../handlers/errorHandlers");
-const reviewController = require("../controllers/reviewController");
-const { isValidToken } = require("../controllers/authController");
+const { catchErrors } = require('../handlers/errorHandlers');
+const reviewController = require('../controllers/reviewController');
+const { isValidToken } = require('../controllers/authController');
 
 /**
  * @swagger
@@ -72,7 +72,7 @@ const { isValidToken } = require("../controllers/authController");
  *       500:
  *         description: Server error
  */
-router.route("/create").post(isValidToken, catchErrors(reviewController.create));
+router.route('/create').post(isValidToken, catchErrors(reviewController.create));
 
 /**
  * @swagger
@@ -105,7 +105,7 @@ router.route("/create").post(isValidToken, catchErrors(reviewController.create))
  *       500:
  *         description: Server error
  */
-router.route("/read/:id").get(catchErrors(reviewController.read));
+router.route('/read/:id').get(catchErrors(reviewController.read));
 
 /**
  * @swagger
@@ -160,7 +160,7 @@ router.route("/read/:id").get(catchErrors(reviewController.read));
  *       500:
  *         description: Server error
  */
-router.route("/update/:id").patch(isValidToken, catchErrors(reviewController.update));
+router.route('/update/:id').patch(isValidToken, catchErrors(reviewController.update));
 
 /**
  * @swagger
@@ -186,7 +186,7 @@ router.route("/update/:id").patch(isValidToken, catchErrors(reviewController.upd
  *       500:
  *         description: Server error
  */
-router.route("/delete/:id").delete(isValidToken, catchErrors(reviewController.delete));
+router.route('/delete/:id').delete(isValidToken, catchErrors(reviewController.delete));
 
 /**
  * @swagger
@@ -223,7 +223,7 @@ router.route("/delete/:id").delete(isValidToken, catchErrors(reviewController.de
  *       500:
  *         description: Server error
  */
-router.route("/list").get(catchErrors(reviewController.list));
+router.route('/list').get(catchErrors(reviewController.list));
 
 /**
  * @swagger
@@ -248,7 +248,7 @@ router.route("/list").get(catchErrors(reviewController.list));
  *       500:
  *         description: Server error
  */
-router.route("/search").get(isValidToken, catchErrors(reviewController.search));
+router.route('/search').get(isValidToken, catchErrors(reviewController.search));
 
 /**
  * @swagger
@@ -277,6 +277,6 @@ router.route("/search").get(isValidToken, catchErrors(reviewController.search));
  *       500:
  *         description: Server error
  */
-router.route("/my-reviews").get(isValidToken, catchErrors(reviewController.myReviews));
+router.route('/my-reviews').get(isValidToken, catchErrors(reviewController.myReviews));
 
 module.exports = router;

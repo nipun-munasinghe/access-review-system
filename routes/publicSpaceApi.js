@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const publicSpaceController = require('../controllers/publicSpaceController');
-const { isValidToken } = require("../controllers/authController");
-const { catchErrors } = require("../handlers/errorHandlers");
+const { isValidToken } = require('../controllers/authController');
+const { catchErrors } = require('../handlers/errorHandlers');
 
 /**
  * @swagger

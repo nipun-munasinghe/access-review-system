@@ -1,32 +1,26 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const User = mongoose.model("User");
+const User = mongoose.model('User');
 
-require("dotenv").config({ path: ".variables.env" });
+require('dotenv').config({ path: '.variables.env' });
 
 exports.register = async (req, res) => {
   try {
     let { email, password, passwordCheck, name, surname } = req.body;
 
     if (!email || !password || !passwordCheck)
-      return res.status(400).json({ msg: "Not all fields have been entered." });
+      return res.status(400).json({ msg: 'Not all fields have been entered.' });
     if (password.length < 5)
-      return res
-        .status(400)
-        .json({ msg: "The password needs to be at least 5 characters long." });
+      return res.status(400).json({ msg: 'The password needs to be at least 5 characters long.' });
     if (password !== passwordCheck)
-      return res
-        .status(400)
-        .json({ msg: "Enter the same password twice for verification." });
+      return res.status(400).json({ msg: 'Enter the same password twice for verification.' });
 
     const existingUser = await User.findOne({ email: email });
     if (existingUser)
-      return res
-        .status(400)
-        .json({ msg: "An account with this email already exists." });
+      return res.status(400).json({ msg: 'An account with this email already exists.' });
 
     if (!name) name = email;
 
@@ -63,7 +57,7 @@ exports.login = async (req, res) => {
 
     // validate
     if (!email || !password)
-      return res.status(400).json({ msg: "Not all fields have been entered." });
+      return res.status(400).json({ msg: 'Not all fields have been entered.' });
 
     const user = await User.findOne({ email: email });
     // console.log(user);
@@ -71,7 +65,7 @@ exports.login = async (req, res) => {
       return res.status(400).json({
         success: false,
         result: null,
-        message: "No account with this email has been registered.",
+        message: 'No account with this email has been registered.',
       });
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -79,7 +73,7 @@ exports.login = async (req, res) => {
       return res.status(400).json({
         success: false,
         result: null,
-        message: "Invalid credentials.",
+        message: 'Invalid credentials.',
       });
 
     const token = jwt.sign(
@@ -88,7 +82,7 @@ exports.login = async (req, res) => {
         id: user._id,
         userType: user.userType,
       },
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,
     );
 
     const result = await User.findOneAndUpdate(
@@ -96,7 +90,7 @@ exports.login = async (req, res) => {
       { isLoggedIn: true },
       {
         new: true,
-      }
+      },
     ).exec();
 
     res.json({
@@ -110,24 +104,22 @@ exports.login = async (req, res) => {
           userType: result.userType,
         },
       },
-      message: "Successfully logged in user..",
+      message: 'Successfully logged in user..',
     });
   } catch (err) {
     // res.status(500).json({ success: false, result:null, message: err.message });
-    res
-      .status(500)
-      .json({ success: false, result: null, message: err.message });
+    res.status(500).json({ success: false, result: null, message: err.message });
   }
 };
 
 exports.isValidToken = async (req, res, next) => {
   try {
-    const token = req.header("x-auth-token");
+    const token = req.header('x-auth-token');
     if (!token)
       return res.status(401).json({
         success: false,
         result: null,
-        message: "No authentication token, authorization denied.",
+        message: 'No authentication token, authorization denied.',
         jwtExpired: true,
       });
 
@@ -136,7 +128,7 @@ exports.isValidToken = async (req, res, next) => {
       return res.status(401).json({
         success: false,
         result: null,
-        message: "Token verification failed, authorization denied.",
+        message: 'Token verification failed, authorization denied.',
         jwtExpired: true,
       });
 
@@ -153,7 +145,7 @@ exports.isValidToken = async (req, res, next) => {
       return res.status(401).json({
         success: false,
         result: null,
-        message: "User is already logout try to login, authorization denied.",
+        message: 'User is already logout try to login, authorization denied.',
         jwtExpired: true,
       });
     else {
@@ -177,7 +169,7 @@ exports.logout = async (req, res) => {
     { isLoggedIn: false },
     {
       new: true,
-    }
+    },
   ).exec();
 
   res.status(200).json({ isLoggedIn: result.isLoggedIn });

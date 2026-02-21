@@ -13,14 +13,14 @@ exports.read = async (Model, req, res) => {
       return res.status(404).json({
         success: false,
         result: null,
-        message: "No document found by this id: " + req.params.id,
+        message: 'No document found by this id: ' + req.params.id,
       });
     } else {
       // Return success response
       return res.status(200).json({
         success: true,
         result,
-        message: "we found this document by this id: " + req.params.id,
+        message: 'we found this document by this id: ' + req.params.id,
       });
     }
   } catch (err) {
@@ -28,7 +28,7 @@ exports.read = async (Model, req, res) => {
     return res.status(500).json({
       success: false,
       result: null,
-      message: "Oops there is an Error",
+      message: 'Oops there is an Error',
     });
   }
 };
@@ -49,22 +49,22 @@ exports.create = async (Model, req, res) => {
     return res.status(200).json({
       success: true,
       result,
-      message: "Successfully Created the document in Model ",
+      message: 'Successfully Created the document in Model ',
     });
   } catch (err) {
     // If err is thrown by Mongoose due to required validations
-    if (err.name === "ValidationError") {
+    if (err.name === 'ValidationError') {
       return res.status(400).json({
         success: false,
         result: null,
-        message: "Required fields are not supplied",
+        message: 'Required fields are not supplied',
       });
     } else {
       // Server Error
       return res.status(500).json({
         success: false,
         result: null,
-        message: "Oops there is an Error",
+        message: 'Oops there is an Error',
       });
     }
   }
@@ -79,34 +79,30 @@ exports.create = async (Model, req, res) => {
 exports.update = async (Model, req, res) => {
   try {
     // Find document by id and updates with the required fields
-    const result = await Model.findOneAndUpdate(
-      { _id: req.params.id },
-      req.body,
-      {
-        new: true, // return the new result instead of the old one
-        runValidators: true,
-      }
-    ).exec();
+    const result = await Model.findOneAndUpdate({ _id: req.params.id }, req.body, {
+      new: true, // return the new result instead of the old one
+      runValidators: true,
+    }).exec();
 
     return res.status(200).json({
       success: true,
       result,
-      message: "we update this document by this id: " + req.params.id,
+      message: 'we update this document by this id: ' + req.params.id,
     });
   } catch (err) {
     // If err is thrown by Mongoose due to required validations
-    if (err.name === "ValidationError") {
+    if (err.name === 'ValidationError') {
       return res.status(400).json({
         success: false,
         result: null,
-        message: "Required fields are not supplied",
+        message: 'Required fields are not supplied',
       });
     } else {
       // Server Error
       return res.status(500).json({
         success: false,
         result: null,
-        message: "Oops there is an Error",
+        message: 'Oops there is an Error',
       });
     }
   }
@@ -129,20 +125,20 @@ exports.delete = async (Model, req, res) => {
       return res.status(404).json({
         success: false,
         result: null,
-        message: "No document found by this id: " + req.params.id,
+        message: 'No document found by this id: ' + req.params.id,
       });
     } else {
       return res.status(200).json({
         success: true,
         result,
-        message: "Successfully Deleted the document by id: " + req.params.id,
+        message: 'Successfully Deleted the document by id: ' + req.params.id,
       });
     }
   } catch {
     return res.status(500).json({
       success: false,
       result: null,
-      message: "Oops there is an Error",
+      message: 'Oops there is an Error',
     });
   }
 };
@@ -162,7 +158,7 @@ exports.list = async (Model, req, res) => {
     const resultsPromise = Model.find()
       .skip(skip)
       .limit(limit)
-      .sort({ created: "desc" })
+      .sort({ created: 'desc' })
       .populate();
     // Counting the total documents
     const countPromise = Model.count();
@@ -178,20 +174,18 @@ exports.list = async (Model, req, res) => {
         success: true,
         result,
         pagination,
-        message: "Successfully found all documents",
+        message: 'Successfully found all documents',
       });
     } else {
       return res.status(203).json({
         success: false,
         result: [],
         pagination,
-        message: "Collection is Empty",
+        message: 'Collection is Empty',
       });
     }
   } catch {
-    return res
-      .status(500)
-      .json({ success: false, result: [], message: "Oops there is an Error" });
+    return res.status(500).json({ success: false, result: [], message: 'Oops there is an Error' });
   }
 };
 
@@ -202,32 +196,32 @@ exports.list = async (Model, req, res) => {
  */
 
 exports.search = async (Model, req, res) => {
-  if (req.query.q === undefined || req.query.q === "" || req.query.q === " ") {
+  if (req.query.q === undefined || req.query.q === '' || req.query.q === ' ') {
     return res
       .status(202)
       .json({
         success: false,
         result: [],
-        message: "No document found by this request",
+        message: 'No document found by this request',
       })
       .end();
   }
-  const fieldsArray = req.query.fields.split(",");
+  const fieldsArray = req.query.fields.split(',');
 
   const fields = { $or: [] };
 
   for (const field of fieldsArray) {
-    fields.$or.push({ [field]: { $regex: new RegExp(req.query.q, "i") } });
+    fields.$or.push({ [field]: { $regex: new RegExp(req.query.q, 'i') } });
   }
 
   try {
-    let results = await Model.find(fields).sort({ name: "asc" }).limit(10);
+    let results = await Model.find(fields).sort({ name: 'asc' }).limit(10);
 
     if (results.length >= 1) {
       return res.status(200).json({
         success: true,
         result: results,
-        message: "Successfully found all documents",
+        message: 'Successfully found all documents',
       });
     } else {
       return res
@@ -235,7 +229,7 @@ exports.search = async (Model, req, res) => {
         .json({
           success: false,
           result: [],
-          message: "No document found by this request",
+          message: 'No document found by this request',
         })
         .end();
     }
@@ -243,7 +237,7 @@ exports.search = async (Model, req, res) => {
     return res.status(500).json({
       success: false,
       result: null,
-      message: "Oops there is an Error",
+      message: 'Oops there is an Error',
     });
   }
 };
