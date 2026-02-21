@@ -87,8 +87,8 @@ packages:
   '@types/mongodb@3.6.20':
     resolution: {integrity: sha512-WcdpPJCakFzcWWD9juKoZbRtQxKIMYF/JIAM4JrNHrMcnJL6/a2NWjXxW7fo9hxboxxkg+icff8d7+WIEvKgYQ==}
 
-  '@types/node@25.3.0':
-    resolution: {integrity: sha512-4K3bqJpXpqfg2XKGK9bpDTc6xO/xoUP/RBWS7AtRMug6zZFaRekiLzjVtAoZMquxoAbzBvy5nxQ7veS5eYzf8A==}
+  '@types/node@25.2.2':
+    resolution: {integrity: sha512-BkmoP5/FhRYek5izySdkOneRyXYN35I860MFAGupTdebyE66uZaR+bXLHq8k4DirE5DwQi3NuhvRU1jqTVwUrQ==}
 
   '@types/responselike@1.0.3':
     resolution: {integrity: sha512-H/+L+UkTV33uf49PH5pCAUBVPNj2nDBXTN+qS1dOwyyg24l3CcicicCA7ca+HMvJBZcFgl5r8e+RR6elsb4Lyw==}
@@ -171,8 +171,8 @@ packages:
   bluebird@3.5.1:
     resolution: {integrity: sha512-MKiLiV+I1AA596t9w1sQJ8jkiSr5+ZKi0WKrYGUn6d1Fx+Ij4tIj+m2WMQSGczs5jZVxV339chE8iwk6F64wjA==}
 
-  bn.js@4.12.3:
-    resolution: {integrity: sha512-fGTi3gxV/23FTYdAoUtLYp6qySe2KE3teyZitipKNRuVYcBkoP/bB3guXN/XVKUe9mxCHXnc9C4ocyz8OmgN0g==}
+  bn.js@4.12.2:
+    resolution: {integrity: sha512-n4DSx829VRTRByMRGdjQ9iqsN0Bh4OolPsFnaZBLcbi8iXcB+kJ9s7EnRt4wILZNV3kPLHkRVfOc/HvhC3ovDw==}
 
   body-parser@1.19.0:
     resolution: {integrity: sha512-dhEPs72UPbDnAQJ9ZKMNTP6ptJaionhP5cBb541nXPlW60Jepo9RV/a4fX4XWW9CuFNK22krhrj1+rgzifNCsw==}
@@ -773,8 +773,8 @@ packages:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
 
-  kruptein@3.2.0:
-    resolution: {integrity: sha512-Bcou7bKBn3k2ZEDXyYzR/j7YWWFDIcqv0ZeabHHPWW1aYmfLn0qmJJoWPVeQvh37g6vl2x3nEO9guBSzJsmuMQ==}
+  kruptein@3.1.7:
+    resolution: {integrity: sha512-Wk3WFZdGtjnTBGlC12SiBsEh51+6lsW7sSRm+MzRVRc3WRPrUQGu4+/n3YQjSPp8x1AJJxPxgLsekFXLiBN2PQ==}
     engines: {node: '>8'}
 
   latest-version@3.1.0:
@@ -1066,8 +1066,8 @@ packages:
   pstree.remy@1.1.8:
     resolution: {integrity: sha512-77DZwxQmxKnu3aR542U+X8FypNzbfJ+C5XQDk3uWjWxn6151aIMGthWYRXTqT1E5oJvg+ljaa2OJi+VfvCOQ8w==}
 
-  qs@6.14.2:
-    resolution: {integrity: sha512-V/yCWTTF7VJ9hIh18Ugr2zhJMP01MY7c5kh4J870L7imm6/DIzBsNLTXzMwUA3yZ5b/KBqLx8Kp3uRvd7xSe3Q==}
+  qs@6.14.1:
+    resolution: {integrity: sha512-4EK3+xJl8Ts67nLYNwqw/dsFVnCf+qR7RgXSK9jEEm9unao3njwMDdmsdvoKBKHzxd7tCYz5e5M+SnMjdtXGQQ==}
     engines: {node: '>=0.6'}
 
   qs@6.7.0:
@@ -1340,8 +1340,8 @@ packages:
   undefsafe@2.0.5:
     resolution: {integrity: sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA==}
 
-  undici-types@7.18.2:
-    resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
+  undici-types@7.16.0:
+    resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
   union-value@1.0.1:
     resolution: {integrity: sha512-tJfXmxMeWYnczCVs7XAEvIV7ieppALdyepWMkHkwciRpZraG/xwT+s2JN8+pr1+8jCRf80FFzvr+MpQeeoF4Xg==}
@@ -1457,26 +1457,26 @@ snapshots:
 
   '@types/bson@4.0.5':
     dependencies:
-      '@types/node': 25.3.0
+      '@types/node': 25.2.2
 
   '@types/json-schema@7.0.15': {}
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 25.3.0
+      '@types/node': 25.2.2
 
   '@types/mongodb@3.6.20':
     dependencies:
       '@types/bson': 4.0.5
-      '@types/node': 25.3.0
+      '@types/node': 25.2.2
 
-  '@types/node@25.3.0':
+  '@types/node@25.2.2':
     dependencies:
-      undici-types: 7.18.2
+      undici-types: 7.16.0
 
   '@types/responselike@1.0.3':
     dependencies:
-      '@types/node': 25.3.0
+      '@types/node': 25.2.2
 
   accepts@1.3.8:
     dependencies:
@@ -1553,7 +1553,7 @@ snapshots:
 
   bluebird@3.5.1: {}
 
-  bn.js@4.12.3: {}
+  bn.js@4.12.2: {}
 
   body-parser@1.19.0:
     dependencies:
@@ -1721,7 +1721,7 @@ snapshots:
     dependencies:
       debug: 4.4.3
       express-session: 1.19.0
-      kruptein: 3.2.0
+      kruptein: 3.1.7
       mongodb: 3.7.4
     transitivePeerDependencies:
       - supports-color
@@ -2253,7 +2253,7 @@ snapshots:
 
   kind-of@6.0.3: {}
 
-  kruptein@3.2.0:
+  kruptein@3.1.7:
     dependencies:
       asn1.js: 5.4.1
 
@@ -2533,7 +2533,7 @@ snapshots:
 
   pstree.remy@1.1.8: {}
 
-  qs@6.14.2:
+  qs@6.14.1:
     dependencies:
       side-channel: 1.1.0
 
@@ -2848,7 +2848,7 @@ snapshots:
 
   undefsafe@2.0.5: {}
 
-  undici-types@7.18.2: {}
+  undici-types@7.16.0: {}
 
   union-value@1.0.1:
     dependencies:
