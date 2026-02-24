@@ -36,11 +36,7 @@ const fetchJson = (url) =>
         if (rawData.length > MAX_RESPONSE_SIZE_BYTES) {
           aborted = true;
           req.destroy();
-          reject(
-            new Error(
-              `Response too large (>${MAX_RESPONSE_SIZE_BYTES} bytes) from ${url}`
-            )
-          );
+          reject(new Error(`Response too large (>${MAX_RESPONSE_SIZE_BYTES} bytes) from ${url}`));
         }
       });
 
@@ -50,15 +46,15 @@ const fetchJson = (url) =>
         }
         const statusCode = response.statusCode || 0;
         const isJsonLike =
-          (response.headers && response.headers['content-type']) ?
-            response.headers['content-type'].includes('application/json') :
-            false;
+          response.headers && response.headers['content-type']
+            ? response.headers['content-type'].includes('application/json')
+            : false;
 
         if (statusCode < 200 || statusCode >= 300) {
           const error = new Error(
             `Request to ${url} failed with status ${statusCode}${
               rawData ? ` and body: ${rawData}` : ''
-            }`
+            }`,
           );
           reject(error);
           return;
@@ -516,8 +512,8 @@ exports.myReviews = async (req, res) => {
         message: 'Successfully found your reviews',
       });
     } else {
-      return res.status(203).json({
-        success: false,
+      return res.status(200).json({
+        success: true,
         result: [],
         pagination,
         message: 'You have no reviews yet',

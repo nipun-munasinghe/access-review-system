@@ -130,7 +130,7 @@ const userController = require('../controllers/userController');
  *                   example: user
  *         message:
  *           type: string
- *           example: Successfully logged in user..
+ *           example: Successfully logged-in user.
  *
  *     ErrorResponse:
  *       type: object
