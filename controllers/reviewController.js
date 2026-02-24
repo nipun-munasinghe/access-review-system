@@ -19,28 +19,68 @@ const reviewPopulate = [
   { path: 'spaceId', select: 'name category locationDetails imageUrl description' },
 ];
 
+const REQUEST_TIMEOUT_MS = 5000; // 5 seconds
+const MAX_RESPONSE_SIZE_BYTES = 1024 * 1024; // 1 MB
+
 const fetchJson = (url) =>
   new Promise((resolve, reject) => {
-    https
-      .get(url, (response) => {
-        let rawData = '';
+    const req = https.get(url, (response) => {
+      let rawData = '';
+      let aborted = false;
 
-        response.on('data', (chunk) => {
-          rawData += chunk;
-        });
-
-        response.on('end', () => {
-          try {
-            const parsed = JSON.parse(rawData || '{}');
-            resolve(parsed);
-          } catch (err) {
-            reject(err);
-          }
-        });
-      })
-      .on('error', (err) => {
-        reject(err);
+      response.on('data', (chunk) => {
+        if (aborted) {
+          return;
+        }
+        rawData += chunk;
+        if (rawData.length > MAX_RESPONSE_SIZE_BYTES) {
+          aborted = true;
+          req.destroy();
+          reject(
+            new Error(
+              `Response too large (>${MAX_RESPONSE_SIZE_BYTES} bytes) from ${url}`
+            )
+          );
+        }
       });
+
+      response.on('end', () => {
+        if (aborted) {
+          return;
+        }
+        const statusCode = response.statusCode || 0;
+        const isJsonLike =
+          (response.headers && response.headers['content-type']) ?
+            response.headers['content-type'].includes('application/json') :
+            false;
+
+        if (statusCode < 200 || statusCode >= 300) {
+          const error = new Error(
+            `Request to ${url} failed with status ${statusCode}${
+              rawData ? ` and body: ${rawData}` : ''
+            }`
+          );
+          reject(error);
+          return;
+        }
+
+        try {
+          const parsed = isJsonLike ? JSON.parse(rawData || '{}') : JSON.parse(rawData || '{}');
+          resolve(parsed);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    });
+
+    req.on('error', (err) => {
+      reject(err);
+    });
+
+    req.setTimeout(REQUEST_TIMEOUT_MS, () => {
+      req.destroy();
+      reject(new Error(`Request to ${url} timed out after ${REQUEST_TIMEOUT_MS}ms`));
+    });
   });
 
 /**
