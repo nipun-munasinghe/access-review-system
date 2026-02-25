@@ -13,7 +13,7 @@ const { catchErrors } = require('../handlers/errorHandlers');
 
 /**
  * @swagger
- * /api/public-space/create:
+ * /public-space/create:
  *   post:
  *     summary: Create a new public space
  *     tags: [Public Spaces]
@@ -56,7 +56,7 @@ router.post('/create', isValidToken, catchErrors(publicSpaceController.createPub
 
 /**
  * @swagger
- * /api/public-space/list:
+ * /public-space/list:
  *   get:
  *     summary: Get all public spaces
  *     tags: [Public Spaces]
@@ -68,7 +68,7 @@ router.get('/list', catchErrors(publicSpaceController.getAllPublicSpaces));
 
 /**
  * @swagger
- * /api/public-space/update/{id}:
+ * /public-space/update/{id}:
  *   patch:
  *     summary: Update an existing public space
  *     tags: [Public Spaces]
@@ -98,7 +98,7 @@ router.patch('/update/:id', isValidToken, catchErrors(publicSpaceController.upda
 
 /**
  * @swagger
- * /api/public-space/delete/{id}:
+ * /public-space/delete/{id}:
  *   delete:
  *     summary: Delete a public space
  *     tags: [Public Spaces]
@@ -120,7 +120,7 @@ router.delete('/delete/:id', isValidToken, catchErrors(publicSpaceController.del
 
 /**
  * @swagger
- * /api/public-space/search/{name}:
+ * /public-space/search/{name}:
  *   get:
  *     summary: Search public spaces by name (partial, case-insensitive)
  *     tags: [Public Spaces]

@@ -10,6 +10,17 @@ if (major < 10 || (major === 10 && minor <= 0)) {
 // import environmental variables from our variables.env file
 require('dotenv').config({ path: '.variables.env' });
 
+const requiredEnvVars = ['DATABASE', 'JWT_SECRET', 'SECRET', 'KEY'];
+const missingEnvVars = requiredEnvVars.filter((envKey) => !process.env[envKey]);
+
+if (missingEnvVars.length > 0) {
+  console.error(
+    `Missing required environment variables: ${missingEnvVars.join(', ')}. ` +
+      'Please create/update .variables.env (you can use sample.variables.env as a template).',
+  );
+  process.exit(1);
+}
+
 // Connect to our Database and handle any bad connections
 // mongoose.connect(process.env.DATABASE);
 

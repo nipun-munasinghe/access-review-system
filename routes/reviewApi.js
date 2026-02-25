@@ -297,11 +297,25 @@ router.route('/delete/:id').delete(isValidToken, catchErrors(reviewController.de
  *         schema:
  *           type: string
  *         description: Filter by user ID
+ *       - in: query
+ *         name: minRating
+ *         schema:
+ *           type: number
+ *           minimum: 1
+ *           maximum: 5
+ *         description: Minimum rating filter (inclusive)
+ *       - in: query
+ *         name: maxRating
+ *         schema:
+ *           type: number
+ *           minimum: 1
+ *           maximum: 5
+ *         description: Maximum rating filter (inclusive)
  *     responses:
  *       200:
- *         description: Reviews found
- *       203:
- *         description: No reviews found
+ *         description: Reviews fetched successfully (can be an empty array)
+ *       400:
+ *         description: Invalid filter values
  *       500:
  *         description: Server error
  */
@@ -327,9 +341,9 @@ router.route('/list').get(catchErrors(reviewController.list));
  *         description: Optional filter by public space ID
  *     responses:
  *       200:
- *         description: Reviews found
- *       202:
- *         description: No reviews found
+ *         description: Search completed successfully (can be an empty array)
+ *       400:
+ *         description: Missing or empty q parameter
  *       500:
  *         description: Server error
  */
