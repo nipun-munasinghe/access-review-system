@@ -79,3 +79,35 @@ Required variables:
 Example is already provided in `sample.variables.env`.
 
 ---
+
+## 5) Getting Started
+
+### Prerequisites
+
+- Node.js + pnpm
+- MongoDB instance (local or cloud)
+
+### Install
+
+```bash
+pnpm install
+```
+
+### Run (development / local)
+
+```bash
+pnpm start
+```
+
+Default local URLs (based on current sample env):
+
+- API base: `http://localhost:8888/api`
+- Swagger docs: `http://localhost:8888/api-docs`
+
+### Development mode (auto-reload)
+
+```bash
+pnpm dev
+```
+
+---
