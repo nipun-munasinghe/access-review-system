@@ -38,3 +38,25 @@ This API allows users to:
 - Package manager: pnpm
 
 ---
+
+## 3) Project Structure
+
+```text
+access-review-system/
+├─ app.js
+├─ server.js
+├─ docs/swagger.js
+├─ controllers/
+├─ routes/
+├─ models/
+├─ handlers/
+├─ tests/
+│  ├─ unit/
+│  ├─ integration/
+│  └─ performance/
+├─ seeder/
+├─ setup/
+└─ public/uploads/
+```
+
+---
