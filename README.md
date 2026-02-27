@@ -70,15 +70,135 @@ pnpm install
 
 Run server:
 
-```bash
+````bash
 pnpm start
+
+## 9) API Usage Notes
+
+### Pagination
+
+- `page` (default `1`)
+- `items` (default `10`; review APIs cap at `100`)
+
+### Review filters (`GET /api/review/list`)
+
+- `spaceId`
+- `userId`
+- `minRating` (1-5)
+- `maxRating` (1-5)
+
+Validation behaviors:
+
+- ObjectId validation for route/query IDs
+- Rating boundaries (`1` to `5`)
+- Rejects `minRating > maxRating`
+
+### Search behavior
+
+- `GET /api/review/search` requires `q`
+- `GET /api/user/search` requires `q` and `fields`
+
+### Third-party integration
+
+- `GET /api/review/space/:spaceId/weather` uses Open-Meteo
+- Uses request timeout and response-size safety checks in controller
+
+## 10) Response Patterns
+
+Most endpoints follow:
+
+```json
+{
+	"success": true,
+	"result": {},
+	"message": "..."
+}
+````
+
+Some modules return `data` instead of `result` (notably public-space and access-features controllers).
+
+Common statuses used:
+
+- `200` success
+- `201` created
+- `400` validation/input errors
+- `401` unauthorized
+- `403` forbidden
+- `404` not found
+- `409` conflict (duplicate active review)
+- `500` internal error
+
+## 11) Testing
+
+Unit tests:
+
+```bash
+pnpm test:unit
 ```
+
+Integration tests:
+
+```bash
+pnpm test:integration
+```
+
+All tests:
+
+```bash
+pnpm test
+```
+
+Performance tests:
+
+```bash
+pnpm test:performance
+```
+
+Coverage includes:
+
+- User model validations
+- AccessibilityReview model validations
+- Review API integration scenarios:
+  - auth enforcement
+  - create success
+  - duplicate review conflict
+  - owner/admin authorization checks
+  - filter validation
+
+## 12) Swagger
+
+- UI endpoint: `/api-docs`
+- Server base path: `/api`
+- Config file: `docs/swagger.js`
+- Route annotation sources: `routes/*.js`
+
+## 13) Scripts
+
+| Script             | Command                 | Purpose             |
+| ------------------ | ----------------------- | ------------------- |
+| Start server       | `pnpm start`            | Run server          |
+| Development server | `pnpm dev`              | Run with nodemon    |
+| Setup              | `pnpm setup`            | Run setup script    |
+| Test (all)         | `pnpm test`             | Run Jest suite      |
+| Test (unit)        | `pnpm test:unit`        | Unit tests          |
+| Test (integration) | `pnpm test:integration` | Integration tests   |
+| Test (performance) | `pnpm test:performance` | Artillery load test |
+| Format             | `pnpm format`           | Prettier write      |
+| Format check       | `pnpm format:check`     | Prettier validation |
+
+## 14) Known Notes
+
+- Startup requires `DATABASE`, `JWT_SECRET`, `SECRET`, `KEY`.
+- Environment file path used by app is `.variables.env`.
+- `pnpm setup` currently runs legacy code in `setup/setup.js` referencing `models/Admin`, which is not present in this repository.
+
+````
 
 Dev mode:
 
 ```bash
 pnpm dev
-```
+````
 
 Default local endpoints:
 
