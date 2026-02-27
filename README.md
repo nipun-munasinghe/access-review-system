@@ -272,3 +272,34 @@ All `/api/user/*` routes are protected by token middleware at router mount level
 | GET    | `/review/space/:spaceId/weather` | No   | Weather integration for public space location |
 
 ---
+
+## 9) API Usage Notes
+
+### Common pagination query params
+
+- `page` (default `1`)
+- `items` (default `10`, max `100` in review APIs)
+
+### Review list filters (`GET /api/review/list`)
+
+- `spaceId`
+- `userId`
+- `minRating` (1-5)
+- `maxRating` (1-5)
+
+Validation rules include:
+
+- ObjectId format checks for route/query IDs.
+- `minRating <= maxRating` enforcement.
+
+### Search behavior
+
+- `GET /api/review/search` requires `q`.
+- `GET /api/user/search` requires both `q` and `fields`.
+
+### Third-party API integration
+
+- `GET /api/review/space/:spaceId/weather` calls Open-Meteo API with space coordinates.
+- Uses timeout and response-size guards in controller logic.
+
+---
