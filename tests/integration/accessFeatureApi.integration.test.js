@@ -290,11 +290,11 @@ describe('Access Features CRUD API integration', () => {
       expect(response.status).toBe(401);
     });
 
-    it('soft deletes feature (sets isActive to false)', async () => {
+    it('permanently deletes feature from database', async () => {
       const { token, user } = await createLoggedInUser();
       const feature = await AccessFeature.create({
-        name: 'Soft Delete Test',
-        description: 'Feature for soft delete.',
+        name: 'Permanent Delete Test',
+        description: 'Feature for permanent delete.',
         isActive: true,
         createdBy: user._id,
       });
@@ -305,11 +305,9 @@ describe('Access Features CRUD API integration', () => {
 
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
-      expect(response.body.data.isActive).toBe(false);
 
       const inDb = await AccessFeature.findById(feature._id);
-      expect(inDb).toBeTruthy();
-      expect(inDb.isActive).toBe(false);
+      expect(inDb).toBeNull();
     });
 
     it('returns 404 for invalid id', async () => {

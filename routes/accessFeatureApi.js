@@ -134,8 +134,8 @@ router.put('/:id', isValidToken, catchErrors(accessFeatureController.updateAcces
  * @swagger
  * /access-features/{id}:
  *   delete:
- *     summary: Soft delete an access feature (sets is_active to false)
- *     description: Preserves old reviews that reference this feature. Does not remove from database.
+ *     summary: Permanently delete an access feature
+ *     description: Removes the feature from the database. This action cannot be undone.
  *     tags: [Access Features]
  *     security:
  *       - xAuthToken: []
@@ -148,7 +148,7 @@ router.put('/:id', isValidToken, catchErrors(accessFeatureController.updateAcces
  *         description: Access feature ID
  *     responses:
  *       200:
- *         description: Feature deactivated successfully
+ *         description: Feature deleted successfully
  *       404:
  *         description: Access feature not found
  */
