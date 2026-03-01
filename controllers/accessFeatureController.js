@@ -140,15 +140,11 @@ exports.updateAccessFeature = async (req, res) => {
 };
 
 /**
- * Soft delete: set is_active to false (preserves old reviews)
+ * Permanently delete an access feature from the database
  */
 exports.deleteAccessFeature = async (req, res) => {
   try {
-    const feature = await AccessFeature.findByIdAndUpdate(
-      req.params.id,
-      { isActive: false },
-      { new: true },
-    );
+    const feature = await AccessFeature.findByIdAndDelete(req.params.id);
 
     if (!feature) {
       return res.status(404).json({
@@ -159,7 +155,7 @@ exports.deleteAccessFeature = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: 'Access feature deactivated successfully',
+      message: 'Access feature deleted successfully',
       data: feature,
     });
   } catch (error) {
