@@ -1,9 +1,9 @@
-import { Component } from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import AuthService from "@/services/auth.service.ts";
-import { ArrowRight, Loader2, CheckCircle } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Component } from 'react';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import AuthService from '@/services/auth.service.ts';
+import { ArrowRight, Loader2, CheckCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 type Props = {};
 
@@ -24,39 +24,36 @@ export default class Register extends Component<Props, State> {
     this.handleRegister = this.handleRegister.bind(this);
 
     this.state = {
-      email: "",
-      name: "",
-      surname: "",
-      password: "",
-      passwordCheck: "",
+      email: '',
+      name: '',
+      surname: '',
+      password: '',
+      passwordCheck: '',
       successful: false,
-      message: "",
+      message: '',
       loading: false,
     };
   }
 
   validationSchema() {
     return Yup.object().shape({
-      email: Yup.string()
-        .email("Please enter a valid email address")
-        .required("Email is required"),
+      email: Yup.string().email('Please enter a valid email address').required('Email is required'),
       name: Yup.string()
-        .min(2, "Name must be at least 2 characters")
-        .required("First name is required"),
+        .min(2, 'Name must be at least 2 characters')
+        .required('First name is required'),
       surname: Yup.string()
-        .min(2, "Surname must be at least 2 characters")
-        .required("Last name is required"),
+        .min(2, 'Surname must be at least 2 characters')
+        .required('Last name is required'),
       password: Yup.string()
         .test(
-          "len",
-          "Password must be between 6 and 40 characters",
-          (val: any) =>
-            val && val.toString().length >= 6 && val.toString().length <= 40,
+          'len',
+          'Password must be between 6 and 40 characters',
+          (val: any) => val && val.toString().length >= 6 && val.toString().length <= 40,
         )
-        .required("Password is required"),
+        .required('Password is required'),
       passwordCheck: Yup.string()
-        .oneOf([Yup.ref("password")], "Passwords must match")
-        .required("Please confirm your password"),
+        .oneOf([Yup.ref('password')], 'Passwords must match')
+        .required('Please confirm your password'),
     });
   }
 
@@ -70,7 +67,7 @@ export default class Register extends Component<Props, State> {
     const { email, name, surname, password, passwordCheck } = formValue;
 
     this.setState({
-      message: "",
+      message: '',
       successful: false,
       loading: true,
     });
@@ -78,18 +75,14 @@ export default class Register extends Component<Props, State> {
     AuthService.register(email, surname, password, name, passwordCheck).then(
       (response) => {
         this.setState({
-          message:
-            response.data.message ||
-            "Registration successful! You can now log in.",
+          message: response.data.message || 'Registration successful! You can now log in.',
           successful: true,
           loading: false,
         });
       },
       (error) => {
         const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
+          (error.response && error.response.data && error.response.data.message) ||
           error.message ||
           error.toString();
 
@@ -106,11 +99,11 @@ export default class Register extends Component<Props, State> {
     const { successful, message, loading } = this.state;
 
     const initialValues = {
-      email: "",
-      name: "",
-      surname: "",
-      password: "",
-      passwordCheck: "",
+      email: '',
+      name: '',
+      surname: '',
+      password: '',
+      passwordCheck: '',
     };
 
     return (
@@ -120,9 +113,7 @@ export default class Register extends Component<Props, State> {
             <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-4 bg-gradient-to-b from-black to-gray-400 bg-clip-text text-transparent">
               Create Account
             </h1>
-            <p className="text-lg text-gray-600">
-              Join us to manage your access reviews
-            </p>
+            <p className="text-lg text-gray-600">Join us to manage your access reviews</p>
           </div>
 
           <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-xl">
@@ -256,9 +247,7 @@ export default class Register extends Component<Props, State> {
 
                   {message && !successful && (
                     <div className="rounded-xl bg-red-50 border border-red-200 p-4">
-                      <p className="text-sm font-medium text-red-800">
-                        {message}
-                      </p>
+                      <p className="text-sm font-medium text-red-800">{message}</p>
                     </div>
                   )}
 
@@ -285,9 +274,7 @@ export default class Register extends Component<Props, State> {
                       <div className="w-full border-t border-gray-200"></div>
                     </div>
                     <div className="relative flex justify-center text-sm">
-                      <span className="px-2 bg-white text-gray-600">
-                        Already have an account?
-                      </span>
+                      <span className="px-2 bg-white text-gray-600">Already have an account?</span>
                     </div>
                   </div>
 

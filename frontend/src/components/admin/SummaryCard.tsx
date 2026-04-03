@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React from 'react';
+import { motion } from 'framer-motion';
 
 interface SummaryCardProps {
   title: string;
@@ -8,12 +8,7 @@ interface SummaryCardProps {
   delay?: number;
 }
 
-export default function SummaryCard({
-  title,
-  value,
-  icon: Icon,
-  delay = 0,
-}: SummaryCardProps) {
+export default function SummaryCard({ title, value, icon: Icon, delay = 0 }: SummaryCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -31,9 +26,7 @@ export default function SummaryCard({
       </div>
 
       <div>
-        <h3 className="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">
-          {title}
-        </h3>
+        <h3 className="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">{title}</h3>
         <p className="text-3xl font-bold text-gray-900 dark:text-white group-hover:bg-brand-gradient group-hover:text-transparent group-hover:bg-clip-text transition-all duration-300">
           {value}
         </p>

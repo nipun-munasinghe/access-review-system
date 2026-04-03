@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Search, Filter, Edit3, Trash2, Eye } from "lucide-react";
-import Button from "./Button";
+import React, { useState } from 'react';
+import { Search, Filter, Edit3, Trash2, Eye } from 'lucide-react';
+import Button from './Button';
 
 export interface Column {
   key: string;
@@ -25,12 +25,10 @@ export default function DataTable({
   onDelete,
   onView,
 }: DataTableProps) {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
 
   const filteredData = data.filter((row) =>
-    Object.values(row).some((val) =>
-      String(val).toLowerCase().includes(searchTerm.toLowerCase()),
-    ),
+    Object.values(row).some((val) => String(val).toLowerCase().includes(searchTerm.toLowerCase())),
   );
 
   return (

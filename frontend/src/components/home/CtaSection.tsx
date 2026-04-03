@@ -1,30 +1,30 @@
-import { motion, type Variants } from "framer-motion";
-import { Search, MapPin, Star, Accessibility } from "lucide-react";
-import { Iphone } from "../ui/iphone";
+import { motion, type Variants } from 'framer-motion';
+import { Search, MapPin, Star, Accessibility } from 'lucide-react';
+import { Iphone } from '../ui/iphone';
 
 const CARDS = [
   {
     id: 1,
-    name: "City Mall",
+    name: 'City Mall',
     rating: 4.8,
-    distance: "1.2 km",
-    tags: ["Ramp", "Elevator", "Braille"],
+    distance: '1.2 km',
+    tags: ['Ramp', 'Elevator', 'Braille'],
     verified: true,
   },
   {
     id: 2,
-    name: "Central Park",
+    name: 'Central Park',
     rating: 4.5,
-    distance: "3.0 km",
-    tags: ["Ramp", "Quiet Zone"],
+    distance: '3.0 km',
+    tags: ['Ramp', 'Quiet Zone'],
     verified: true,
   },
   {
     id: 3,
-    name: "Metro Hub",
+    name: 'Metro Hub',
     rating: 4.2,
-    distance: "5.5 km",
-    tags: ["Elevator"],
+    distance: '5.5 km',
+    tags: ['Elevator'],
     verified: false,
   },
 ];
@@ -46,7 +46,7 @@ export default function CtaSection() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: { duration: 0.6, ease: 'easeOut' },
     },
   };
 
@@ -64,7 +64,7 @@ export default function CtaSection() {
       opacity: 1,
       scale: 1,
       y: 0,
-      transition: { duration: 0.5, ease: "easeOut" },
+      transition: { duration: 0.5, ease: 'easeOut' },
     },
   };
 
@@ -78,7 +78,7 @@ export default function CtaSection() {
           className="relative bg-white/60 backdrop-blur-xl border border-white/50 shadow-2xl shadow-[#7928CA]/5 rounded-[3rem] overflow-hidden"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: '-100px' }}
         >
           {/* Subtle inner gradient highlight */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#FF0080]/5 via-[#7928CA]/5 to-[#38BDF8]/10 pointer-events-none"></div>
@@ -113,20 +113,16 @@ export default function CtaSection() {
                 variants={itemVariants}
                 className="text-lg text-gray-600 leading-relaxed max-w-xl"
               >
-                Discover accessible places, share real experiences, and help
-                others navigate public spaces with confidence. Your review can
-                make every journey easier.
+                Discover accessible places, share real experiences, and help others navigate public
+                spaces with confidence. Your review can make every journey easier.
               </motion.p>
 
-              <motion.div
-                variants={itemVariants}
-                className="flex flex-col sm:flex-row gap-4 pt-4"
-              >
+              <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 pt-4">
                 <motion.a
                   href="/spaces"
                   whileHover={{
                     scale: 1.05,
-                    boxShadow: "0px 10px 30px -10px rgba(0, 112, 243, 0.5)",
+                    boxShadow: '0px 10px 30px -10px rgba(0, 112, 243, 0.5)',
                   }}
                   whileTap={{ scale: 0.98 }}
                   className="inline-flex justify-center items-center px-8 py-4 text-base font-semibold text-white bg-brand-gradient rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-lg shadow-blue-500/25 transition-all"
@@ -144,24 +140,15 @@ export default function CtaSection() {
               </motion.div>
 
               {/* Floating trust badges below */}
-              <motion.div
-                variants={itemVariants}
-                className="flex items-center gap-6 pt-8 pb-2"
-              >
+              <motion.div variants={itemVariants} className="flex items-center gap-6 pt-8 pb-2">
                 <div className="flex flex-col">
-                  <span className="text-2xl font-bold text-gray-900">
-                    1,200+
-                  </span>
-                  <span className="text-xs text-gray-500 font-medium">
-                    Real Reviews
-                  </span>
+                  <span className="text-2xl font-bold text-gray-900">1,200+</span>
+                  <span className="text-xs text-gray-500 font-medium">Real Reviews</span>
                 </div>
                 <div className="w-px h-10 bg-gray-200"></div>
                 <div className="flex flex-col">
                   <span className="text-2xl font-bold text-gray-900">250+</span>
-                  <span className="text-xs text-gray-500 font-medium">
-                    Accessible Spaces
-                  </span>
+                  <span className="text-xs text-gray-500 font-medium">Accessible Spaces</span>
                 </div>
               </motion.div>
             </motion.div>
@@ -172,7 +159,7 @@ export default function CtaSection() {
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+              transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
               whileHover={{ scale: 1.02 }}
             >
               {/* Floating Mini Card Outside Phone */}
@@ -181,7 +168,7 @@ export default function CtaSection() {
                 transition={{
                   duration: 4,
                   repeat: Infinity,
-                  ease: "easeInOut",
+                  ease: 'easeInOut',
                 }}
                 className="absolute -left-16 lg:-left-24 top-24 lg:top-32 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl shadow-[#7928CA]/10 border border-white z-20 hidden md:flex items-center gap-4"
               >
@@ -192,9 +179,7 @@ export default function CtaSection() {
                   <p className="text-sm font-semibold text-gray-900">
                     "Perfect wheelchair access!"
                   </p>
-                  <p className="text-xs text-gray-500">
-                    Jane S. reviewed City Mall
-                  </p>
+                  <p className="text-xs text-gray-500">Jane S. reviewed City Mall</p>
                 </div>
               </motion.div>
 
@@ -214,9 +199,7 @@ export default function CtaSection() {
                         className="bg-white rounded-full p-3 flex items-center gap-3 shadow-sm border border-gray-100"
                       >
                         <Search className="w-4 h-4 text-gray-400" />
-                        <span className="text-sm text-gray-400">
-                          Search accessible places...
-                        </span>
+                        <span className="text-sm text-gray-400">Search accessible places...</span>
                       </motion.div>
 
                       {/* Animated Tag Row */}
@@ -264,12 +247,12 @@ export default function CtaSection() {
                           >
                             {/* Shimmer effect inside phone */}
                             <motion.div
-                              animate={{ x: ["-100%", "200%"] }}
+                              animate={{ x: ['-100%', '200%'] }}
                               transition={{
                                 duration: 3,
                                 delay: i * 0.5,
                                 repeat: Infinity,
-                                ease: "linear",
+                                ease: 'linear',
                               }}
                               className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 z-10"
                             />
@@ -279,13 +262,11 @@ export default function CtaSection() {
                                 <h4 className="text-sm font-bold text-gray-900 pb-1">
                                   {card.name}
                                 </h4>
-                                <p className="text-[10px] text-gray-500">
-                                  {card.distance} away
-                                </p>
+                                <p className="text-[10px] text-gray-500">{card.distance} away</p>
                               </div>
                               <div className="flex flex-col items-end">
                                 <span className="flex items-center text-[10px] font-bold text-gray-900 bg-amber-50 px-2 py-1 rounded-full text-amber-600">
-                                  {card.rating}{" "}
+                                  {card.rating}{' '}
                                   <Star className="w-3 h-3 ml-1 fill-amber-400 text-amber-400" />
                                 </span>
                               </div>

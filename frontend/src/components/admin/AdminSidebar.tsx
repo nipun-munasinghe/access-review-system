@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import {
   Home,
   MapPinned,
@@ -13,8 +13,8 @@ import {
   ChevronLeft,
   LogOut,
   User,
-} from "lucide-react";
-import authService from "../../services/auth.service";
+} from 'lucide-react';
+import authService from '../../services/auth.service';
 
 interface SidebarProps {
   activeItem: string;
@@ -24,32 +24,32 @@ interface SidebarProps {
 }
 
 const MENU_ITEMS = [
-  { id: "dashboard", label: "Dashboard", icon: Home, route: "/admin" },
+  { id: 'dashboard', label: 'Dashboard', icon: Home, route: '/admin' },
   {
-    id: "spaces",
-    label: "Public Spaces",
+    id: 'spaces',
+    label: 'Public Spaces',
     icon: MapPinned,
-    route: "/admin/spaces",
+    route: '/admin/spaces',
   },
   {
-    id: "features",
-    label: "Access Features",
+    id: 'features',
+    label: 'Access Features',
     icon: Accessibility,
-    route: "/admin/features",
+    route: '/admin/features',
   },
-  { id: "reviews", label: "Reviews", icon: Star, route: "/admin/reviews" },
-  { id: "users", label: "Users", icon: UserRound, route: "/admin/users" },
+  { id: 'reviews', label: 'Reviews', icon: Star, route: '/admin/reviews' },
+  { id: 'users', label: 'Users', icon: UserRound, route: '/admin/users' },
   {
-    id: "analytics",
-    label: "Analytics",
+    id: 'analytics',
+    label: 'Analytics',
     icon: BarChart3,
-    route: "/admin/analytics",
+    route: '/admin/analytics',
   },
   {
-    id: "settings",
-    label: "Settings",
+    id: 'settings',
+    label: 'Settings',
     icon: Settings,
-    route: "/admin/settings",
+    route: '/admin/settings',
   },
 ];
 
@@ -64,34 +64,31 @@ export default function AdminSidebar({
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const currentUser = authService.getCurrentUser()?.user;
-  const userName = currentUser?.name || "Admin User";
-  const userEmail = currentUser?.email || "admin@accessify.com";
+  const userName = currentUser?.name || 'Admin User';
+  const userEmail = currentUser?.email || 'admin@accessify.com';
   const userInitial = userName.charAt(0).toUpperCase();
 
   const handleLogout = () => {
     authService.logout();
-    navigate("/login");
+    navigate('/login');
   };
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
   return (
     <motion.aside
       animate={{ width: collapsed ? 80 : 280 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
       className="fixed left-0 top-0 h-screen bg-white dark:bg-gray-900 shadow-xl shadow-gray-200/50 dark:shadow-none z-50 flex flex-col rounded-r-3xl border-r border-gray-100 dark:border-gray-800 transition-colors duration-300"
     >
       <div className="flex items-center justify-between p-6 h-20">
@@ -114,7 +111,7 @@ export default function AdminSidebar({
 
       <nav
         className="flex-1 px-4 py-6 space-y-2 overflow-y-auto"
-        style={{ scrollbarWidth: "none" }}
+        style={{ scrollbarWidth: 'none' }}
       >
         {MENU_ITEMS.map((item) => {
           const isActive = activeItem === item.id;
@@ -127,11 +124,11 @@ export default function AdminSidebar({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className={`w-full flex items-center p-3 rounded-2xl transition-all duration-300 relative group overflow-hidden ${
-                collapsed ? "justify-center" : "justify-start space-x-4"
+                collapsed ? 'justify-center' : 'justify-start space-x-4'
               } ${
                 isActive
-                  ? "bg-brand-gradient text-white shadow-lg shadow-blue-500/20"
-                  : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
+                  ? 'bg-brand-gradient text-white shadow-lg shadow-blue-500/20'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
               {!isActive && (
@@ -140,13 +137,11 @@ export default function AdminSidebar({
 
               <Icon
                 size={22}
-                className={`relative z-10 transition-colors duration-300 ${isActive ? "text-white" : "text-gray-500 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400"}`}
+                className={`relative z-10 transition-colors duration-300 ${isActive ? 'text-white' : 'text-gray-500 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400'}`}
               />
 
               {!collapsed && (
-                <span className="relative z-10 font-medium truncate">
-                  {item.label}
-                </span>
+                <span className="relative z-10 font-medium truncate">{item.label}</span>
               )}
 
               {collapsed && (
@@ -169,15 +164,15 @@ export default function AdminSidebar({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              className={`absolute bottom-full mb-2 ${collapsed ? "left-2 right-2" : "left-4 right-4"} bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-none p-2 z-50 transition-colors duration-300`}
+              className={`absolute bottom-full mb-2 ${collapsed ? 'left-2 right-2' : 'left-4 right-4'} bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-none p-2 z-50 transition-colors duration-300`}
             >
               <div className="flex flex-col gap-1">
                 <button
                   onClick={() => {
                     setIsDropdownOpen(false);
-                    navigate("/profile");
+                    navigate('/profile');
                   }}
-                  className={`flex items-center ${collapsed ? "justify-center p-3" : "gap-3 p-2"} text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-800 rounded-xl transition-colors text-sm font-medium w-full text-left`}
+                  className={`flex items-center ${collapsed ? 'justify-center p-3' : 'gap-3 p-2'} text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-800 rounded-xl transition-colors text-sm font-medium w-full text-left`}
                   title="Profile"
                 >
                   <User size={18} />
@@ -186,9 +181,9 @@ export default function AdminSidebar({
                 <button
                   onClick={() => {
                     setIsDropdownOpen(false);
-                    navigate("/");
+                    navigate('/');
                   }}
-                  className={`flex items-center ${collapsed ? "justify-center p-3" : "gap-3 p-2"} text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-800 rounded-xl transition-colors text-sm font-medium w-full text-left`}
+                  className={`flex items-center ${collapsed ? 'justify-center p-3' : 'gap-3 p-2'} text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-800 rounded-xl transition-colors text-sm font-medium w-full text-left`}
                   title="Home"
                 >
                   <Home size={18} />
@@ -200,7 +195,7 @@ export default function AdminSidebar({
                     setIsDropdownOpen(false);
                     handleLogout();
                   }}
-                  className={`flex items-center ${collapsed ? "justify-center p-3" : "gap-3 p-2"} text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-gray-800 rounded-xl transition-colors text-sm font-medium w-full text-left`}
+                  className={`flex items-center ${collapsed ? 'justify-center p-3' : 'gap-3 p-2'} text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-gray-800 rounded-xl transition-colors text-sm font-medium w-full text-left`}
                   title="Logout"
                 >
                   <LogOut size={18} />
@@ -213,7 +208,7 @@ export default function AdminSidebar({
 
         <button
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          className={`flex items-center w-full ${collapsed ? "justify-center p-2" : "space-x-3 p-2"} rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group border border-transparent hover:border-gray-100 dark:hover:border-gray-800`}
+          className={`flex items-center w-full ${collapsed ? 'justify-center p-2' : 'space-x-3 p-2'} rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group border border-transparent hover:border-gray-100 dark:hover:border-gray-800`}
         >
           <div className="w-10 h-10 rounded-full bg-brand-gradient flex items-center justify-center text-white font-bold shrink-0 shadow-sm relative">
             {userInitial}

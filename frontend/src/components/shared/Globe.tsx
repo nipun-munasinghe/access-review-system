@@ -1,8 +1,8 @@
-import { useEffect, useRef } from "react";
-import createGlobe, { type COBEOptions } from "cobe";
-import { useMotionValue, useSpring } from "motion/react";
+import { useEffect, useRef } from 'react';
+import createGlobe, { type COBEOptions } from 'cobe';
+import { useMotionValue, useSpring } from 'motion/react';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 const MOVEMENT_DAMPING = 1400;
 
@@ -62,7 +62,7 @@ export function Globe({
   const updatePointerInteraction = (value: number | null) => {
     pointerInteracting.current = value;
     if (canvasRef.current) {
-      canvasRef.current.style.cursor = value !== null ? "grabbing" : "grab";
+      canvasRef.current.style.cursor = value !== null ? 'grabbing' : 'grab';
     }
   };
 
@@ -82,7 +82,7 @@ export function Globe({
       widthRef.current = canvas.offsetWidth;
     };
 
-    window.addEventListener("resize", onResize);
+    window.addEventListener('resize', onResize);
     onResize();
 
     const merged: COBEOptions = { ...GLOBE_CONFIG, ...config };
@@ -106,23 +106,18 @@ export function Globe({
     raf = requestAnimationFrame(tick);
 
     requestAnimationFrame(() => {
-      canvas.style.opacity = "1";
+      canvas.style.opacity = '1';
     });
 
     return () => {
       cancelAnimationFrame(raf);
       globe.destroy();
-      window.removeEventListener("resize", onResize);
+      window.removeEventListener('resize', onResize);
     };
   }, [rs, config]);
 
   return (
-    <div
-      className={cn(
-        "relative mx-auto aspect-square w-full max-w-[800px]",
-        className,
-      )}
-    >
+    <div className={cn('relative mx-auto aspect-square w-full max-w-[800px]', className)}>
       {/* Soft brand-colored glow behind the globe */}
       <div
         aria-hidden="true"
@@ -138,9 +133,7 @@ export function Globe({
         onPointerUp={() => updatePointerInteraction(null)}
         onPointerOut={() => updatePointerInteraction(null)}
         onMouseMove={(e) => updateMovement(e.clientX)}
-        onTouchMove={(e) =>
-          e.touches[0] && updateMovement(e.touches[0].clientX)
-        }
+        onTouchMove={(e) => e.touches[0] && updateMovement(e.touches[0].clientX)}
         aria-label="Interactive globe showing accessibility-reviewed public spaces worldwide"
         role="img"
       />

@@ -1,5 +1,5 @@
-import React from "react";
-import { AuroraText } from "./AuroraText";
+import React from 'react';
+import { AuroraText } from './AuroraText';
 
 const Footer = () => {
   return (
@@ -7,7 +7,7 @@ const Footer = () => {
       className="relative overflow-hidden px-6 md:px-16 lg:px-24 xl:px-32 w-full text-sm text-gray-600 bg-white pt-10"
       style={{
         backgroundImage:
-          "radial-gradient(ellipse 80% 60% at 10% 110%, rgba(121,40,202,0.06) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 90% 100%, rgba(0,112,243,0.05) 0%, transparent 60%)",
+          'radial-gradient(ellipse 80% 60% at 10% 110%, rgba(121,40,202,0.06) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 90% 100%, rgba(0,112,243,0.05) 0%, transparent 60%)',
       }}
     >
       {/* Decorative background SVG — recolored to brand-aligned purple tone */}
@@ -39,13 +39,10 @@ const Footer = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-14">
         {/* Brand / Logo Section */}
         <div className="sm:col-span-2 lg:col-span-1">
-          <AuroraText className="text-xl font-black tracking-tighter">
-            ACCESSIFY
-          </AuroraText>
+          <AuroraText className="text-xl font-black tracking-tighter">ACCESSIFY</AuroraText>
           <p className="text-sm/7 mt-6 text-gray-600">
-            Accessify is a platform that helps people discover, review, and
-            understand the accessibility of public spaces through real community
-            experiences.
+            Accessify is a platform that helps people discover, review, and understand the
+            accessibility of public spaces through real community experiences.
           </p>
         </div>
 
@@ -57,14 +54,13 @@ const Footer = () => {
               className="text-gray-600 transition-colors duration-200"
               href="#"
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundImage =
-                  "linear-gradient(90deg, #FF0080, #7928CA)";
-                e.currentTarget.style.webkitBackgroundClip = "text";
-                e.currentTarget.style.webkitTextFillColor = "transparent";
+                e.currentTarget.style.backgroundImage = 'linear-gradient(90deg, #FF0080, #7928CA)';
+                e.currentTarget.style.webkitBackgroundClip = 'text';
+                e.currentTarget.style.webkitTextFillColor = 'transparent';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundImage = "none";
-                e.currentTarget.style.webkitTextFillColor = "";
+                e.currentTarget.style.backgroundImage = 'none';
+                e.currentTarget.style.webkitTextFillColor = '';
               }}
             >
               About Us
@@ -73,14 +69,13 @@ const Footer = () => {
               className="text-gray-600 transition-colors duration-200"
               href="#"
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundImage =
-                  "linear-gradient(90deg, #7928CA, #0070F3)";
-                e.currentTarget.style.webkitBackgroundClip = "text";
-                e.currentTarget.style.webkitTextFillColor = "transparent";
+                e.currentTarget.style.backgroundImage = 'linear-gradient(90deg, #7928CA, #0070F3)';
+                e.currentTarget.style.webkitBackgroundClip = 'text';
+                e.currentTarget.style.webkitTextFillColor = 'transparent';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundImage = "none";
-                e.currentTarget.style.webkitTextFillColor = "";
+                e.currentTarget.style.backgroundImage = 'none';
+                e.currentTarget.style.webkitTextFillColor = '';
               }}
             >
               Explore Spaces
@@ -89,14 +84,13 @@ const Footer = () => {
               className="text-gray-600 transition-colors duration-200"
               href="#"
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundImage =
-                  "linear-gradient(90deg, #0070F3, #38BDF8)";
-                e.currentTarget.style.webkitBackgroundClip = "text";
-                e.currentTarget.style.webkitTextFillColor = "transparent";
+                e.currentTarget.style.backgroundImage = 'linear-gradient(90deg, #0070F3, #38BDF8)';
+                e.currentTarget.style.webkitBackgroundClip = 'text';
+                e.currentTarget.style.webkitTextFillColor = 'transparent';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundImage = "none";
-                e.currentTarget.style.webkitTextFillColor = "";
+                e.currentTarget.style.backgroundImage = 'none';
+                e.currentTarget.style.webkitTextFillColor = '';
               }}
             >
               Accessibility Features
@@ -105,14 +99,13 @@ const Footer = () => {
               className="text-gray-600 transition-colors duration-200"
               href="#"
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundImage =
-                  "linear-gradient(90deg, #FF0080, #0070F3)";
-                e.currentTarget.style.webkitBackgroundClip = "text";
-                e.currentTarget.style.webkitTextFillColor = "transparent";
+                e.currentTarget.style.backgroundImage = 'linear-gradient(90deg, #FF0080, #0070F3)';
+                e.currentTarget.style.webkitBackgroundClip = 'text';
+                e.currentTarget.style.webkitTextFillColor = 'transparent';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundImage = "none";
-                e.currentTarget.style.webkitTextFillColor = "";
+                e.currentTarget.style.backgroundImage = 'none';
+                e.currentTarget.style.webkitTextFillColor = '';
               }}
             >
               Reviews
@@ -121,14 +114,13 @@ const Footer = () => {
               className="text-gray-600 transition-colors duration-200"
               href="#"
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundImage =
-                  "linear-gradient(90deg, #7928CA, #FF0080)";
-                e.currentTarget.style.webkitBackgroundClip = "text";
-                e.currentTarget.style.webkitTextFillColor = "transparent";
+                e.currentTarget.style.backgroundImage = 'linear-gradient(90deg, #7928CA, #FF0080)';
+                e.currentTarget.style.webkitBackgroundClip = 'text';
+                e.currentTarget.style.webkitTextFillColor = 'transparent';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundImage = "none";
-                e.currentTarget.style.webkitTextFillColor = "";
+                e.currentTarget.style.backgroundImage = 'none';
+                e.currentTarget.style.webkitTextFillColor = '';
               }}
             >
               Contact
@@ -141,8 +133,7 @@ const Footer = () => {
           <h2 className="font-semibold text-gray-900 mb-5">Stay Updated</h2>
           <div className="text-sm space-y-6 max-w-sm">
             <p className="text-gray-600">
-              Get updates about accessible locations, new features, and
-              community insights.
+              Get updates about accessible locations, new features, and community insights.
             </p>
             <div className="flex items-center">
               <input
@@ -153,17 +144,14 @@ const Footer = () => {
               <button
                 className="cursor-pointer h-11 px-4 text-white rounded-r-md font-medium transition-all duration-300 hover:opacity-90 hover:shadow-lg"
                 style={{
-                  background:
-                    "linear-gradient(135deg, #FF0080 0%, #7928CA 50%, #0070F3 100%)",
-                  boxShadow: "0 2px 12px rgba(121,40,202,0.25)",
+                  background: 'linear-gradient(135deg, #FF0080 0%, #7928CA 50%, #0070F3 100%)',
+                  boxShadow: '0 2px 12px rgba(121,40,202,0.25)',
                 }}
                 onMouseEnter={(e) =>
-                  (e.currentTarget.style.boxShadow =
-                    "0 4px 20px rgba(255,0,128,0.35)")
+                  (e.currentTarget.style.boxShadow = '0 4px 20px rgba(255,0,128,0.35)')
                 }
                 onMouseLeave={(e) =>
-                  (e.currentTarget.style.boxShadow =
-                    "0 2px 12px rgba(121,40,202,0.25)")
+                  (e.currentTarget.style.boxShadow = '0 2px 12px rgba(121,40,202,0.25)')
                 }
               >
                 Subscribe
@@ -176,18 +164,18 @@ const Footer = () => {
       {/* Bottom Copyright Row */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 py-4 border-t mt-6 border-gray-100">
         <p className="text-center text-gray-400">
-          Copyright 2026 ©{" "}
+          Copyright 2026 ©{' '}
           <a
             href="/"
             className="font-medium"
             style={{
-              backgroundImage: "linear-gradient(90deg, #FF0080, #7928CA)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
+              backgroundImage: 'linear-gradient(90deg, #FF0080, #7928CA)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
             }}
           >
             Accessify
-          </a>{" "}
+          </a>{' '}
           All Rights Reserved.
         </p>
         <div className="flex items-center gap-4">
@@ -195,14 +183,13 @@ const Footer = () => {
             href="/"
             className="text-gray-400 transition-colors duration-200"
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundImage =
-                "linear-gradient(90deg, #FF0080, #7928CA)";
-              e.currentTarget.style.webkitBackgroundClip = "text";
-              e.currentTarget.style.webkitTextFillColor = "transparent";
+              e.currentTarget.style.backgroundImage = 'linear-gradient(90deg, #FF0080, #7928CA)';
+              e.currentTarget.style.webkitBackgroundClip = 'text';
+              e.currentTarget.style.webkitTextFillColor = 'transparent';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundImage = "none";
-              e.currentTarget.style.webkitTextFillColor = "";
+              e.currentTarget.style.backgroundImage = 'none';
+              e.currentTarget.style.webkitTextFillColor = '';
             }}
           >
             Privacy Policy
@@ -211,14 +198,13 @@ const Footer = () => {
             href="/"
             className="text-gray-400 transition-colors duration-200"
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundImage =
-                "linear-gradient(90deg, #7928CA, #0070F3)";
-              e.currentTarget.style.webkitBackgroundClip = "text";
-              e.currentTarget.style.webkitTextFillColor = "transparent";
+              e.currentTarget.style.backgroundImage = 'linear-gradient(90deg, #7928CA, #0070F3)';
+              e.currentTarget.style.webkitBackgroundClip = 'text';
+              e.currentTarget.style.webkitTextFillColor = 'transparent';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundImage = "none";
-              e.currentTarget.style.webkitTextFillColor = "";
+              e.currentTarget.style.backgroundImage = 'none';
+              e.currentTarget.style.webkitTextFillColor = '';
             }}
           >
             Terms of Service
@@ -227,14 +213,13 @@ const Footer = () => {
             href="/"
             className="text-gray-400 transition-colors duration-200"
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundImage =
-                "linear-gradient(90deg, #0070F3, #38BDF8)";
-              e.currentTarget.style.webkitBackgroundClip = "text";
-              e.currentTarget.style.webkitTextFillColor = "transparent";
+              e.currentTarget.style.backgroundImage = 'linear-gradient(90deg, #0070F3, #38BDF8)';
+              e.currentTarget.style.webkitBackgroundClip = 'text';
+              e.currentTarget.style.webkitTextFillColor = 'transparent';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundImage = "none";
-              e.currentTarget.style.webkitTextFillColor = "";
+              e.currentTarget.style.backgroundImage = 'none';
+              e.currentTarget.style.webkitTextFillColor = '';
             }}
           >
             Cookie Policy

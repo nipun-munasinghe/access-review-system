@@ -1,5 +1,5 @@
-import { AuroraText } from "@/components/shared/AuroraText";
-import { Globe } from "@/components/shared/Globe";
+import { AuroraText } from '@/components/shared/AuroraText';
+import { Globe } from '@/components/shared/Globe';
 
 export function Hero() {
   return (
@@ -8,10 +8,7 @@ export function Hero() {
       aria-labelledby="hero-heading"
     >
       {/* ── Decorative background blobs ── */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 overflow-hidden"
-      >
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 left-1/2 h-[480px] w-[480px] -translate-x-1/2 rounded-full bg-[#7928CA]/10 blur-3xl" />
         <div className="absolute top-32 -left-32 h-80 w-80 rounded-full bg-[#0070F3]/10 blur-3xl" />
         <div className="absolute top-48 -right-32 h-80 w-80 rounded-full bg-[#FF0080]/8 blur-3xl" />
@@ -22,7 +19,7 @@ export function Hero() {
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-center"
-        style={{ top: "10vw" }}
+        style={{ top: '10vw' }}
       >
         {/* Glow behind globe */}
         <div className="absolute left-1/2 top-1/2 h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#FF0080]/10 via-[#7928CA]/15 to-[#0070F3]/10 blur-3xl" />
@@ -76,9 +73,9 @@ export function Hero() {
 
         {/* Subtitle */}
         <p className="max-w-lg text-base leading-relaxed text-gray-500 sm:text-lg">
-          Discover, review, and improve accessibility in public spaces.{" "}
-          <strong className="font-semibold text-gray-700">Your voice</strong>{" "}
-          helps build a more inclusive world.
+          Discover, review, and improve accessibility in public spaces.{' '}
+          <strong className="font-semibold text-gray-700">Your voice</strong> helps build a more
+          inclusive world.
         </p>
 
         {/* CTA Buttons */}
@@ -99,7 +96,7 @@ export function Hero() {
 
         {/* Trust signal */}
         <p className="text-xs text-gray-400">
-          Trusted by communities across{" "}
+          Trusted by communities across{' '}
           <span className="font-medium text-gray-500">50+ countries</span>
         </p>
       </div>

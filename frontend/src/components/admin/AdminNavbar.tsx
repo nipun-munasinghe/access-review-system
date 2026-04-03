@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Search, Bell, Moon, Sun } from "lucide-react";
+import { useState, useEffect } from 'react';
+import { Search, Bell, Moon, Sun } from 'lucide-react';
 
 interface NavbarProps {
   title: string;
@@ -10,28 +10,26 @@ export default function AdminNavbar({ title }: NavbarProps) {
 
   useEffect(() => {
     // Determine default mode based on localStorage or browser preference
-    const storedTheme = localStorage.getItem("theme");
-    const systemPrefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)",
-    ).matches;
+    const storedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    if (storedTheme === "dark" || (!storedTheme && systemPrefersDark)) {
+    if (storedTheme === 'dark' || (!storedTheme && systemPrefersDark)) {
       setIsDark(true);
-      document.documentElement.classList.add("dark");
+      document.documentElement.classList.add('dark');
     } else {
       setIsDark(false);
-      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.remove('dark');
     }
   }, []);
 
   const toggleDarkMode = () => {
     if (isDark) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
       setIsDark(false);
     } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
       setIsDark(true);
     }
   };
@@ -58,7 +56,7 @@ export default function AdminNavbar({ title }: NavbarProps) {
           <button
             onClick={toggleDarkMode}
             className="relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-            title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           >
             {isDark ? (
               <Sun className="w-5 h-5 text-gray-300 hover:text-yellow-400 transition-colors" />

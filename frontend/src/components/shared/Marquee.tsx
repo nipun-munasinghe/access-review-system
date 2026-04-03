@@ -1,22 +1,14 @@
-import {
-  MapPin,
-  Star,
-  Users,
-  Zap,
-  ShieldCheck,
-  Navigation,
-  BadgeCheck,
-} from "lucide-react";
-import { AuroraText } from "@/components/shared/AuroraText";
+import { MapPin, Star, Users, Zap, ShieldCheck, Navigation, BadgeCheck } from 'lucide-react';
+import { AuroraText } from '@/components/shared/AuroraText';
 
 const ITEMS = [
-  { label: "Accessible Spaces", icon: MapPin },
-  { label: "Inclusive Design", icon: ShieldCheck },
-  { label: "Smart Reviews", icon: Star },
-  { label: "Community Driven", icon: Users },
-  { label: "Real-Time Insights", icon: Zap },
-  { label: "Barrier-Free Access", icon: Navigation },
-  { label: "Verified Locations", icon: BadgeCheck },
+  { label: 'Accessible Spaces', icon: MapPin },
+  { label: 'Inclusive Design', icon: ShieldCheck },
+  { label: 'Smart Reviews', icon: Star },
+  { label: 'Community Driven', icon: Users },
+  { label: 'Real-Time Insights', icon: Zap },
+  { label: 'Barrier-Free Access', icon: Navigation },
+  { label: 'Verified Locations', icon: BadgeCheck },
 ];
 
 function Separator() {
@@ -39,14 +31,12 @@ export function AccessifyMarquee() {
       <div className="relative w-full overflow-hidden">
         <div
           className="flex w-max cursor-default"
-          style={{ animation: "marquee 28s linear infinite" }}
+          style={{ animation: 'marquee 28s linear infinite' }}
           onMouseEnter={(e) =>
-            ((e.currentTarget as HTMLDivElement).style.animationPlayState =
-              "paused")
+            ((e.currentTarget as HTMLDivElement).style.animationPlayState = 'paused')
           }
           onMouseLeave={(e) =>
-            ((e.currentTarget as HTMLDivElement).style.animationPlayState =
-              "running")
+            ((e.currentTarget as HTMLDivElement).style.animationPlayState = 'running')
           }
         >
           {track.map((item, i) => {

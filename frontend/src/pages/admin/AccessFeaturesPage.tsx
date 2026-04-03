@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Plus, X, AlertCircle } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import Button from "../../components/admin/Button";
-import DataTable, { type Column } from "../../components/admin/DataTable";
-import accessFeaturesService, {
-  type AccessFeature,
-} from "../../services/access-features.service";
+import React, { useState, useEffect } from 'react';
+import { Plus, X, AlertCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Button from '../../components/admin/Button';
+import DataTable, { type Column } from '../../components/admin/DataTable';
+import accessFeaturesService, { type AccessFeature } from '../../services/access-features.service';
 
 export default function AccessFeaturesPage() {
   const [features, setFeatures] = useState<AccessFeature[]>([]);
@@ -14,13 +12,11 @@ export default function AccessFeaturesPage() {
 
   // Modal states
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentFeature, setCurrentFeature] = useState<AccessFeature | null>(
-    null,
-  );
-  const [formData, setFormData] = useState<Omit<AccessFeature, "_id">>({
-    name: "",
-    description: "",
-    category: "Mobility",
+  const [currentFeature, setCurrentFeature] = useState<AccessFeature | null>(null);
+  const [formData, setFormData] = useState<Omit<AccessFeature, '_id'>>({
+    name: '',
+    description: '',
+    category: 'Mobility',
     isActive: true,
   });
   const [submitting, setSubmitting] = useState(false);
@@ -32,11 +28,7 @@ export default function AccessFeaturesPage() {
       setFeatures(res.data.data);
       setError(null);
     } catch (err: any) {
-      setError(
-        err?.response?.data?.message ||
-          err.message ||
-          "Failed to fetch features",
-      );
+      setError(err?.response?.data?.message || err.message || 'Failed to fetch features');
     } finally {
       setLoading(false);
     }
@@ -58,9 +50,9 @@ export default function AccessFeaturesPage() {
     } else {
       setCurrentFeature(null);
       setFormData({
-        name: "",
-        description: "",
-        category: "Mobility",
+        name: '',
+        description: '',
+        category: 'Mobility',
         isActive: true,
       });
     }
@@ -76,7 +68,7 @@ export default function AccessFeaturesPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.description.trim()) {
-      setError("Name and description are required.");
+      setError('Name and description are required.');
       return;
     }
 
@@ -85,10 +77,7 @@ export default function AccessFeaturesPage() {
       setError(null);
 
       if (currentFeature?._id) {
-        await accessFeaturesService.updateAccessFeature(
-          currentFeature._id,
-          formData,
-        );
+        await accessFeaturesService.updateAccessFeature(currentFeature._id, formData);
       } else {
         await accessFeaturesService.createAccessFeature(formData);
       }
@@ -96,30 +85,20 @@ export default function AccessFeaturesPage() {
       handleCloseModal();
       await fetchFeatures();
     } catch (err: any) {
-      setError(
-        err?.response?.data?.message || err.message || "An error occurred",
-      );
+      setError(err?.response?.data?.message || err.message || 'An error occurred');
     } finally {
       setSubmitting(false);
     }
   };
 
   const handleDelete = async (row: AccessFeature) => {
-    if (
-      window.confirm(
-        `Are you sure you want to delete "${row.name}"? This cannot be undone.`,
-      )
-    ) {
+    if (window.confirm(`Are you sure you want to delete "${row.name}"? This cannot be undone.`)) {
       try {
         setLoading(true);
         await accessFeaturesService.deleteAccessFeature(row._id!);
         await fetchFeatures();
       } catch (err: any) {
-        setError(
-          err?.response?.data?.message ||
-            err.message ||
-            "Failed to delete feature",
-        );
+        setError(err?.response?.data?.message || err.message || 'Failed to delete feature');
         setLoading(false);
       }
     }
@@ -127,8 +106,8 @@ export default function AccessFeaturesPage() {
 
   const COLUMNS: Column[] = [
     {
-      key: "name",
-      header: "Feature Name",
+      key: 'name',
+      header: 'Feature Name',
       render: (row: AccessFeature) => (
         <span className="font-medium text-gray-900 dark:text-white transition-colors">
           {row.name}
@@ -136,17 +115,15 @@ export default function AccessFeaturesPage() {
       ),
     },
     {
-      key: "category",
-      header: "Category",
+      key: 'category',
+      header: 'Category',
       render: (row: AccessFeature) => (
-        <span className="text-gray-600 dark:text-gray-300 transition-colors">
-          {row.category}
-        </span>
+        <span className="text-gray-600 dark:text-gray-300 transition-colors">{row.category}</span>
       ),
     },
     {
-      key: "description",
-      header: "Description",
+      key: 'description',
+      header: 'Description',
       render: (row: AccessFeature) => (
         <span
           className="text-gray-500 dark:text-gray-400 truncate max-w-[250px] inline-block transition-colors"
@@ -157,13 +134,13 @@ export default function AccessFeaturesPage() {
       ),
     },
     {
-      key: "isActive",
-      header: "Status",
+      key: 'isActive',
+      header: 'Status',
       render: (row: AccessFeature) => (
         <span
-          className={`px-2 py-1 text-xs rounded-full font-medium transition-colors ${row.isActive ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400" : "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400"}`}
+          className={`px-2 py-1 text-xs rounded-full font-medium transition-colors ${row.isActive ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400' : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400'}`}
         >
-          {row.isActive ? "Active" : "Inactive"}
+          {row.isActive ? 'Active' : 'Inactive'}
         </span>
       ),
     },
@@ -225,7 +202,7 @@ export default function AccessFeaturesPage() {
             >
               <div className="p-6 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center transition-colors">
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white transition-colors">
-                  {currentFeature ? "Edit Feature" : "Add New Feature"}
+                  {currentFeature ? 'Edit Feature' : 'Add New Feature'}
                 </h3>
                 <button
                   onClick={handleCloseModal}
@@ -251,9 +228,7 @@ export default function AccessFeaturesPage() {
                     type="text"
                     required
                     value={formData.name}
-                    onChange={(e) =>
-                      setFormData({ ...formData, name: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white dark:focus:bg-gray-700 transition-all text-sm text-gray-900 dark:text-white"
                     placeholder="e.g., Wheelchair Ramp"
                   />
@@ -289,9 +264,7 @@ export default function AccessFeaturesPage() {
                     required
                     rows={3}
                     value={formData.description}
-                    onChange={(e) =>
-                      setFormData({ ...formData, description: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white dark:focus:bg-gray-700 transition-all text-sm text-gray-900 dark:text-white resize-none"
                     placeholder="Describe the access feature..."
                   />
@@ -302,9 +275,7 @@ export default function AccessFeaturesPage() {
                     type="checkbox"
                     id="isActive"
                     checked={formData.isActive}
-                    onChange={(e) =>
-                      setFormData({ ...formData, isActive: e.target.checked })
-                    }
+                    onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
                     className="w-4 h-4 text-blue-600 bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500 focus:ring-2 transition-colors"
                   />
                   <label
@@ -316,19 +287,11 @@ export default function AccessFeaturesPage() {
                 </div>
 
                 <div className="pt-4 flex justify-end space-x-3">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={handleCloseModal}
-                  >
+                  <Button type="button" variant="outline" onClick={handleCloseModal}>
                     Cancel
                   </Button>
                   <Button type="submit" variant="primary" disabled={submitting}>
-                    {submitting
-                      ? "Saving..."
-                      : currentFeature
-                        ? "Update"
-                        : "Create"}
+                    {submitting ? 'Saving...' : currentFeature ? 'Update' : 'Create'}
                   </Button>
                 </div>
               </form>
