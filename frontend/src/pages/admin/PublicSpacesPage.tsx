@@ -12,7 +12,7 @@ const DATA = [
 ];
 
 const COLUMNS: Column[] = [
-  { key: 'name', header: 'Name', render: (row) => <span className="font-medium text-gray-900">{row.name}</span> },
+  { key: 'name', header: 'Name', render: (row) => <span className="font-medium text-gray-900 dark:text-white transition-colors">{row.name}</span> },
   { key: 'location', header: 'Location' },
   { key: 'category', header: 'Category' },
   { key: 'status', header: 'Status', render: (row) => (

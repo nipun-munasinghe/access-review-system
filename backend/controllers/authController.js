@@ -40,6 +40,7 @@ exports.register = async (req, res) => {
         id: savedUser._id,
         name: savedUser.name,
         surname: savedUser.surname,
+        email: savedUser.email,
       },
     });
   } catch (err) {
@@ -100,6 +101,7 @@ exports.login = async (req, res) => {
         user: {
           id: result._id,
           name: result.name,
+          email: result.email,
           isLoggedIn: result.isLoggedIn,
           userType: result.userType,
         },
