@@ -466,28 +466,24 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
   <a href="https://github.com/ModithaM">
     <img src="https://avatars.githubusercontent.com/ModithaM?v=4" width="80" alt="Moditha"/>
     <br><b>Moditha Marasingha</b>
-    <br>Full-Stack Developer
   </a>
 </td>
 <td align="center">
   <a href="https://github.com/anupaprabhasara">
     <img src="https://avatars.githubusercontent.com/anupaprabhasara?v=4" width="80" alt="Anupa"/>
     <br><b>Anupa Prabhasara</b>
-    <br>Frontend Developer
   </a>
 </td>
 <td align="center">
   <a href="https://github.com/nipun-munasinghe">
     <img src="https://avatars.githubusercontent.com/nipun-munasinghe?v=4" width="80" alt="Nipun"/>
     <br><b>Nipun Munasinghe</b>
-    <br>Backend Developer
   </a>
 </td>
 <td align="center">
   <a href="https://github.com/hasindu1998">
     <img src="https://avatars.githubusercontent.com/hasindu1998?v=4" width="80" alt="Hasindu"/>
     <br><b>Hasindu Sankalpa</b>
-    <br>DevOps & Testing
   </a>
 </td>
 </tr>
