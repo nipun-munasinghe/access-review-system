@@ -51,7 +51,7 @@ export default function AdminLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-[#fafafa] flex font-sans text-gray-900">
+    <div className="min-h-screen bg-[#fafafa] dark:bg-gray-950 flex font-sans text-gray-900 dark:text-white transition-colors duration-300">
       <AdminSidebar 
         activeItem={activeItem} 
         onNavigate={(route) => navigate(route)} 

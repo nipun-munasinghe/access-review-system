@@ -15,13 +15,13 @@ const DATA = [
 const COLUMNS: Column[] = [
   { key: 'name', header: 'Name', render: (row) => (
     <div className="flex items-center space-x-3">
-      <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs">
+      <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-gray-800 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs transition-colors">
         {row.name.charAt(0)}
       </div>
-      <span className="font-medium text-gray-900">{row.name}</span>
+      <span className="font-medium text-gray-900 dark:text-white transition-colors">{row.name}</span>
     </div>
   )},
-  { key: 'email', header: 'Email', render: (row) => <span className="text-gray-500">{row.email}</span> },
+  { key: 'email', header: 'Email', render: (row) => <span className="text-gray-500 dark:text-gray-400 transition-colors">{row.email}</span> },
   { key: 'role', header: 'Role', render: (row) => (
     <Badge variant={row.role === 'Admin' ? 'warning' : row.role === 'Moderator' ? 'info' : 'default'}>
       {row.role}

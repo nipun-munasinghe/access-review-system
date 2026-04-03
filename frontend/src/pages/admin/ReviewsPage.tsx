@@ -11,15 +11,15 @@ const DATA = [
 ];
 
 const COLUMNS: Column[] = [
-  { key: 'user', header: 'User', render: (row) => <span className="font-medium text-gray-900">{row.user}</span> },
+  { key: 'user', header: 'User', render: (row) => <span className="font-medium text-gray-900 dark:text-white transition-colors">{row.user}</span> },
   { key: 'space', header: 'Public Space' },
   { key: 'rating', header: 'Rating', render: (row) => (
     <div className="flex items-center space-x-1">
-      <span className="font-medium">{row.rating}</span>
+      <span className="font-medium dark:text-white transition-colors">{row.rating}</span>
       <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
     </div>
   )},
-  { key: 'date', header: 'Date', render: (row) => <span className="text-gray-500">{row.date}</span> },
+  { key: 'date', header: 'Date', render: (row) => <span className="text-gray-500 dark:text-gray-400 transition-colors">{row.date}</span> },
   { key: 'status', header: 'Status', render: (row) => (
     <Badge variant={row.status === 'Published' ? 'info' : 'danger'}>{row.status}</Badge>
   )}
