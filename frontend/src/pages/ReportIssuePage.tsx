@@ -1,23 +1,96 @@
 import { useState } from 'react';
 import { AlertCircle, CheckCircle2, MapPin, Type, AlertTriangle } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import Button from '@/components/admin/Button';
 import issueService from '@/services/issue.service';
 
+const validationSchema = Yup.object().shape({
+  title: Yup.string()
+    .required('Issue title is required')
+    .min(5, 'Title must be at least 5 characters')
+    .max(200, 'Title must not exceed 200 characters')
+    .trim(),
+  location: Yup.string()
+    .required('Location is required')
+    .min(3, 'Location must be at least 3 characters')
+    .max(300, 'Location must not exceed 300 characters')
+    .trim(),
+  description: Yup.string()
+    .required('Description is required')
+    .min(20, 'Description must be at least 20 characters')
+    .max(2000, 'Description must not exceed 2000 characters')
+    .trim(),
+  reporter: Yup.string()
+    .required('Your name is required')
+    .min(2, 'Name must be at least 2 characters')
+    .max(100, 'Name must not exceed 100 characters')
+    .matches(/^[a-zA-Z\s'-]+$/, 'Name can only contain letters, spaces, hyphens, and apostrophes')
+    .trim(),
+  reporterEmail: Yup.string()
+    .email('Please enter a valid email address')
+    .max(254, 'Email must not exceed 254 characters')
+    .nullable(),
+  category: Yup.string()
+    .required('Please select a category')
+    .oneOf(
+      [
+        'Mobility Access',
+        'Visual Access',
+        'Hearing Access',
+        'Parking',
+        'Restrooms',
+        'Signage',
+        'Elevators',
+        'Other',
+      ],
+      'Invalid category selected',
+    ),
+  severity: Yup.string()
+    .required('Please select a severity level')
+    .oneOf(['Low', 'Medium', 'High', 'Critical'], 'Invalid severity level'),
+});
+
 export default function ReportIssuePage() {
-  const [formData, setFormData] = useState({
-    title: '',
-    location: '',
-    description: '',
-    reporter: '',
-    reporterEmail: '',
-    severity: 'Medium',
-    category: 'Other',
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const formik = useFormik({
+    initialValues: {
+      title: '',
+      location: '',
+      description: '',
+      reporter: '',
+      reporterEmail: '',
+      severity: 'Medium',
+      category: 'Other',
+    },
+    validationSchema,
+    validateOnChange: true,
+    validateOnBlur: true,
+    onSubmit: async (values) => {
+      setSubmitError(null);
+      try {
+        await issueService.createIssue({
+          title: values.title,
+          location: values.location,
+          description: values.description,
+          reporter: values.reporter,
+          reporterEmail: values.reporterEmail || undefined,
+          severity: values.severity as 'Low' | 'Medium' | 'High' | 'Critical',
+          category: values.category,
+        });
+        setSubmitSuccess(true);
+        formik.resetForm();
+        setTimeout(() => setSubmitSuccess(false), 5000);
+      } catch (error: any) {
+        const message =
+          error.response?.data?.message || 'Failed to submit issue. Please try again.';
+        setSubmitError(message);
+      }
+    },
+  });
 
   const categories = [
     'Mobility Access',
@@ -37,56 +110,14 @@ export default function ReportIssuePage() {
     { value: 'Critical', label: 'Critical - Severe accessibility barrier' },
   ];
 
-  const validateForm = () => {
-    const newErrors: Record<string, string> = {};
-    if (!formData.title.trim()) newErrors.title = 'Issue title is required';
-    if (!formData.location.trim()) newErrors.location = 'Location is required';
-    if (!formData.description.trim()) newErrors.description = 'Description is required';
-    if (!formData.reporter.trim()) newErrors.reporter = 'Your name is required';
-    if (formData.title.length < 5) newErrors.title = 'Title must be at least 5 characters';
-    if (formData.description.length < 20)
-      newErrors.description = 'Description must be at least 20 characters';
-    if (formData.reporterEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.reporterEmail)) {
-      newErrors.reporterEmail = 'Please enter a valid email';
-    }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const getFieldError = (fieldName: keyof typeof formik.values): string | undefined => {
+    return formik.touched[fieldName] && formik.errors[fieldName]
+      ? formik.errors[fieldName]
+      : undefined;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-
-    setIsSubmitting(true);
-    setSubmitError(null);
-    try {
-      await issueService.createIssue({
-        title: formData.title,
-        location: formData.location,
-        description: formData.description,
-        reporter: formData.reporter,
-        reporterEmail: formData.reporterEmail || undefined,
-        severity: formData.severity as 'Low' | 'Medium' | 'High' | 'Critical',
-        category: formData.category,
-      });
-      setSubmitSuccess(true);
-      setFormData({
-        title: '',
-        location: '',
-        description: '',
-        reporter: '',
-        reporterEmail: '',
-        severity: 'Medium',
-        category: 'Other',
-      });
-      setErrors({});
-      setTimeout(() => setSubmitSuccess(false), 5000);
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Failed to submit issue. Please try again.';
-      setSubmitError(message);
-    } finally {
-      setIsSubmitting(false);
-    }
+  const isFieldInvalid = (fieldName: keyof typeof formik.values): boolean => {
+    return !!(formik.touched[fieldName] && formik.errors[fieldName]);
   };
 
   return (
@@ -150,7 +181,7 @@ export default function ReportIssuePage() {
             </motion.div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={formik.handleSubmit} className="space-y-6">
             {/* Name/Reporter */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300">
@@ -158,13 +189,22 @@ export default function ReportIssuePage() {
               </label>
               <input
                 type="text"
-                value={formData.reporter}
-                onChange={(e) => setFormData({ ...formData, reporter: e.target.value })}
+                {...formik.getFieldProps('reporter')}
                 placeholder="e.g., John Doe"
-                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white dark:focus:bg-gray-700 transition-all text-gray-900 dark:text-white"
+                className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:bg-white dark:focus:bg-gray-700 transition-all text-gray-900 dark:text-white ${
+                  isFieldInvalid('reporter')
+                    ? 'border-red-500 dark:border-red-500'
+                    : 'border-gray-200 dark:border-gray-700 focus:border-blue-500'
+                }`}
               />
-              {errors.reporter && (
-                <p className="mt-2 text-sm text-red-600 dark:text-red-400">{errors.reporter}</p>
+              {getFieldError('reporter') && (
+                <motion.p
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-2 text-sm text-red-600 dark:text-red-400"
+                >
+                  {getFieldError('reporter')}
+                </motion.p>
               )}
             </div>
 
@@ -175,67 +215,97 @@ export default function ReportIssuePage() {
               </label>
               <input
                 type="email"
-                value={formData.reporterEmail}
-                onChange={(e) => setFormData({ ...formData, reporterEmail: e.target.value })}
+                {...formik.getFieldProps('reporterEmail')}
                 placeholder="your.email@example.com"
-                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white dark:focus:bg-gray-700 transition-all text-gray-900 dark:text-white"
+                className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:bg-white dark:focus:bg-gray-700 transition-all text-gray-900 dark:text-white ${
+                  isFieldInvalid('reporterEmail')
+                    ? 'border-red-500 dark:border-red-500'
+                    : 'border-gray-200 dark:border-gray-700 focus:border-blue-500'
+                }`}
               />
-              {errors.reporterEmail && (
-                <p className="mt-2 text-sm text-red-600 dark:text-red-400">
-                  {errors.reporterEmail}
-                </p>
+              {getFieldError('reporterEmail') && (
+                <motion.p
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-2 text-sm text-red-600 dark:text-red-400"
+                >
+                  {getFieldError('reporterEmail')}
+                </motion.p>
               )}
             </div>
 
             {/* Title */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300">
-                Issue Title *
+                Issue Title *{' '}
+                <span className="text-xs text-gray-500">({formik.values.title.length}/200)</span>
               </label>
               <div className="relative">
                 <Type className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500 pointer-events-none" />
                 <input
                   type="text"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  {...formik.getFieldProps('title')}
                   placeholder="e.g., Wheelchair ramp blocked at main entrance"
-                  className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white dark:focus:bg-gray-700 transition-all text-gray-900 dark:text-white"
+                  className={`w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:bg-white dark:focus:bg-gray-700 transition-all text-gray-900 dark:text-white ${
+                    isFieldInvalid('title')
+                      ? 'border-red-500 dark:border-red-500'
+                      : 'border-gray-200 dark:border-gray-700 focus:border-blue-500'
+                  }`}
                 />
               </div>
-              {errors.title && (
-                <p className="mt-2 text-sm text-red-600 dark:text-red-400">{errors.title}</p>
+              {getFieldError('title') && (
+                <motion.p
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-2 text-sm text-red-600 dark:text-red-400"
+                >
+                  {getFieldError('title')}
+                </motion.p>
               )}
             </div>
 
             {/* Location */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300">
-                Location *
+                Location *{' '}
+                <span className="text-xs text-gray-500">({formik.values.location.length}/300)</span>
               </label>
               <div className="relative">
                 <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500 pointer-events-none" />
                 <input
                   type="text"
-                  value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  {...formik.getFieldProps('location')}
                   placeholder="e.g., City Mall, Main Entrance"
-                  className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white dark:focus:bg-gray-700 transition-all text-gray-900 dark:text-white"
+                  className={`w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:bg-white dark:focus:bg-gray-700 transition-all text-gray-900 dark:text-white ${
+                    isFieldInvalid('location')
+                      ? 'border-red-500 dark:border-red-500'
+                      : 'border-gray-200 dark:border-gray-700 focus:border-blue-500'
+                  }`}
                 />
               </div>
-              {errors.location && (
-                <p className="mt-2 text-sm text-red-600 dark:text-red-400">{errors.location}</p>
+              {getFieldError('location') && (
+                <motion.p
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-2 text-sm text-red-600 dark:text-red-400"
+                >
+                  {getFieldError('location')}
+                </motion.p>
               )}
             </div>
 
             {/* Category */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300">
-                Category
+                Category *
               </label>
               <select
-                value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white dark:focus:bg-gray-700 transition-all text-gray-900 dark:text-white"
+                {...formik.getFieldProps('category')}
+                className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:bg-white dark:focus:bg-gray-700 transition-all text-gray-900 dark:text-white ${
+                  isFieldInvalid('category')
+                    ? 'border-red-500 dark:border-red-500'
+                    : 'border-gray-200 dark:border-gray-700 focus:border-blue-500'
+                }`}
               >
                 {categories.map((cat) => (
                   <option key={cat} value={cat}>
@@ -243,6 +313,15 @@ export default function ReportIssuePage() {
                   </option>
                 ))}
               </select>
+              {getFieldError('category') && (
+                <motion.p
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-2 text-sm text-red-600 dark:text-red-400"
+                >
+                  {getFieldError('category')}
+                </motion.p>
+              )}
             </div>
 
             {/* Severity */}
@@ -254,14 +333,16 @@ export default function ReportIssuePage() {
                 {severityLevels.map((level) => (
                   <label
                     key={level.value}
-                    className="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                    className={`flex items-center p-3 border rounded-xl cursor-pointer transition-colors ${
+                      isFieldInvalid('severity') && !formik.values.severity
+                        ? 'border-red-500 dark:border-red-500'
+                        : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
+                    }`}
                   >
                     <input
                       type="radio"
-                      name="severity"
+                      {...formik.getFieldProps('severity')}
                       value={level.value}
-                      checked={formData.severity === level.value}
-                      onChange={(e) => setFormData({ ...formData, severity: e.target.value })}
                       className="w-4 h-4 text-blue-600 dark:text-blue-400"
                     />
                     <span className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -270,22 +351,43 @@ export default function ReportIssuePage() {
                   </label>
                 ))}
               </div>
+              {getFieldError('severity') && (
+                <motion.p
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-2 text-sm text-red-600 dark:text-red-400"
+                >
+                  {getFieldError('severity')}
+                </motion.p>
+              )}
             </div>
 
             {/* Description */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300">
-                Description *
+                Description *{' '}
+                <span className="text-xs text-gray-500">
+                  ({formik.values.description.length}/2000)
+                </span>
               </label>
               <textarea
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                {...formik.getFieldProps('description')}
                 placeholder="Provide detailed information about the accessibility issue..."
                 rows={6}
-                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white dark:focus:bg-gray-700 transition-all text-gray-900 dark:text-white resize-none"
+                className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:bg-white dark:focus:bg-gray-700 transition-all text-gray-900 dark:text-white resize-none ${
+                  isFieldInvalid('description')
+                    ? 'border-red-500 dark:border-red-500'
+                    : 'border-gray-200 dark:border-gray-700 focus:border-blue-500'
+                }`}
               />
-              {errors.description && (
-                <p className="mt-2 text-sm text-red-600 dark:text-red-400">{errors.description}</p>
+              {getFieldError('description') && (
+                <motion.p
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-2 text-sm text-red-600 dark:text-red-400"
+                >
+                  {getFieldError('description')}
+                </motion.p>
               )}
             </div>
 
@@ -301,10 +403,10 @@ export default function ReportIssuePage() {
             <div className="flex gap-3 pt-4">
               <Button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={formik.isSubmitting || !formik.isValid}
                 className="flex-1 h-12 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
-                {isSubmitting ? 'Submitting...' : 'Submit Report'}
+                {formik.isSubmitting ? 'Submitting...' : 'Submit Report'}
               </Button>
             </div>
           </form>
