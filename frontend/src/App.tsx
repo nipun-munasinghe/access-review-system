@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage';
 import Login from './components/auth/login.component';
 import Register from './components/auth/register.component';
 import ProfilePage from './pages/ProfilePage';
+import ReportIssuePage from './pages/ReportIssuePage';
 import Header from './components/shared/Header';
 
 // Admin
@@ -33,6 +34,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/report-issue" element={<ReportIssuePage />} />
         </Route>
 
         {/* Admin Routes */}
