@@ -1,18 +1,22 @@
 import { useState } from 'react';
-import { AlertCircle, CheckCircle2, MapPin, Type } from 'lucide-react';
+import { AlertCircle, CheckCircle2, MapPin, Type, AlertTriangle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Button from '@/components/admin/Button';
+import issueService from '@/services/issue.service';
 
 export default function ReportIssuePage() {
   const [formData, setFormData] = useState({
     title: '',
     location: '',
     description: '',
+    reporter: '',
+    reporterEmail: '',
     severity: 'Medium',
     category: 'Other',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const categories = [
@@ -38,9 +42,13 @@ export default function ReportIssuePage() {
     if (!formData.title.trim()) newErrors.title = 'Issue title is required';
     if (!formData.location.trim()) newErrors.location = 'Location is required';
     if (!formData.description.trim()) newErrors.description = 'Description is required';
-    if (formData.title.length < 10) newErrors.title = 'Title must be at least 10 characters';
+    if (!formData.reporter.trim()) newErrors.reporter = 'Your name is required';
+    if (formData.title.length < 5) newErrors.title = 'Title must be at least 5 characters';
     if (formData.description.length < 20)
       newErrors.description = 'Description must be at least 20 characters';
+    if (formData.reporterEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.reporterEmail)) {
+      newErrors.reporterEmail = 'Please enter a valid email';
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -50,19 +58,32 @@ export default function ReportIssuePage() {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
+    setSubmitError(null);
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await issueService.createIssue({
+        title: formData.title,
+        location: formData.location,
+        description: formData.description,
+        reporter: formData.reporter,
+        reporterEmail: formData.reporterEmail || undefined,
+        severity: formData.severity as 'Low' | 'Medium' | 'High' | 'Critical',
+        category: formData.category,
+      });
       setSubmitSuccess(true);
       setFormData({
         title: '',
         location: '',
         description: '',
+        reporter: '',
+        reporterEmail: '',
         severity: 'Medium',
         category: 'Other',
       });
       setErrors({});
       setTimeout(() => setSubmitSuccess(false), 5000);
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Failed to submit issue. Please try again.';
+      setSubmitError(message);
     } finally {
       setIsSubmitting(false);
     }
@@ -112,7 +133,60 @@ export default function ReportIssuePage() {
             </motion.div>
           )}
 
+          {submitError && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/30 rounded-xl flex items-start gap-3"
+            >
+              <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="font-semibold text-red-900 dark:text-red-200">
+                  Error submitting report
+                </p>
+                <p className="text-sm text-red-800 dark:text-red-300 mt-1">{submitError}</p>
+              </div>
+            </motion.div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Name/Reporter */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300">
+                Your Name *
+              </label>
+              <input
+                type="text"
+                value={formData.reporter}
+                onChange={(e) => setFormData({ ...formData, reporter: e.target.value })}
+                placeholder="e.g., John Doe"
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white dark:focus:bg-gray-700 transition-all text-gray-900 dark:text-white"
+              />
+              {errors.reporter && (
+                <p className="mt-2 text-sm text-red-600 dark:text-red-400">{errors.reporter}</p>
+              )}
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300">
+                Email (Optional)
+              </label>
+              <input
+                type="email"
+                value={formData.reporterEmail}
+                onChange={(e) => setFormData({ ...formData, reporterEmail: e.target.value })}
+                placeholder="your.email@example.com"
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white dark:focus:bg-gray-700 transition-all text-gray-900 dark:text-white"
+              />
+              {errors.reporterEmail && (
+                <p className="mt-2 text-sm text-red-600 dark:text-red-400">
+                  {errors.reporterEmail}
+                </p>
+              )}
+            </div>
+
             {/* Title */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300">

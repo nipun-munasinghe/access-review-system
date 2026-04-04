@@ -1,94 +1,30 @@
-import { AlertCircle, CheckCircle2, Clock, Edit3 } from 'lucide-react';
+import { AlertCircle, CheckCircle2, Clock, Edit3, Loader } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SummaryCard from '../../components/admin/SummaryCard';
 import DataTable, { type Column } from '../../components/admin/DataTable';
 import Badge from '../../components/admin/Badge';
 import Modal from '../../components/admin/Modal';
 import Button from '../../components/admin/Button';
-
-interface Issue {
-  id: number;
-  title: string;
-  location: string;
-  severity: 'Critical' | 'High' | 'Medium' | 'Low';
-  status: 'Open' | 'In Progress' | 'Resolved';
-  reporter: string;
-  reportedDate: string;
-  description: string;
-}
-
-const REPORTED_ISSUES_DATA: Issue[] = [
-  {
-    id: 1,
-    title: 'Wheelchair access blocked',
-    location: 'City Mall - Main Entrance',
-    severity: 'High',
-    status: 'Open',
-    reporter: 'John Doe',
-    reportedDate: '2024-04-02',
-    description:
-      'The main entrance has a broken wheelchair ramp that prevents wheelchair users from accessing the building.',
-  },
-  {
-    id: 2,
-    title: 'Elevator not functioning',
-    location: 'Central Park - Building A',
-    severity: 'Critical',
-    status: 'In Progress',
-    reporter: 'Sarah Smith',
-    reportedDate: '2024-04-01',
-    description:
-      'Second floor elevator is out of service. This prevents persons with mobility issues from accessing upper floors.',
-  },
-  {
-    id: 3,
-    title: 'Parking spaces unavailable',
-    location: 'Metro Hub - Parking Level 2',
-    severity: 'Medium',
-    status: 'Resolved',
-    reporter: 'Mike Johnson',
-    reportedDate: '2024-03-30',
-    description: 'Accessible parking spaces are occupied by regular vehicles.',
-  },
-  {
-    id: 4,
-    title: 'Braille signage missing',
-    location: 'Library Downtown',
-    severity: 'Medium',
-    status: 'Open',
-    reporter: 'Emily Davis',
-    reportedDate: '2024-03-28',
-    description:
-      'Braille labels missing from elevator buttons, making navigation difficult for visually impaired users.',
-  },
-  {
-    id: 5,
-    title: 'Door automation issue',
-    location: 'Hospital Wing C',
-    severity: 'High',
-    status: 'In Progress',
-    reporter: 'Robert Brown',
-    reportedDate: '2024-03-25',
-    description: 'Automatic door opener not working properly. Manual force required to open doors.',
-  },
-];
+import issueService, { type Issue } from '../../services/issue.service';
 
 const COLUMNS: Column[] = [
   {
     key: 'title',
     header: 'Issue Title',
-    render: (row) => <span className="font-medium text-gray-900 dark:text-white">{row.title}</span>,
+    render: (row: any) => (
+      <span className="font-medium text-gray-900 dark:text-white">{row.title}</span>
+    ),
   },
   {
     key: 'location',
     header: 'Location',
-    render: (row) => <span className="text-gray-700 dark:text-gray-300">{row.location}</span>,
+    render: (row: any) => <span className="text-gray-700 dark:text-gray-300">{row.location}</span>,
   },
   {
     key: 'severity',
     header: 'Severity',
-    render: (row) => {
+    render: (row: any) => {
       const severityColors = {
         Critical: 'danger',
         High: 'warning',
@@ -105,7 +41,7 @@ const COLUMNS: Column[] = [
   {
     key: 'status',
     header: 'Status',
-    render: (row) => {
+    render: (row: any) => {
       const statusVariants = {
         Open: 'warning',
         'In Progress': 'info',
@@ -121,25 +57,53 @@ const COLUMNS: Column[] = [
   {
     key: 'reporter',
     header: 'Reported By',
-    render: (row) => <span className="text-gray-700 dark:text-gray-300">{row.reporter}</span>,
+    render: (row: any) => <span className="text-gray-700 dark:text-gray-300">{row.reporter}</span>,
   },
   {
-    key: 'reportedDate',
+    key: 'createdAt',
     header: 'Date',
-    render: (row) => (
-      <span className="text-gray-700 dark:text-gray-300 text-sm">{row.reportedDate}</span>
+    render: (row: any) => (
+      <span className="text-gray-700 dark:text-gray-300 text-sm">
+        {row.createdAt ? new Date(row.createdAt).toLocaleDateString() : 'N/A'}
+      </span>
     ),
   },
 ];
 
 export default function ReportedIssuesPage() {
-  const [issues, setIssues] = useState<Issue[]>(REPORTED_ISSUES_DATA);
+  const [issues, setIssues] = useState<Issue[]>([]);
+  const [stats, setStats] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
   const [editFormData, setEditFormData] = useState<Partial<Issue>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Load data on component mount
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const [issuesRes, statsRes] = await Promise.all([
+        issueService.getAllIssues(1, 100),
+        issueService.getStats(),
+      ]);
+      setIssues(issuesRes.data.result.data || []);
+      setStats(statsRes.data.result);
+    } catch (err: any) {
+      console.error('Failed to load issues:', err);
+      setError('Failed to load issues. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleViewIssue = (issue: Issue) => {
     setSelectedIssue(issue);
@@ -158,56 +122,105 @@ export default function ReportedIssuesPage() {
   };
 
   const handleSaveEdit = async () => {
-    if (!selectedIssue) return;
+    if (!selectedIssue?._id) return;
     setIsSubmitting(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      const response = await issueService.updateIssue(selectedIssue._id, {
+        status: editFormData.status || selectedIssue.status,
+        severity: editFormData.severity || selectedIssue.severity,
+        adminNotes: editFormData.adminNotes,
+      });
+
       setIssues(
-        issues.map((issue) =>
-          issue.id === selectedIssue.id ? { ...issue, ...editFormData } : issue,
-        ),
+        issues.map((issue) => (issue._id === selectedIssue._id ? response.data.result : issue)),
       );
       setEditModalOpen(false);
       setSelectedIssue(null);
+      setEditFormData({});
+      // Refresh stats
+      await loadData();
+    } catch (err: any) {
+      console.error('Failed to update issue:', err);
+      setError('Failed to update issue. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const handleConfirmDelete = async () => {
-    if (!selectedIssue) return;
+    if (!selectedIssue?._id) return;
     setIsSubmitting(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      setIssues(issues.filter((issue) => issue.id !== selectedIssue.id));
+      await issueService.deleteIssue(selectedIssue._id);
+      setIssues(issues.filter((issue) => issue._id !== selectedIssue._id));
       setDeleteModalOpen(false);
       setSelectedIssue(null);
+      // Refresh stats
+      await loadData();
+    } catch (err: any) {
+      console.error('Failed to delete issue:', err);
+      setError('Failed to delete issue. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}>
+          <Loader className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+        </motion.div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="space-y-8">
+        {/* Error Alert */}
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/30 rounded-xl flex items-start gap-3"
+          >
+            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="font-semibold text-red-900 dark:text-red-200">{error}</p>
+              <Button
+                onClick={loadData}
+                className="mt-2 px-3 py-1 text-sm bg-red-600 text-white hover:bg-red-700 rounded-lg"
+              >
+                Retry
+              </Button>
+            </div>
+          </motion.div>
+        )}
+
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <SummaryCard title="Total Issues" value={issues.length} icon={AlertCircle} delay={0.1} />
+          <SummaryCard
+            title="Total Issues"
+            value={stats?.summary?.total || 0}
+            icon={AlertCircle}
+            delay={0.1}
+          />
           <SummaryCard
             title="Open Issues"
-            value={issues.filter((i) => i.status === 'Open').length}
+            value={stats?.summary?.open || 0}
             icon={Clock}
             delay={0.2}
           />
           <SummaryCard
             title="In Progress"
-            value={issues.filter((i) => i.status === 'In Progress').length}
+            value={stats?.summary?.inProgress || 0}
             icon={Edit3}
             delay={0.3}
           />
           <SummaryCard
             title="Resolved"
-            value={issues.filter((i) => i.status === 'Resolved').length}
+            value={stats?.summary?.resolved || 0}
             icon={CheckCircle2}
             delay={0.4}
           />
@@ -249,22 +262,22 @@ export default function ReportedIssuesPage() {
                 {[
                   {
                     label: 'Critical',
-                    count: issues.filter((i) => i.severity === 'Critical').length,
+                    count: stats?.bySeverity?.Critical || 0,
                     color: 'bg-red-500',
                   },
                   {
                     label: 'High',
-                    count: issues.filter((i) => i.severity === 'High').length,
+                    count: stats?.bySeverity?.High || 0,
                     color: 'bg-orange-500',
                   },
                   {
                     label: 'Medium',
-                    count: issues.filter((i) => i.severity === 'Medium').length,
+                    count: stats?.bySeverity?.Medium || 0,
                     color: 'bg-yellow-500',
                   },
                   {
                     label: 'Low',
-                    count: issues.filter((i) => i.severity === 'Low').length,
+                    count: stats?.bySeverity?.Low || 0,
                     color: 'bg-green-500',
                   },
                 ].map((item) => (
@@ -290,17 +303,17 @@ export default function ReportedIssuesPage() {
                 {[
                   {
                     label: 'Open',
-                    count: issues.filter((i) => i.status === 'Open').length,
+                    count: stats?.summary?.open || 0,
                     color: 'bg-blue-500',
                   },
                   {
                     label: 'In Progress',
-                    count: issues.filter((i) => i.status === 'In Progress').length,
+                    count: stats?.summary?.inProgress || 0,
                     color: 'bg-purple-500',
                   },
                   {
                     label: 'Resolved',
-                    count: issues.filter((i) => i.status === 'Resolved').length,
+                    count: stats?.summary?.resolved || 0,
                     color: 'bg-green-500',
                   },
                 ].map((item) => (
@@ -320,14 +333,22 @@ export default function ReportedIssuesPage() {
             {/* Response Time */}
             <div className="space-y-4">
               <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
-                Average Response Time
+                Response Time (ms)
               </h3>
               <div className="space-y-3">
                 {[
-                  { label: 'Critical', time: '2 hours' },
-                  { label: 'High', time: '8 hours' },
-                  { label: 'Medium', time: '24 hours' },
-                  { label: 'Low', time: '48 hours' },
+                  {
+                    label: 'Average',
+                    time: stats?.responseMetrics?.avgResponseTime?.toLocaleString() || 'N/A',
+                  },
+                  {
+                    label: 'Min',
+                    time: stats?.responseMetrics?.minResponseTime?.toLocaleString() || 'N/A',
+                  },
+                  {
+                    label: 'Max',
+                    time: stats?.responseMetrics?.maxResponseTime?.toLocaleString() || 'N/A',
+                  },
                 ].map((item) => (
                   <div key={item.label} className="flex items-center justify-between">
                     <span className="text-sm text-gray-700 dark:text-gray-300">{item.label}</span>
@@ -400,9 +421,29 @@ export default function ReportedIssuesPage() {
                   Reported Date
                 </p>
                 <p className="text-gray-900 dark:text-white font-semibold">
-                  {selectedIssue.reportedDate}
+                  {selectedIssue.createdAt
+                    ? new Date(selectedIssue.createdAt).toLocaleDateString()
+                    : 'N/A'}
                 </p>
               </div>
+              {selectedIssue.reporterEmail && (
+                <div>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Email</p>
+                  <p className="text-gray-900 dark:text-white font-semibold">
+                    {selectedIssue.reporterEmail}
+                  </p>
+                </div>
+              )}
+              {selectedIssue.category && (
+                <div>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
+                    Category
+                  </p>
+                  <p className="text-gray-900 dark:text-white font-semibold">
+                    {selectedIssue.category}
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Description */}
@@ -414,6 +455,18 @@ export default function ReportedIssuesPage() {
                 {selectedIssue.description}
               </p>
             </div>
+
+            {/* Admin Notes */}
+            {selectedIssue.adminNotes && (
+              <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800/30">
+                <p className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">
+                  Admin Notes
+                </p>
+                <p className="text-blue-800 dark:text-blue-300 text-sm">
+                  {selectedIssue.adminNotes}
+                </p>
+              </div>
+            )}
 
             {/* Action Buttons */}
             <div className="flex gap-3 pt-4 border-t border-gray-100 dark:border-gray-800">
@@ -458,7 +511,7 @@ export default function ReportedIssuesPage() {
                 Status
               </label>
               <select
-                value={editFormData.status || selectedIssue.status}
+                value={editFormData.status || selectedIssue.status || 'Open'}
                 onChange={(e) =>
                   setEditFormData({
                     ...editFormData,
@@ -479,7 +532,7 @@ export default function ReportedIssuesPage() {
                 Severity
               </label>
               <select
-                value={editFormData.severity || selectedIssue.severity}
+                value={editFormData.severity || selectedIssue.severity || 'Medium'}
                 onChange={(e) =>
                   setEditFormData({
                     ...editFormData,
@@ -495,14 +548,15 @@ export default function ReportedIssuesPage() {
               </select>
             </div>
 
-            {/* Description */}
+            {/* Admin Notes */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Notes
+                Admin Notes
               </label>
               <textarea
-                value={editFormData.description || selectedIssue.description}
-                onChange={(e) => setEditFormData({ ...editFormData, description: e.target.value })}
+                value={editFormData.adminNotes || ''}
+                onChange={(e) => setEditFormData({ ...editFormData, adminNotes: e.target.value })}
+                placeholder="Add internal notes about this issue..."
                 rows={4}
                 className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white dark:focus:bg-gray-700 transition-all text-gray-900 dark:text-white resize-none"
               />
