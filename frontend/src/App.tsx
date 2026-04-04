@@ -12,6 +12,7 @@ import PublicSpacesPage from './pages/admin/PublicSpacesPage';
 import AccessFeaturesPage from './pages/admin/AccessFeaturesPage';
 import ReviewsPage from './pages/admin/ReviewsPage';
 import UsersPage from './pages/admin/UsersPage';
+import ReportedIssuesPage from './pages/admin/ReportedIssuesPage';
 
 function MainLayout() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="features" element={<AccessFeaturesPage />} />
           <Route path="reviews" element={<ReviewsPage />} />
           <Route path="users" element={<UsersPage />} />
+          <Route path="issues" element={<ReportedIssuesPage />} />
           <Route
             path="analytics"
             element={<div className="p-8 font-medium">Analytics (Coming Soon)</div>}
