@@ -1,4 +1,4 @@
-import { AlertCircle, MapPin, Type } from 'lucide-react';
+import { AlertCircle, MapPin, Type, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -369,7 +369,10 @@ export default function ReportIssuePage() {
                 disabled={formik.isSubmitting || !formik.isValid}
                 className="flex-1 h-12 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
-                {formik.isSubmitting ? 'Submitting...' : 'Submit Report'}
+                <div className="flex items-center justify-center gap-2">
+                  {formik.isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
+                  <span>{formik.isSubmitting ? 'Submitting...' : 'Submit Report'}</span>
+                </div>
               </Button>
             </div>
           </form>
