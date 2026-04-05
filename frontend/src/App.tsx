@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import HomePage from './pages/HomePage';
 import Login from './components/auth/login.component';
 import Register from './components/auth/register.component';
@@ -27,6 +29,18 @@ function MainLayout() {
 function App() {
   return (
     <Router>
+      <ToastContainer
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Routes>
         {/* Public / Main Routes */}
         <Route element={<MainLayout />}>
