@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { AlertCircle, CheckCircle2, MapPin, Type, AlertTriangle } from 'lucide-react';
+import { AlertCircle, MapPin, Type } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Button from '@/components/admin/Button';
 import issueService from '@/services/issue.service';
+import { useToast } from '@/hooks/useToast';
 
 const validationSchema = Yup.object().shape({
   title: Yup.string()
@@ -53,8 +53,7 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function ReportIssuePage() {
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  const { success: showSuccessToast, error: showErrorToast } = useToast();
 
   const formik = useFormik({
     initialValues: {
@@ -70,7 +69,6 @@ export default function ReportIssuePage() {
     validateOnChange: true,
     validateOnBlur: true,
     onSubmit: async (values) => {
-      setSubmitError(null);
       try {
         await issueService.createIssue({
           title: values.title,
@@ -81,13 +79,13 @@ export default function ReportIssuePage() {
           severity: values.severity as 'Low' | 'Medium' | 'High' | 'Critical',
           category: values.category,
         });
-        setSubmitSuccess(true);
+        showSuccessToast('Issue reported successfully! Thank you for helping us improve accessibility.');
         formik.resetForm();
-        setTimeout(() => setSubmitSuccess(false), 5000);
-      } catch (error: any) {
+      } catch (error) {
+        const apiError = error as { response?: { data?: { message?: string } } };
         const message =
-          error.response?.data?.message || 'Failed to submit issue. Please try again.';
-        setSubmitError(message);
+          apiError.response?.data?.message || 'Failed to submit issue. Please try again.';
+        showErrorToast(message);
       }
     },
   });
@@ -144,43 +142,6 @@ export default function ReportIssuePage() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-800 p-8 transition-colors duration-300"
         >
-          {submitSuccess && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800/30 rounded-xl flex items-start gap-3"
-            >
-              <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="font-semibold text-green-900 dark:text-green-200">
-                  Issue reported successfully!
-                </p>
-                <p className="text-sm text-green-800 dark:text-green-300 mt-1">
-                  Thank you for helping us improve accessibility. Our team will review your report
-                  shortly.
-                </p>
-              </div>
-            </motion.div>
-          )}
-
-          {submitError && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/30 rounded-xl flex items-start gap-3"
-            >
-              <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="font-semibold text-red-900 dark:text-red-200">
-                  Error submitting report
-                </p>
-                <p className="text-sm text-red-800 dark:text-red-300 mt-1">{submitError}</p>
-              </div>
-            </motion.div>
-          )}
-
           <form onSubmit={formik.handleSubmit} className="space-y-6">
             {/* Name/Reporter */}
             <div>
