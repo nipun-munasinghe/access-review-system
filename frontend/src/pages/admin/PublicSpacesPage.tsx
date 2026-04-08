@@ -236,7 +236,7 @@ export default function PublicSpacesPage() {
       key: 'locationDetails',
       header: 'Address',
       render: (row) => (
-        <span className="text-gray-300 max-w-[200px] truncate block">
+        <span className="text-gray-300 max-w-50 truncate block">
           {row.locationDetails.address}
         </span>
       ),
@@ -264,7 +264,7 @@ export default function PublicSpacesPage() {
       key: 'description',
       header: 'Description',
       render: (row) => (
-        <span className="text-gray-400 text-xs max-w-[160px] truncate block">
+        <span className="text-gray-400 text-xs max-w-40 truncate block">
           {row.description || '—'}
         </span>
       ),
@@ -520,7 +520,7 @@ export default function PublicSpacesPage() {
                     type="submit"
                     disabled={formik.isSubmitting}
                     className="flex items-center gap-2 px-5 py-2 text-sm rounded-lg font-medium text-white
-                               bg-gradient-to-r from-pink-500 via-purple-600 to-blue-500
+                               bg-linear-to-r from-pink-500 via-purple-600 to-blue-500
                                hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
                   >
                     {formik.isSubmitting && <Loader2 size={14} className="animate-spin" />}
