@@ -103,9 +103,7 @@ export default function GenerateReportModal({
 
             <div className="max-h-[80vh] overflow-y-auto p-6">
               <div className="mb-5 rounded-2xl border border-gray-200 bg-white/80 px-4 py-3 text-sm text-gray-600 shadow-sm dark:border-gray-800 dark:bg-gray-900/70 dark:text-gray-300">
-                <div className="font-medium text-gray-900 dark:text-white">
-                  Report preview
-                </div>
+                <div className="font-medium text-gray-900 dark:text-white">Report preview</div>
                 <div className="mt-1">
                   {getReportSummary(options)} | Records ready: {preparedFeatures.length}
                 </div>

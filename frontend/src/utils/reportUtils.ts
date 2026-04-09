@@ -49,10 +49,8 @@ export function filterAndSortAccessFeatures(
       return true;
     }
 
-    const matchesCategory =
-      options.category === 'All' || feature.category === options.category;
-    const matchesSearch =
-      !search || feature.name.toLowerCase().includes(search);
+    const matchesCategory = options.category === 'All' || feature.category === options.category;
+    const matchesSearch = !search || feature.name.toLowerCase().includes(search);
 
     return matchesCategory && matchesSearch;
   });
@@ -62,9 +60,7 @@ export function filterAndSortAccessFeatures(
       case 'name-desc':
         return b.name.localeCompare(a.name);
       case 'recently-added':
-        return (
-          new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
-        );
+        return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
       case 'category':
         return a.category.localeCompare(b.category) || a.name.localeCompare(b.name);
       case 'name-asc':
@@ -111,9 +107,7 @@ export function formatFeatureValue(feature: AccessFeature, field: ReportField) {
     case 'description':
       return feature.description;
     case 'createdAt':
-      return feature.createdAt
-        ? new Date(feature.createdAt).toLocaleDateString()
-        : '-';
+      return feature.createdAt ? new Date(feature.createdAt).toLocaleDateString() : '-';
     case 'status':
       return feature.isActive ? 'Active' : 'Inactive';
     default:
