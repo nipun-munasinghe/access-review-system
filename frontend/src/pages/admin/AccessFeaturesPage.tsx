@@ -30,7 +30,9 @@ export default function AccessFeaturesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<'All' | AccessFeature['category']>('All');
+  const [selectedCategory, setSelectedCategory] = useState<'All' | AccessFeature['category']>(
+    'All',
+  );
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
   const categoryMenuRef = useRef<HTMLDivElement>(null);
   const [isFormCategoryMenuOpen, setIsFormCategoryMenuOpen] = useState(false);
@@ -203,8 +205,7 @@ export default function AccessFeaturesPage() {
   ];
 
   const filteredFeatures = features.filter((feature) => {
-    const matchesCategory =
-      selectedCategory === 'All' || feature.category === selectedCategory;
+    const matchesCategory = selectedCategory === 'All' || feature.category === selectedCategory;
 
     return matchesCategory;
   });
@@ -221,7 +222,9 @@ export default function AccessFeaturesPage() {
         whileTap={{ scale: 0.99 }}
         onClick={() => setIsCategoryMenuOpen((open) => !open)}
         className={`group relative flex h-11 min-w-[210px] items-center justify-between gap-3 rounded-2xl border bg-white/95 px-4 text-sm text-gray-900 shadow-[0_8px_24px_rgba(15,23,42,0.06)] outline-none transition-all duration-300 hover:-translate-y-0.5 hover:border-[#7928CA]/25 hover:shadow-[0_12px_30px_rgba(121,40,202,0.10)] focus-visible:border-[#7928CA]/35 focus-visible:shadow-[0_0_0_4px_rgba(121,40,202,0.12),0_14px_32px_rgba(0,112,243,0.10)] dark:border-gray-700 dark:bg-gray-800/95 dark:text-white dark:hover:border-[#38BDF8]/30 dark:hover:shadow-[0_12px_30px_rgba(56,189,248,0.10)] dark:focus-visible:border-[#38BDF8]/40 dark:focus-visible:shadow-[0_0_0_4px_rgba(56,189,248,0.12),0_14px_32px_rgba(56,189,248,0.10)] ${
-          isCategoryMenuOpen ? 'border-[#7928CA]/30 shadow-[0_0_0_4px_rgba(121,40,202,0.10),0_14px_32px_rgba(0,112,243,0.10)] dark:border-[#38BDF8]/35 dark:shadow-[0_0_0_4px_rgba(56,189,248,0.12),0_14px_32px_rgba(56,189,248,0.10)]' : 'border-gray-200 dark:border-gray-700'
+          isCategoryMenuOpen
+            ? 'border-[#7928CA]/30 shadow-[0_0_0_4px_rgba(121,40,202,0.10),0_14px_32px_rgba(0,112,243,0.10)] dark:border-[#38BDF8]/35 dark:shadow-[0_0_0_4px_rgba(56,189,248,0.12),0_14px_32px_rgba(56,189,248,0.10)]'
+            : 'border-gray-200 dark:border-gray-700'
         }`}
         aria-haspopup="menu"
         aria-expanded={isCategoryMenuOpen}

@@ -98,7 +98,12 @@ export default function ReportOptionsForm({
             <Tags className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 dark:text-gray-500" />
             <select
               value={options.category}
-              onChange={(event) => updateField('category', event.target.value as AccessFeatureReportOptions['category'])}
+              onChange={(event) =>
+                updateField(
+                  'category',
+                  event.target.value as AccessFeatureReportOptions['category'],
+                )
+              }
               disabled={options.includeAll}
               className={`${inputClassName} appearance-none pl-11 disabled:cursor-not-allowed disabled:opacity-60`}
             >
@@ -128,14 +133,14 @@ export default function ReportOptionsForm({
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            Sort by
-          </label>
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Sort by</label>
           <div className="relative">
             <SlidersHorizontal className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 dark:text-gray-500" />
             <select
               value={options.sortBy}
-              onChange={(event) => updateField('sortBy', event.target.value as AccessFeatureReportOptions['sortBy'])}
+              onChange={(event) =>
+                updateField('sortBy', event.target.value as AccessFeatureReportOptions['sortBy'])
+              }
               className={`${inputClassName} appearance-none pl-11`}
             >
               {sortOptions.map((option) => (
@@ -180,9 +185,7 @@ export default function ReportOptionsForm({
             <FileText className="h-4 w-4" />
           </span>
           <div>
-            <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
-              Report fields
-            </h4>
+            <h4 className="text-sm font-semibold text-gray-900 dark:text-white">Report fields</h4>
             <p className="text-xs text-gray-500 dark:text-gray-400">
               Choose which columns appear in the downloaded report.
             </p>

@@ -9,6 +9,7 @@ export interface LoginResponse {
       id: string;
       name: string;
       email?: string;
+      surname?: string;
       isLoggedIn: boolean;
       userType: 'user' | 'admin' | 'moderator';
     };
@@ -22,6 +23,7 @@ interface StoredUser {
     id: string;
     name: string;
     email?: string;
+    surname?: string;
     isLoggedIn: boolean;
     userType: string;
   };
