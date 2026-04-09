@@ -241,7 +241,9 @@ const featureCards = [
                   <MapPinned size={16} style={{ color: loc.color }} />
                 </div>
                 <div>
-                  <p className="mb-1 text-sm font-bold leading-none text-gray-900 dark:text-white">{loc.name}</p>
+                  <p className="mb-1 text-sm font-bold leading-none text-gray-900 dark:text-white">
+                    {loc.name}
+                  </p>
                   <Stars rating={loc.rating} />
                 </div>
                 <span
@@ -425,7 +427,9 @@ const featureCards = [
             >
               <div className="flex items-center gap-4">
                 <div className="w-3.5 h-3.5 rounded-full" style={{ backgroundColor: item.color }} />
-                <span className="text-base font-semibold text-gray-800 dark:text-slate-100">{item.label}</span>
+                <span className="text-base font-semibold text-gray-800 dark:text-slate-100">
+                  {item.label}
+                </span>
               </div>
               <span
                 className="text-sm font-bold px-4 py-1.5 rounded-full"
@@ -483,7 +487,10 @@ const featureCards = [
               tag: 'Quiet Zone ✓',
             },
           ].map((r) => (
-            <div key={r.name} className="rounded-2xl border border-gray-100 bg-gray-50 px-6 py-5 dark:border-white/10 dark:bg-slate-950/70">
+            <div
+              key={r.name}
+              className="rounded-2xl border border-gray-100 bg-gray-50 px-6 py-5 dark:border-white/10 dark:bg-slate-950/70"
+            >
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#7928CA] to-[#0070F3] flex items-center justify-center text-white text-sm font-black">
@@ -493,7 +500,9 @@ const featureCards = [
                 </div>
                 <Stars rating={r.stars} />
               </div>
-              <p className="mb-3 text-sm leading-relaxed text-gray-500 dark:text-slate-300">"{r.review}"</p>
+              <p className="mb-3 text-sm leading-relaxed text-gray-500 dark:text-slate-300">
+                "{r.review}"
+              </p>
               <span
                 className="text-xs font-bold px-3 py-1 rounded-full text-[#7928CA]"
                 style={{ backgroundColor: '#7928CA18' }}
@@ -562,7 +571,9 @@ const featureCards = [
               </div>
             ))}
           </div>
-          <div className="mb-3 text-sm font-semibold text-gray-400 dark:text-slate-400">Recent Activity</div>
+          <div className="mb-3 text-sm font-semibold text-gray-400 dark:text-slate-400">
+            Recent Activity
+          </div>
           {['Reviewed City Mall', 'Bookmarked Central Park', 'Added Metro Hub lift info'].map(
             (a) => (
               <div

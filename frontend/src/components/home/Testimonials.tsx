@@ -112,7 +112,9 @@ function Stars({ rating, max = 5 }: { rating: number; max?: number }) {
           key={i}
           className={cn(
             'w-3.5 h-3.5',
-            i < rating ? 'fill-yellow-400 text-yellow-400' : 'fill-gray-200 text-gray-200 dark:fill-slate-700 dark:text-slate-700',
+            i < rating
+              ? 'fill-yellow-400 text-yellow-400'
+              : 'fill-gray-200 text-gray-200 dark:fill-slate-700 dark:text-slate-700',
           )}
         />
       ))}
@@ -199,7 +201,9 @@ function TestimonialCard({ name, role, avatar, text, rating }: (typeof testimoni
           <figcaption className="truncate text-lg font-black leading-tight text-gray-900 dark:text-white">
             {name}
           </figcaption>
-          <p className="mt-0.5 truncate text-xs font-medium text-gray-400 dark:text-slate-400">{role}</p>
+          <p className="mt-0.5 truncate text-xs font-medium text-gray-400 dark:text-slate-400">
+            {role}
+          </p>
         </div>
       </div>
 
