@@ -6,8 +6,9 @@ import type {
   ReviewSearchResponse,
 } from '../types/review.type';
 import authHeader from '@/services/auth-header.ts';
+import { buildApiUrl } from '@/lib/api';
 
-const API_URL = `${import.meta.env.VITE_API_URL}/review`;
+const API_URL = buildApiUrl('review');
 
 const getHeaders = () => {
   return {
