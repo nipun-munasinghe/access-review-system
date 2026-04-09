@@ -42,9 +42,7 @@ const validationSchema = Yup.object({
     .min(3, 'Name must be at least 3 characters')
     .max(100, 'Name must not exceed 100 characters')
     .trim(),
-  category: Yup.string()
-    .required('Category is required')
-    .oneOf(CATEGORIES, 'Invalid category'),
+  category: Yup.string().required('Category is required').oneOf(CATEGORIES, 'Invalid category'),
   address: Yup.string()
     .required('Address is required')
     .min(5, 'Address must be at least 5 characters')
@@ -228,26 +226,20 @@ export default function PublicSpacesPage() {
     {
       key: 'name',
       header: 'Name',
-      render: (row) => (
-        <span className="font-medium text-white">{row.name}</span>
-      ),
+      render: (row) => <span className="font-medium text-white">{row.name}</span>,
     },
     {
       key: 'locationDetails',
       header: 'Address',
       render: (row) => (
-        <span className="text-gray-300 max-w-50 truncate block">
-          {row.locationDetails.address}
-        </span>
+        <span className="text-gray-300 max-w-50 truncate block">{row.locationDetails.address}</span>
       ),
     },
     {
       key: 'category',
       header: 'Category',
       render: (row: PublicSpace) => (
-        <span className={`font-medium ${CATEGORY_COLORS[row.category]}`}>
-          {row.category}
-        </span>
+        <span className={`font-medium ${CATEGORY_COLORS[row.category]}`}>{row.category}</span>
       ),
     },
     {
@@ -366,14 +358,16 @@ export default function PublicSpacesPage() {
 
               {/* Form */}
               <form onSubmit={formik.handleSubmit} className="px-6 py-5 space-y-4">
-
                 {/* Space Name */}
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-1.5">
                     Space Name <span className="text-red-400">*</span>
                   </label>
                   <div className="relative">
-                    <Tag size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                    <Tag
+                      size={14}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                    />
                     <input
                       type="text"
                       {...formik.getFieldProps('name')}
@@ -412,7 +406,10 @@ export default function PublicSpacesPage() {
                     Address <span className="text-red-400">*</span>
                   </label>
                   <div className="relative">
-                    <MapPin size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                    <MapPin
+                      size={14}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                    />
                     <input
                       type="text"
                       {...formik.getFieldProps('address')}
@@ -432,7 +429,10 @@ export default function PublicSpacesPage() {
                       Latitude <span className="text-red-400">*</span>
                     </label>
                     <div className="relative">
-                      <Navigation size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                      <Navigation
+                        size={14}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                      />
                       <input
                         type="number"
                         step="any"
@@ -450,7 +450,10 @@ export default function PublicSpacesPage() {
                       Longitude <span className="text-red-400">*</span>
                     </label>
                     <div className="relative">
-                      <Navigation size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none rotate-90" />
+                      <Navigation
+                        size={14}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none rotate-90"
+                      />
                       <input
                         type="number"
                         step="any"
@@ -471,7 +474,10 @@ export default function PublicSpacesPage() {
                     Image URL <span className="text-gray-500 text-xs font-normal">(optional)</span>
                   </label>
                   <div className="relative">
-                    <Image size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                    <Image
+                      size={14}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                    />
                     <input
                       type="url"
                       {...formik.getFieldProps('imageUrl')}
@@ -493,7 +499,10 @@ export default function PublicSpacesPage() {
                     </span>
                   </label>
                   <div className="relative">
-                    <FileText size={14} className="absolute left-3 top-3 text-gray-400 pointer-events-none" />
+                    <FileText
+                      size={14}
+                      className="absolute left-3 top-3 text-gray-400 pointer-events-none"
+                    />
                     <textarea
                       rows={3}
                       {...formik.getFieldProps('description')}
@@ -707,13 +716,7 @@ export default function PublicSpacesPage() {
 }
 
 // Small helper component
-function DetailRow({
-  label,
-  value,
-}: {
-  label: string;
-  value: React.ReactNode;
-}) {
+function DetailRow({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="flex gap-3">
       <span className="text-xs font-medium text-gray-500 w-24 shrink-0 pt-0.5">{label}</span>

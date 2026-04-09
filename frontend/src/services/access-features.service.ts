@@ -1,7 +1,7 @@
 import axios from 'axios';
-import authService from './auth.service';
+import authHeader from '@/services/auth-header.ts';
 
-const API_URL = `${import.meta.env.VITE_API_URL}access-features`;
+const API_URL = `${import.meta.env.VITE_API_URL}/access-features`;
 
 export interface AccessFeature {
   _id?: string;
@@ -12,11 +12,8 @@ export interface AccessFeature {
 }
 
 const getHeaders = () => {
-  const token = authService.getToken();
   return {
-    headers: {
-      'x-auth-token': token ? token : '',
-    },
+    headers: authHeader(),
   };
 };
 

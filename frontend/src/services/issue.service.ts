@@ -1,7 +1,7 @@
 import axios from 'axios';
-import authService from './auth.service';
+import authHeader from '@/services/auth-header.ts';
 
-const API_URL = `${import.meta.env.VITE_API_URL}issue`;
+const API_URL = `${import.meta.env.VITE_API_URL}/issue`;
 
 export interface Issue {
   _id?: string;
@@ -62,11 +62,8 @@ export interface StatsResponse {
 }
 
 const getHeaders = () => {
-  const token = authService.getToken();
   return {
-    headers: {
-      'x-auth-token': token ? token : '',
-    },
+    headers: authHeader(),
   };
 };
 
