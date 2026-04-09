@@ -474,8 +474,10 @@ export default function ExploreSpacesPage() {
 
   return (
     <div className="h-dvh flex flex-col overflow-hidden bg-white dark:bg-gray-950 transition-colors duration-300">
-      {/* Spacer for fixed header */}
-      <div className="h-20 flex-shrink-0" />
+      {/* Spacer for fixed header.
+          Header height = py-8 (32px top + 32px bottom) + p-2 inner padding (8+8px)
+          + tallest nav item h-12 (48px) = 128px = h-32. */}
+      <div className="h-32 flex-shrink-0" />
 
       {/* ── Control bar ─────────────────────────────────────────────── */}
       <div className="flex-shrink-0 border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-950/95 backdrop-blur-sm">
