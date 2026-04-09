@@ -5,3 +5,5 @@ frontend/node_modules/
 .idea
 .variables.env
 .env
+
+/.claude/

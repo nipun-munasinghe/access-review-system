@@ -11,7 +11,7 @@ import { useTheme } from '@/hooks/useTheme';
 
 const navigation = [
   { name: 'Home', href: '/' },
-  { name: 'Explore Spaces', href: '#' },
+  { name: 'Explore Spaces', href: '/explore-spaces' },
   { name: 'Reviews', href: '#' },
   { name: 'Accessibility Features', href: '#' },
   { name: 'Report Issue', href: '/report-issue' },
