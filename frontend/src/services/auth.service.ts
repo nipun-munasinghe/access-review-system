@@ -31,7 +31,7 @@ interface StoredUser {
 class AuthService {
   login(username: string, password: string) {
     return axios
-      .post<LoginResponse>(API_URL + 'login', {
+      .post<LoginResponse>(API_URL + '/login', {
         email: username,
         password,
       })
@@ -59,7 +59,7 @@ class AuthService {
     surname?: string,
     passwordCheck?: string,
   ) {
-    return axios.post(API_URL + 'register', {
+    return axios.post(API_URL + '/register', {
       email,
       name,
       surname,
