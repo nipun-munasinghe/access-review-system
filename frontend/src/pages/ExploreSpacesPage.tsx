@@ -23,7 +23,7 @@ import { Link } from 'react-router-dom';
 import publicSpaceService from '@/services/public-space.service';
 import type { PublicSpace, SpaceCategory } from '@/types/publicSpace.type';
 
-// ─── Category config ──────────────────────────────────────────────────────────
+// Category config
 
 const CATEGORY_COLOR: Record<SpaceCategory, string> = {
   Mall: '#7928CA',
@@ -57,7 +57,7 @@ const FEATURE_CATEGORY_COLOR: Record<string, string> = {
   Other: '#6b7280',
 };
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// Helpers
 
 const hasValidCoords = (space: PublicSpace): boolean => {
   const { lat, lng } = space.locationDetails.coordinates;
@@ -72,7 +72,7 @@ const hasValidCoords = (space: PublicSpace): boolean => {
   );
 };
 
-// ─── Custom map marker ────────────────────────────────────────────────────────
+// Custom map marker
 
 const createMarkerIcon = (category: SpaceCategory, isSelected = false) => {
   const color = isSelected ? '#FF0080' : (CATEGORY_COLOR[category] ?? '#6b7280');
@@ -91,7 +91,7 @@ const createMarkerIcon = (category: SpaceCategory, isSelected = false) => {
   });
 };
 
-// ─── Map fly-to controller ────────────────────────────────────────────────────
+// Map fly-to controller
 
 function MapController({ target }: { target: { coords: [number, number]; id: string } | null }) {
   const map = useMap();
@@ -103,7 +103,7 @@ function MapController({ target }: { target: { coords: [number, number]; id: str
   return null;
 }
 
-// ─── Space card ───────────────────────────────────────────────────────────────
+//Space card
 
 interface SpaceCardProps {
   space: PublicSpace;
@@ -123,15 +123,14 @@ function SpaceCard({ space, isSelected, onClick, index }: SpaceCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.18, delay: Math.min(index * 0.035, 0.4) }}
       onClick={onClick}
-      className={`w-full text-left rounded-xl border p-3 transition-all group ${
-        isSelected
-          ? 'border-[#7928CA]/50 bg-white dark:bg-gray-800 shadow-md shadow-[#7928CA]/10'
-          : 'border-gray-200 dark:border-gray-700/50 bg-white dark:bg-gray-800/40 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm'
-      }`}
+      className={`w-full text-left rounded-xl border p-3 transition-all group ${isSelected
+        ? 'border-[#7928CA]/50 bg-white dark:bg-gray-800 shadow-md shadow-[#7928CA]/10'
+        : 'border-gray-200 dark:border-gray-700/50 bg-white dark:bg-gray-800/40 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm'
+        }`}
     >
       <div className="flex items-start gap-3">
         <div
-          className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-sm"
+          className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-sm"
           style={{ background: `linear-gradient(135deg, ${color}cc, ${color})` }}
         >
           {icon}
@@ -139,9 +138,8 @@ function SpaceCard({ space, isSelected, onClick, index }: SpaceCardProps) {
 
         <div className="flex-1 min-w-0">
           <p
-            className={`text-sm font-bold truncate leading-snug ${
-              isSelected ? 'text-[#7928CA] dark:text-purple-400' : 'text-gray-900 dark:text-white'
-            }`}
+            className={`text-sm font-bold truncate leading-snug ${isSelected ? 'text-[#7928CA] dark:text-purple-400' : 'text-gray-900 dark:text-white'
+              }`}
           >
             {space.name}
           </p>
@@ -154,7 +152,7 @@ function SpaceCard({ space, isSelected, onClick, index }: SpaceCardProps) {
           </span>
 
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1.5 flex items-start gap-1 leading-tight">
-            <MapPin className="w-3 h-3 mt-0.5 flex-shrink-0 text-gray-400" />
+            <MapPin className="w-3 h-3 mt-0.5 shrink-0 text-gray-400" />
             <span className="line-clamp-2">{space.locationDetails.address}</span>
           </p>
 
@@ -167,18 +165,17 @@ function SpaceCard({ space, isSelected, onClick, index }: SpaceCardProps) {
         </div>
 
         <ChevronRight
-          className={`flex-shrink-0 w-4 h-4 mt-1 transition-all ${
-            isSelected
-              ? 'text-[#7928CA]'
-              : 'text-gray-300 dark:text-gray-600 group-hover:text-gray-500 dark:group-hover:text-gray-400'
-          }`}
+          className={`shrink-0 w-4 h-4 mt-1 transition-all ${isSelected
+            ? 'text-[#7928CA]'
+            : 'text-gray-300 dark:text-gray-600 group-hover:text-gray-500 dark:group-hover:text-gray-400'
+            }`}
         />
       </div>
     </motion.button>
   );
 }
 
-// ─── Detail modal ─────────────────────────────────────────────────────────────
+// detail modal
 
 function SpaceDetailModal({ space, onClose }: { space: PublicSpace; onClose: () => void }) {
   const color = CATEGORY_COLOR[space.category] ?? '#6b7280';
@@ -192,7 +189,7 @@ function SpaceDetailModal({ space, onClose }: { space: PublicSpace; onClose: () 
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center p-0 sm:p-4"
+      className="fixed inset-0 z-9999 flex items-end sm:items-center justify-center p-0 sm:p-4"
       onClick={onClose}
     >
       <div className="absolute inset-0 bg-black/45 backdrop-blur-sm" />
@@ -207,23 +204,23 @@ function SpaceDetailModal({ space, onClose }: { space: PublicSpace; onClose: () 
       >
         {/* Brand stripe */}
         <div
-          className="h-1.5 w-full flex-shrink-0"
+          className="h-1.5 w-full shrink-0"
           style={{ background: 'linear-gradient(90deg,#FF0080,#7928CA,#0070F3)' }}
         />
 
         {/* Mobile drag handle */}
-        <div className="flex justify-center pt-3 pb-1 sm:hidden flex-shrink-0">
+        <div className="flex justify-center pt-3 pb-1 sm:hidden shrink-0">
           <div className="w-10 h-1 bg-gray-200 dark:bg-gray-700 rounded-full" />
         </div>
 
         {/* Header image or gradient */}
         {space.imageUrl ? (
-          <div className="flex-shrink-0 h-44 overflow-hidden">
+          <div className="shrink-0 h-44 overflow-hidden">
             <img src={space.imageUrl} alt={space.name} className="w-full h-full object-cover" />
           </div>
         ) : (
           <div
-            className="flex-shrink-0 h-28 flex items-center justify-center"
+            className="shrink-0 h-28 flex items-center justify-center"
             style={{ background: `linear-gradient(135deg, ${color}1a, ${color}0d)` }}
           >
             <div
@@ -253,7 +250,7 @@ function SpaceDetailModal({ space, onClose }: { space: PublicSpace; onClose: () 
             </div>
             <button
               onClick={onClose}
-              className="flex-shrink-0 w-9 h-9 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              className="shrink-0 w-9 h-9 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
             >
               <X className="w-4 h-4 text-gray-600 dark:text-gray-300" />
             </button>
@@ -261,7 +258,7 @@ function SpaceDetailModal({ space, onClose }: { space: PublicSpace; onClose: () 
 
           {/* Address */}
           <div className="flex items-start gap-3 p-3.5 bg-gray-50 dark:bg-gray-800 rounded-xl">
-            <MapPin className="w-4 h-4 text-[#7928CA] dark:text-purple-400 mt-0.5 flex-shrink-0" />
+            <MapPin className="w-4 h-4 text-[#7928CA] dark:text-purple-400 mt-0.5 shrink-0" />
             <div>
               <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-0.5">
                 Location
@@ -307,7 +304,7 @@ function SpaceDetailModal({ space, onClose }: { space: PublicSpace; onClose: () 
                       className="flex items-start gap-2.5 p-3 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700/60"
                     >
                       <div
-                        className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0"
+                        className="w-2 h-2 rounded-full mt-1.5 shrink-0"
                         style={{ backgroundColor: fColor }}
                       />
                       <div className="min-w-0">
@@ -343,7 +340,7 @@ function SpaceDetailModal({ space, onClose }: { space: PublicSpace; onClose: () 
         </div>
 
         {/* Action buttons */}
-        <div className="flex-shrink-0 p-4 border-t border-gray-100 dark:border-gray-800 flex gap-2.5">
+        <div className="shrink-0 p-4 border-t border-gray-100 dark:border-gray-800 flex gap-2.5">
           {hasValidCoords(space) && (
             <a
               href={mapsUrl}
@@ -369,14 +366,14 @@ function SpaceDetailModal({ space, onClose }: { space: PublicSpace; onClose: () 
   );
 }
 
-// ─── Main page ────────────────────────────────────────────────────────────────
+//  Main page
 
 type ViewMode = 'split' | 'list' | 'map';
 type CategoryFilter = SpaceCategory | 'All';
 
 const CATEGORIES: CategoryFilter[] = ['All', 'Mall', 'Park', 'Hospital', 'Station', 'Other'];
 
-// Standard OSM tiles — always work, no API key required
+// Standard OSM tiles - no API key required
 const OSM_TILE_URL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const OSM_ATTRIBUTION =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
@@ -396,7 +393,7 @@ export default function ExploreSpacesPage() {
     null,
   );
 
-  // ── Load all spaces
+  // Load all spaces
   useEffect(() => {
     const load = async () => {
       try {
@@ -413,7 +410,7 @@ export default function ExploreSpacesPage() {
     load();
   }, []);
 
-  // ── Filtered list (drives both the card list AND the map markers)
+  // Filtered list
   const filteredSpaces = useMemo(() => {
     let result = spaces;
     if (selectedCategory !== 'All') {
@@ -474,18 +471,15 @@ export default function ExploreSpacesPage() {
 
   return (
     <div className="h-dvh flex flex-col overflow-hidden bg-white dark:bg-gray-950 transition-colors duration-300">
-      {/* Spacer for fixed header.
-          Header height = py-8 (32px top + 32px bottom) + p-2 inner padding (8+8px)
-          + tallest nav item h-12 (48px) = 128px = h-32. */}
-      <div className="h-32 flex-shrink-0" />
+      <div className="h-32 shrink-0" />
 
-      {/* ── Control bar ─────────────────────────────────────────────── */}
-      <div className="flex-shrink-0 border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-950/95 backdrop-blur-sm">
-        <div className="max-w-screen-xl mx-auto px-4 py-3">
+      {/* Control bar */}
+      <div className="shrink-0 border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-950/95 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             {/* Title */}
-            <div className="flex items-center gap-2.5 flex-shrink-0">
-              <div className="h-9 w-9 rounded-xl flex items-center justify-center bg-gradient-to-br from-[#FF0080] via-[#7928CA] to-[#0070F3] shadow-lg shadow-[#7928CA]/20">
+            <div className="flex items-center gap-2.5 shrink-0">
+              <div className="h-9 w-9 rounded-xl flex items-center justify-center bg-linear-to-br from-[#FF0080] via-[#7928CA] to-[#0070F3] shadow-lg shadow-[#7928CA]/20">
                 <MapPin className="w-5 h-5 text-white" />
               </div>
               <div>
@@ -521,7 +515,7 @@ export default function ExploreSpacesPage() {
             </div>
 
             {/* View toggle */}
-            <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 rounded-xl p-1 flex-shrink-0">
+            <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 rounded-xl p-1 shrink-0">
               {(
                 [
                   { value: 'split', label: 'Both' },
@@ -532,11 +526,10 @@ export default function ExploreSpacesPage() {
                 <button
                   key={value}
                   onClick={() => setView(value)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                    view === value
-                      ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
-                      : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
-                  }`}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${view === value
+                    ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                    }`}
                 >
                   {label}
                 </button>
@@ -554,19 +547,17 @@ export default function ExploreSpacesPage() {
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all border ${
-                    isActive
-                      ? 'text-white border-transparent shadow-sm'
-                      : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-transparent'
-                  }`}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all border ${isActive
+                    ? 'text-white border-transparent shadow-sm'
+                    : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-transparent'
+                    }`}
                   style={isActive ? { backgroundColor: color, borderColor: color } : {}}
                 >
                   {cat !== 'All' && CATEGORY_ICON[cat]}
                   {cat}
                   <span
-                    className={`text-[10px] font-semibold ${
-                      isActive ? 'text-white/70' : 'text-gray-400 dark:text-gray-500'
-                    }`}
+                    className={`text-[10px] font-semibold ${isActive ? 'text-white/70' : 'text-gray-400 dark:text-gray-500'
+                      }`}
                   >
                     {count}
                   </span>
@@ -577,23 +568,14 @@ export default function ExploreSpacesPage() {
         </div>
       </div>
 
-      {/* ── Main content ─────────────────────────────────────────────── */}
-      {/* min-h-0 is required so flex children can shrink below content height */}
+      {/* Main content */}
       <div className="flex-1 flex overflow-hidden min-h-0">
-
-        {/* ── Sidebar ─────────────────────────────────────────────────
-            FIX: 'flex' must NOT appear in the base classes when we
-            conditionally need 'hidden md:flex'. Putting a bare 'flex'
-            in the base string would always override 'hidden' on mobile.
-            Solution: add 'flex' only inside the conditional branches.
-        */}
         {showSidebar && (
           <div
-            className={`flex-shrink-0 flex-col border-r border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50 overflow-hidden ${
-              view === 'list'
-                ? 'flex flex-1'                   // full width, always visible
-                : 'hidden md:flex w-80 xl:w-96'   // fixed width, hidden on mobile
-            }`}
+            className={`shrink-0 flex-col border-r border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50 overflow-hidden ${view === 'list'
+              ? 'flex flex-1'
+              : 'hidden md:flex w-80 xl:w-96'
+              }`}
           >
             <div className="flex-1 overflow-y-auto p-3">
               {isLoading ? (
@@ -648,7 +630,7 @@ export default function ExploreSpacesPage() {
 
             {/* Footer count */}
             {!isLoading && !error && filteredSpaces.length > 0 && (
-              <div className="flex-shrink-0 px-4 py-2.5 border-t border-gray-200 dark:border-gray-700/50 bg-white dark:bg-gray-900">
+              <div className="shrink-0 px-4 py-2.5 border-t border-gray-200 dark:border-gray-700/50 bg-white dark:bg-gray-900">
                 <p className="text-[11px] text-gray-400 dark:text-gray-500 flex items-center gap-1.5">
                   <LayoutList className="w-3 h-3" />
                   {filteredSpaces.length} space{filteredSpaces.length !== 1 ? 's' : ''} listed
@@ -661,13 +643,7 @@ export default function ExploreSpacesPage() {
           </div>
         )}
 
-        {/* ── Map ─────────────────────────────────────────────────────
-            FIX 1: min-h-0 prevents flex children from overflowing.
-            FIX 2: color-scheme:light stops Tailwind/browser dark-mode
-                   CSS from inverting or darkening Leaflet's internals.
-            FIX 3: Explicit background so the container isn't transparent
-                   while tiles load.
-        */}
+        {/* Map*/}
         {showMap && (
           <div
             className="flex-1 relative overflow-hidden min-h-0 bg-[#e8eaed]"
@@ -681,9 +657,6 @@ export default function ExploreSpacesPage() {
                 </div>
               </div>
             ) : (
-              /* FIX: Use standard OSM tiles — CartoDB's {r} (retina) variable
-                 caused 404s in some environments, resulting in an all-black map.
-                 OSM tiles are the most universally reliable, zero-config option. */
               <MapContainer
                 center={defaultCenter}
                 zoom={spaces.filter(hasValidCoords).length > 0 ? 13 : 8}
@@ -704,7 +677,7 @@ export default function ExploreSpacesPage() {
                     eventHandlers={{ click: () => handleSelectSpace(space) }}
                   >
                     <Popup>
-                      <div className="min-w-[170px] p-1">
+                      <div className="min-w-42.5 p-1">
                         <span
                           className="text-[10px] font-bold px-2 py-0.5 rounded-full text-white"
                           style={{ backgroundColor: CATEGORY_COLOR[space.category] ?? '#6b7280' }}
@@ -715,7 +688,7 @@ export default function ExploreSpacesPage() {
                           {space.name}
                         </p>
                         <p className="text-xs text-gray-500 mt-1 flex items-start gap-1">
-                          <MapPin className="w-3 h-3 mt-0.5 flex-shrink-0" />
+                          <MapPin className="w-3 h-3 mt-0.5 shrink-0" />
                           {space.locationDetails.address}
                         </p>
                         <button
@@ -751,7 +724,7 @@ export default function ExploreSpacesPage() {
             {view === 'split' && (
               <button
                 onClick={() => setView('list')}
-                className="absolute bottom-4 left-1/2 -translate-x-1/2 md:hidden flex items-center gap-2 px-4 py-2.5 rounded-full bg-white border border-gray-200 shadow-lg text-xs font-bold text-gray-700 hover:bg-gray-50 transition-colors z-[1000]"
+                className="absolute bottom-4 left-1/2 -translate-x-1/2 md:hidden flex items-center gap-2 px-4 py-2.5 rounded-full bg-white border border-gray-200 shadow-lg text-xs font-bold text-gray-700 hover:bg-gray-50 transition-colors z-1000"
               >
                 <LayoutList className="w-4 h-4" />
                 View List ({filteredSpaces.length})
