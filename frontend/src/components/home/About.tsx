@@ -121,8 +121,12 @@ function StatColumn({ stat }: { stat: (typeof stats)[0] }) {
           triggerOnView
         />
       </AuroraText>
-      <p className="mt-1.5 text-sm font-semibold leading-snug text-gray-700 dark:text-slate-100">{stat.label}</p>
-      <p className="max-w-[200px] text-xs leading-relaxed text-gray-400 dark:text-slate-400">{stat.sub}</p>
+      <p className="mt-1.5 text-sm font-semibold leading-snug text-gray-700 dark:text-slate-100">
+        {stat.label}
+      </p>
+      <p className="max-w-[200px] text-xs leading-relaxed text-gray-400 dark:text-slate-400">
+        {stat.sub}
+      </p>
     </div>
   );
 }

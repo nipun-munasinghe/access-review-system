@@ -143,12 +143,16 @@ export default function CtaSection() {
               <motion.div variants={itemVariants} className="flex items-center gap-6 pt-8 pb-2">
                 <div className="flex flex-col">
                   <span className="text-2xl font-bold text-gray-900 dark:text-white">1,200+</span>
-                  <span className="text-xs font-medium text-gray-500 dark:text-slate-400">Real Reviews</span>
+                  <span className="text-xs font-medium text-gray-500 dark:text-slate-400">
+                    Real Reviews
+                  </span>
                 </div>
                 <div className="h-10 w-px bg-gray-200 dark:bg-white/10"></div>
                 <div className="flex flex-col">
                   <span className="text-2xl font-bold text-gray-900 dark:text-white">250+</span>
-                  <span className="text-xs font-medium text-gray-500 dark:text-slate-400">Accessible Spaces</span>
+                  <span className="text-xs font-medium text-gray-500 dark:text-slate-400">
+                    Accessible Spaces
+                  </span>
                 </div>
               </motion.div>
             </motion.div>
@@ -179,7 +183,9 @@ export default function CtaSection() {
                   <p className="text-sm font-semibold text-gray-900 dark:text-white">
                     "Perfect wheelchair access!"
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-slate-400">Jane S. reviewed City Mall</p>
+                  <p className="text-xs text-gray-500 dark:text-slate-400">
+                    Jane S. reviewed City Mall
+                  </p>
                 </div>
               </motion.div>
 
@@ -199,7 +205,9 @@ export default function CtaSection() {
                         className="flex items-center gap-3 rounded-full border border-gray-100 bg-white p-3 shadow-sm dark:border-white/10 dark:bg-slate-900"
                       >
                         <Search className="h-4 w-4 text-gray-400 dark:text-slate-500" />
-                        <span className="text-sm text-gray-400 dark:text-slate-500">Search accessible places...</span>
+                        <span className="text-sm text-gray-400 dark:text-slate-500">
+                          Search accessible places...
+                        </span>
                       </motion.div>
 
                       {/* Animated Tag Row */}
@@ -262,7 +270,9 @@ export default function CtaSection() {
                                 <h4 className="pb-1 text-sm font-bold text-gray-900 dark:text-white">
                                   {card.name}
                                 </h4>
-                                <p className="text-[10px] text-gray-500 dark:text-slate-400">{card.distance} away</p>
+                                <p className="text-[10px] text-gray-500 dark:text-slate-400">
+                                  {card.distance} away
+                                </p>
                               </div>
                               <div className="flex flex-col items-end">
                                 <span className="flex items-center rounded-full bg-amber-50 px-2 py-1 text-[10px] font-bold text-amber-600 text-gray-900 dark:bg-amber-500/12 dark:text-amber-300">

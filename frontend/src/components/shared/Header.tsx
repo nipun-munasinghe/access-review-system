@@ -76,7 +76,9 @@ export default function Header() {
             <Link to="/" className="no-underline">
               <AuroraText
                 className="text-xl font-black tracking-tighter"
-                colors={isDark ? ['#f9a8d4', '#c4b5fd', '#7dd3fc'] : ['#FF0080', '#7928CA', '#0070F3']}
+                colors={
+                  isDark ? ['#f9a8d4', '#c4b5fd', '#7dd3fc'] : ['#FF0080', '#7928CA', '#0070F3']
+                }
               >
                 ACCESSIFY
               </AuroraText>
@@ -100,10 +102,17 @@ export default function Header() {
             ))}
           </div>
 
-          <ThemeToggle isDark={isDark} onToggle={toggleTheme} className="ml-3 hidden lg:inline-flex" />
+          <ThemeToggle
+            isDark={isDark}
+            onToggle={toggleTheme}
+            className="ml-3 hidden lg:inline-flex"
+          />
 
           {isLoggedIn ? (
-            <div className="relative ml-3 hidden lg:block" onClick={(event) => event.stopPropagation()}>
+            <div
+              className="relative ml-3 hidden lg:block"
+              onClick={(event) => event.stopPropagation()}
+            >
               <Button
                 type="button"
                 onClick={() => setIsProfileMenuOpen((current) => !current)}
