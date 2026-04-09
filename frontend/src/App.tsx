@@ -6,6 +6,7 @@ import Login from './components/auth/login.component';
 import Register from './components/auth/register.component';
 import ProfilePage from './pages/ProfilePage';
 import ReportIssuePage from './pages/ReportIssuePage';
+import ExploreSpacesPage from './pages/ExploreSpacesPage';
 import Header from './components/shared/Header';
 
 // Admin
@@ -49,6 +50,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/report-issue" element={<ReportIssuePage />} />
+          <Route path="/explore-spaces" element={<ExploreSpacesPage />} />
         </Route>
 
         {/* Admin Routes */}

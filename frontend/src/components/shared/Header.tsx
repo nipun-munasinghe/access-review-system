@@ -11,7 +11,7 @@ import { useTheme } from '@/hooks/useTheme';
 
 const navigation = [
   { name: 'Home', href: '/' },
-  { name: 'Explore Spaces', href: '#' },
+  { name: 'Explore Spaces', href: '/explore-spaces' },
   { name: 'Reviews', href: '#' },
   { name: 'Accessibility Features', href: '#' },
   { name: 'Report Issue', href: '/report-issue' },
@@ -54,22 +54,20 @@ export default function Header() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? 'py-4' : 'py-8'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'py-4' : 'py-8'
+        }`}
     >
       <div className="container mx-auto px-4">
         <div
-          className={`relative flex w-full items-center p-2 rounded-[2rem] transition-all duration-500 ${
-            scrolled
-              ? 'bg-white/80 shadow-2xl backdrop-blur-xl dark:bg-slate-950/75 dark:shadow-black/30'
-              : 'bg-white/80 shadow-none backdrop-blur-xl dark:bg-transparent dark:backdrop-blur-none'
-          }`}
+          className={`relative flex w-full items-center p-2 rounded-[2rem] transition-all duration-500 ${scrolled
+            ? 'bg-white/80 shadow-2xl backdrop-blur-xl dark:bg-slate-950/75 dark:shadow-black/30'
+            : 'bg-white/80 shadow-none backdrop-blur-xl dark:bg-transparent dark:backdrop-blur-none'
+            }`}
         >
           <div className="mr-auto flex shrink-0 items-center gap-3 px-4">
             <Link
               to="/"
-              className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#FF0080] via-[#7928CA] to-[#0070F3] text-white shadow-lg shadow-[#7928CA]/30 dark:shadow-[#0070F3]/20"
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-[#FF0080] via-[#7928CA] to-[#0070F3] text-white shadow-lg shadow-[#7928CA]/30 dark:shadow-[#0070F3]/20"
             >
               <Shield className="h-6 w-6 text-white" />
             </Link>
@@ -116,14 +114,13 @@ export default function Header() {
               <Button
                 type="button"
                 onClick={() => setIsProfileMenuOpen((current) => !current)}
-                className="h-12 shrink-0 gap-2 rounded-2xl border-0 bg-gradient-to-r from-[#FF0080] via-[#7928CA] to-[#0070F3] px-5 text-[11px] font-black uppercase tracking-widest text-white shadow-xl shadow-[#7928CA]/20 ring-0 transition-all hover:opacity-95 active:scale-[0.98]"
+                className="h-12 shrink-0 gap-2 rounded-2xl border-0 bg-linear-to-r from-[#FF0080] via-[#7928CA] to-[#0070F3] px-5 text-[11px] font-black uppercase tracking-widest text-white shadow-xl shadow-[#7928CA]/20 ring-0 transition-all hover:opacity-95 active:scale-[0.98]"
               >
                 <User className="h-4 w-4" />
                 <span className="max-w-32 truncate">{userName ?? 'Account'}</span>
                 <ChevronDown
-                  className={`h-4 w-4 transition-transform duration-200 ${
-                    isProfileMenuOpen ? 'rotate-180' : ''
-                  }`}
+                  className={`h-4 w-4 transition-transform duration-200 ${isProfileMenuOpen ? 'rotate-180' : ''
+                    }`}
                 />
               </Button>
 
@@ -136,7 +133,7 @@ export default function Header() {
                     transition={{ duration: 0.18, ease: 'easeOut' }}
                     className="absolute right-0 mt-3 w-60 overflow-hidden rounded-3xl border border-gray-200 bg-white/95 p-2 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/95"
                   >
-                    <div className="rounded-2xl bg-gradient-to-r from-[#FF0080]/10 via-[#7928CA]/10 to-[#0070F3]/10 px-4 py-3 dark:from-[#FF0080]/15 dark:via-[#7928CA]/15 dark:to-[#0070F3]/15">
+                    <div className="rounded-2xl bg-linear-to-r from-[#FF0080]/10 via-[#7928CA]/10 to-[#0070F3]/10 px-4 py-3 dark:from-[#FF0080]/15 dark:via-[#7928CA]/15 dark:to-[#0070F3]/15">
                       <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gray-500 dark:text-slate-400">
                         Signed in
                       </p>
@@ -178,7 +175,7 @@ export default function Header() {
               </Button>
               <Button
                 asChild
-                className="h-12 shrink-0 rounded-2xl border-0 bg-gradient-to-r from-[#FF0080] via-[#7928CA] to-[#0070F3] px-8 text-[11px] font-black uppercase tracking-widest text-white shadow-xl shadow-[#7928CA]/20 ring-0 transition-all hover:opacity-95 active:scale-[0.98]"
+                className="h-12 shrink-0 rounded-2xl border-0 bg-linear-to-r from-[#FF0080] via-[#7928CA] to-[#0070F3] px-8 text-[11px] font-black uppercase tracking-widest text-white shadow-xl shadow-[#7928CA]/20 ring-0 transition-all hover:opacity-95 active:scale-[0.98]"
               >
                 <Link to="/register">Sign Up</Link>
               </Button>
@@ -264,7 +261,7 @@ export default function Header() {
                   <>
                     <Button
                       asChild
-                      className="h-12 w-full rounded-xl bg-gradient-to-r from-[#FF0080] via-[#7928CA] to-[#0070F3] text-[11px] font-black uppercase tracking-widest text-white"
+                      className="h-12 w-full rounded-xl bg-linear-to-r from-[#FF0080] via-[#7928CA] to-[#0070F3] text-[11px] font-black uppercase tracking-widest text-white"
                     >
                       <Link to="/login" onClick={() => setIsOpen(false)}>
                         Login
