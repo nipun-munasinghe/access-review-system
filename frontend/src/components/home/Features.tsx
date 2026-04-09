@@ -179,7 +179,7 @@ const featureCards = [
         </p>
       </div>
     ),
-    itemClassName: 'bg-white border border-gray-100 dark:border-white/10 dark:bg-slate-900/80',
+    itemClassName: 'bg-white border border-gray-100 dark:border-white/10 dark:bg-slate-900',
   },
   {
     id: 'map',
@@ -232,7 +232,7 @@ const featureCards = [
             ].map((loc) => (
               <div
                 key={loc.name}
-                className="flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50 px-5 py-3 dark:border-white/10 dark:bg-slate-950/70"
+                className="flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50 px-5 py-3 dark:border-white/10 dark:bg-slate-950"
               >
                 <div
                   className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
@@ -281,7 +281,7 @@ const featureCards = [
         </div>
       </div>
     ),
-    itemClassName: 'bg-white border border-gray-100 dark:border-white/10 dark:bg-slate-900/80',
+    itemClassName: 'bg-white border border-gray-100 dark:border-white/10 dark:bg-slate-900',
   },
   {
     id: 'accessibility',
@@ -377,7 +377,7 @@ const featureCards = [
         </div>
       </div>
     ),
-    itemClassName: 'bg-white border border-gray-100 dark:border-white/10 dark:bg-slate-900/80',
+    itemClassName: 'bg-white border border-gray-100 dark:border-white/10 dark:bg-slate-900',
   },
   {
     id: 'discover',
@@ -423,7 +423,7 @@ const featureCards = [
           ].map((item) => (
             <div
               key={item.label}
-              className="flex items-center justify-between rounded-2xl border border-gray-100 bg-gray-50 px-6 py-4 dark:border-white/10 dark:bg-slate-950/70"
+              className="flex items-center justify-between rounded-2xl border border-gray-100 bg-gray-50 px-6 py-4 dark:border-white/10 dark:bg-slate-950"
             >
               <div className="flex items-center gap-4">
                 <div className="w-3.5 h-3.5 rounded-full" style={{ backgroundColor: item.color }} />
@@ -445,7 +445,7 @@ const featureCards = [
         </div>
       </div>
     ),
-    itemClassName: 'bg-white border border-gray-100 dark:border-white/10 dark:bg-slate-900/80',
+    itemClassName: 'bg-white border border-gray-100 dark:border-white/10 dark:bg-slate-900',
   },
   {
     id: 'reviews',
@@ -489,7 +489,7 @@ const featureCards = [
           ].map((r) => (
             <div
               key={r.name}
-              className="rounded-2xl border border-gray-100 bg-gray-50 px-6 py-5 dark:border-white/10 dark:bg-slate-950/70"
+              className="rounded-2xl border border-gray-100 bg-gray-50 px-6 py-5 dark:border-white/10 dark:bg-slate-950"
             >
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-3">
@@ -514,7 +514,7 @@ const featureCards = [
         </div>
       </div>
     ),
-    itemClassName: 'bg-white border border-gray-100 dark:border-white/10 dark:bg-slate-900/80',
+    itemClassName: 'bg-white border border-gray-100 dark:border-white/10 dark:bg-slate-900',
   },
   {
     id: 'profile',
@@ -535,7 +535,7 @@ const featureCards = [
             Build your accessibility journey in one place.
           </p>
         </div>
-        <div className="flex-1 rounded-3xl border border-gray-100 bg-gray-50 p-8 dark:border-white/10 dark:bg-slate-950/70">
+        <div className="flex-1 rounded-3xl border border-gray-100 bg-gray-50 p-8 dark:border-white/10 dark:bg-slate-950">
           <div className="mb-7 flex items-center gap-4 border-b border-gray-100 pb-6 dark:border-white/10">
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0070F3] to-[#7928CA] flex items-center justify-center text-white text-2xl font-black">
               A
@@ -588,7 +588,7 @@ const featureCards = [
         </div>
       </div>
     ),
-    itemClassName: 'bg-white border border-gray-100 dark:border-white/10 dark:bg-slate-900/80',
+    itemClassName: 'bg-white border border-gray-100 dark:border-white/10 dark:bg-slate-900',
   },
 ];
 
