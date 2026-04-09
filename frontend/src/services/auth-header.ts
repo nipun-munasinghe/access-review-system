@@ -1,11 +1,11 @@
-export default function authHeader() {
-  const userStr = localStorage.getItem('user');
-  let user = null;
-  if (userStr) user = JSON.parse(userStr);
+import authService from '@/services/auth.service.ts';
 
-  if (user && user.accessToken) {
-    return { Authorization: 'Bearer ' + user.accessToken };
+export default function authHeader() {
+  const token = authService.getToken();
+
+  if (token) {
+    return { 'x-auth-token': token };
   } else {
-    return { Authorization: '' };
+    return { 'x-auth-token': '' };
   }
 }

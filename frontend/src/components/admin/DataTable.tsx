@@ -54,7 +54,7 @@ export default function DataTable({
           <Button variant="outline" className="shrink-0 p-2 h-9 w-9">
             <Filter className="h-4 w-4" />
           </Button>
-          {toolbarActions} 
+          {toolbarActions}
         </div>
       </div>
 
