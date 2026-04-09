@@ -1,12 +1,13 @@
 import axios from 'axios';
 import authHeader from './auth-header';
+import { buildApiUrl } from '@/lib/api';
 import type {
   PublicSpace,
   CreatePublicSpaceDTO,
   UpdatePublicSpaceDTO,
 } from '@/types/publicSpace.type';
 
-const API_URL = `${import.meta.env.VITE_API_URL}/public-space`;
+const API_URL = buildApiUrl('public-space');
 
 interface ApiResponse<T> {
   success: boolean;

@@ -85,6 +85,14 @@ export function Globe({
     window.addEventListener('resize', onResize);
     onResize();
 
+    if (!widthRef.current) {
+      const retryId = requestAnimationFrame(onResize);
+      return () => {
+        cancelAnimationFrame(retryId);
+        window.removeEventListener('resize', onResize);
+      };
+    }
+
     const merged: COBEOptions = { ...GLOBE_CONFIG, ...config };
     const w = widthRef.current;
     const globe = createGlobe(canvas, {

@@ -1,7 +1,8 @@
 import axios from 'axios';
 import authHeader from '@/services/auth-header.ts';
+import { buildApiUrl } from '@/lib/api';
 
-const API_URL = `${import.meta.env.VITE_API_URL}/access-features`;
+const API_URL = buildApiUrl('access-features');
 
 export interface AccessFeature {
   _id?: string;
