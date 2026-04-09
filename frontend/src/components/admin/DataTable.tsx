@@ -178,10 +178,20 @@ export default function DataTable({
       <div className="p-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 transition-colors">
         <div>Showing {filteredData.length} entries</div>
         <div className="flex space-x-2">
-          <Button variant="outline" size="sm" disabled>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled
+            className="rounded-full border border-gray-200 bg-white/90 px-5 py-2 text-gray-700 shadow-sm backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-[#7928CA]/20 hover:bg-linear-to-r hover:from-[#FF0080]/8 hover:via-[#7928CA]/8 hover:to-[#0070F3]/8 hover:text-gray-900 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:border-[#38BDF8]/20 dark:hover:bg-linear-to-r dark:hover:from-[#FF0080]/20 dark:hover:via-[#7928CA]/20 dark:hover:to-[#0070F3]/20"
+          >
             Previous
           </Button>
-          <Button variant="outline" size="sm" disabled>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled
+            className="rounded-full border border-gray-200 bg-white/90 px-5 py-2 text-gray-700 shadow-sm backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-[#7928CA]/20 hover:bg-linear-to-r hover:from-[#FF0080]/8 hover:via-[#7928CA]/8 hover:to-[#0070F3]/8 hover:text-gray-900 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:border-[#38BDF8]/20 dark:hover:bg-linear-to-r dark:hover:from-[#FF0080]/20 dark:hover:via-[#7928CA]/20 dark:hover:to-[#0070F3]/20"
+          >
             Next
           </Button>
         </div>
