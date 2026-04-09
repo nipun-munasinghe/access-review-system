@@ -192,12 +192,26 @@ exports.update = async (req, res) => {
         return res.status(400).json({ message: 'An account with this email already exists.' });
     }
 
-    let updates = {
-      userType: req.body.userType || req.body.role,
-      email: req.body.email,
-      name: req.body.name,
-      surname: req.body.surname,
-    };
+    let updates = {};
+
+    // Only include fields that are provided in request
+    if (req.body.userType !== undefined) {
+      updates.userType = req.body.userType;
+    } else if (req.body.role !== undefined) {
+      updates.userType = req.body.role;
+    }
+
+    if (req.body.email !== undefined) {
+      updates.email = req.body.email;
+    }
+
+    if (req.body.name !== undefined) {
+      updates.name = req.body.name;
+    }
+
+    if (req.body.surname !== undefined) {
+      updates.surname = req.body.surname;
+    }
 
     // Find document by id and updates with the required fields
     const result = await User.findOneAndUpdate(
