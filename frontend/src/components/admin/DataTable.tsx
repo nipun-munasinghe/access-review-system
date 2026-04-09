@@ -16,6 +16,11 @@ interface DataTableProps {
   onDelete?: (row: any) => void;
   onView?: (row: any) => void;
   toolbarActions?: React.ReactNode;
+  searchPlaceholder?: string;
+  searchTerm?: string;
+  onSearchTermChange?: (value: string) => void;
+  customFilter?: (row: any, searchTerm: string) => boolean;
+  hideFilterButton?: boolean;
 }
 
 export default function DataTable({
@@ -26,13 +31,37 @@ export default function DataTable({
   onDelete,
   onView,
   toolbarActions,
+  searchPlaceholder = 'Search...',
+  searchTerm,
+  onSearchTermChange,
+  customFilter,
+  hideFilterButton = false,
 }: DataTableProps) {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [internalSearchTerm, setInternalSearchTerm] = useState('');
+  const activeSearchTerm = searchTerm ?? internalSearchTerm;
   const safeData = Array.isArray(data) ? data : [];
+  const handleSearchChange = (value: string) => {
+    if (onSearchTermChange) {
+      onSearchTermChange(value);
+      return;
+    }
 
-  const filteredData = safeData.filter((row) =>
-    Object.values(row).some((val) => String(val).toLowerCase().includes(searchTerm.toLowerCase())),
-  );
+    setInternalSearchTerm(value);
+  };
+
+  const filteredData = safeData.filter((row) => {
+    if (!activeSearchTerm.trim()) {
+      return true;
+    }
+
+    if (customFilter) {
+      return customFilter(row, activeSearchTerm);
+    }
+
+    return Object.values(row).some((val) =>
+      String(val).toLowerCase().includes(activeSearchTerm.toLowerCase()),
+    );
+  });
 
   return (
     <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden transition-colors duration-300">
@@ -41,20 +70,23 @@ export default function DataTable({
           {title}
         </h2>
 
-        <div className="flex items-center space-x-3">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="group relative">
+            <div className="pointer-events-none absolute inset-0 rounded-2xl bg-linear-to-r from-[#FF0080]/0 via-[#7928CA]/0 to-[#0070F3]/0 opacity-0 blur-xl transition-opacity duration-300 group-focus-within:opacity-100" />
+            <Search className="absolute left-4 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-gray-400 transition-colors duration-200 group-focus-within:text-[#7928CA] dark:text-gray-500 dark:group-focus-within:text-[#38BDF8]" />
             <input
               type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-9 pr-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white dark:focus:bg-gray-700 transition-all w-full sm:w-64"
+              placeholder={searchPlaceholder}
+              value={activeSearchTerm}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              className="relative h-11 w-full min-w-[260px] rounded-2xl border border-gray-200 bg-white/95 pl-11 pr-4 text-sm text-gray-900 shadow-[0_8px_24px_rgba(15,23,42,0.06)] outline-none transition-all duration-300 placeholder:text-gray-400 hover:border-[#7928CA]/25 hover:shadow-[0_12px_30px_rgba(121,40,202,0.10)] focus:border-[#7928CA]/35 focus:shadow-[0_0_0_4px_rgba(121,40,202,0.12),0_14px_32px_rgba(0,112,243,0.10)] dark:border-gray-700 dark:bg-gray-800/95 dark:text-white dark:placeholder:text-gray-500 dark:hover:border-[#38BDF8]/30 dark:hover:shadow-[0_12px_30px_rgba(56,189,248,0.10)] dark:focus:border-[#38BDF8]/40 dark:focus:shadow-[0_0_0_4px_rgba(56,189,248,0.12),0_14px_32px_rgba(56,189,248,0.10)] sm:w-72"
             />
           </div>
-          <Button variant="outline" className="shrink-0 p-2 h-9 w-9">
-            <Filter className="h-4 w-4" />
-          </Button>
+          {!hideFilterButton && (
+            <Button variant="outline" className="shrink-0 p-2 h-11 w-11 rounded-2xl">
+              <Filter className="h-4 w-4" />
+            </Button>
+          )}
           {toolbarActions}
         </div>
       </div>
@@ -145,10 +177,20 @@ export default function DataTable({
       <div className="p-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 transition-colors">
         <div>Showing {filteredData.length} entries</div>
         <div className="flex space-x-2">
-          <Button variant="outline" size="sm" disabled>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled
+            className="rounded-full border border-gray-200 bg-white/90 px-5 py-2 text-gray-700 shadow-sm backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-[#7928CA]/20 hover:bg-linear-to-r hover:from-[#FF0080]/8 hover:via-[#7928CA]/8 hover:to-[#0070F3]/8 hover:text-gray-900 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:border-[#38BDF8]/20 dark:hover:bg-linear-to-r dark:hover:from-[#FF0080]/20 dark:hover:via-[#7928CA]/20 dark:hover:to-[#0070F3]/20"
+          >
             Previous
           </Button>
-          <Button variant="outline" size="sm" disabled>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled
+            className="rounded-full border border-gray-200 bg-white/90 px-5 py-2 text-gray-700 shadow-sm backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-[#7928CA]/20 hover:bg-linear-to-r hover:from-[#FF0080]/8 hover:via-[#7928CA]/8 hover:to-[#0070F3]/8 hover:text-gray-900 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:border-[#38BDF8]/20 dark:hover:bg-linear-to-r dark:hover:from-[#FF0080]/20 dark:hover:via-[#7928CA]/20 dark:hover:to-[#0070F3]/20"
+          >
             Next
           </Button>
         </div>

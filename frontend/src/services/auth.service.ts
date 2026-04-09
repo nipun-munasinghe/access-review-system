@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const API_URL = `${import.meta.env.VITE_API_URL}`;
+import { buildApiUrl } from '@/lib/api';
 
 export interface LoginResponse {
   success: boolean;
@@ -31,7 +30,7 @@ interface StoredUser {
 class AuthService {
   login(username: string, password: string) {
     return axios
-      .post<LoginResponse>(API_URL + '/login', {
+      .post<LoginResponse>(buildApiUrl('login'), {
         email: username,
         password,
       })
@@ -59,7 +58,7 @@ class AuthService {
     surname?: string,
     passwordCheck?: string,
   ) {
-    return axios.post(API_URL + '/register', {
+    return axios.post(buildApiUrl('register'), {
       email,
       name,
       surname,
