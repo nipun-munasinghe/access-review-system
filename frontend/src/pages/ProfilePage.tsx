@@ -12,17 +12,22 @@ import {
   Home,
   LogOut,
   Mail,
+  MessageSquare,
   Save,
   ShieldCheck,
+  Star,
+  Trash2,
   UserRound,
   X,
 } from 'lucide-react';
 
 import AuthService from '@/services/auth.service';
+import reviewService from '@/services/review.service';
 import UsersService from '@/services/users.service';
 import { Button } from '@/components/shared/Button';
 import { useToast } from '@/hooks/useToast';
 import { cn } from '@/lib/utils';
+import type { AccessibilityReview } from '@/types/review.type';
 
 interface User {
   id: string;
@@ -233,6 +238,22 @@ function ProfileField({
   );
 }
 
+const getSpaceName = (space: AccessibilityReview['spaceId']) => {
+  if (typeof space === 'string') {
+    return space;
+  }
+
+  return space?.name || space?.location || 'Unknown space';
+};
+
+const getReviewDate = (value?: string) => {
+  if (!value) {
+    return 'N/A';
+  }
+
+  return new Date(value).toLocaleString();
+};
+
 export default function ProfilePage() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -240,6 +261,17 @@ export default function ProfilePage() {
   const [isSaving, setIsSaving] = useState(false);
   const [isPasswordSaving, setIsPasswordSaving] = useState(false);
   const [isPasswordFormOpen, setIsPasswordFormOpen] = useState(false);
+  const [myReviews, setMyReviews] = useState<AccessibilityReview[]>([]);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
+  const [reviewsError, setReviewsError] = useState<string | null>(null);
+  const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
+  const [isReviewSaving, setIsReviewSaving] = useState(false);
+  const [isReviewDeleting, setIsReviewDeleting] = useState<string | null>(null);
+  const [reviewForm, setReviewForm] = useState({
+    title: '',
+    comment: '',
+    rating: 5,
+  });
   const navigate = useNavigate();
   const { success, error } = useToast();
 
@@ -254,6 +286,29 @@ export default function ProfilePage() {
     setUser(currentUser.user);
     setLoading(false);
   }, [navigate]);
+
+  const loadMyReviews = async () => {
+    if (!user?.id) {
+      return;
+    }
+
+    setReviewsLoading(true);
+    setReviewsError(null);
+
+    try {
+      const response = await reviewService.getMyReviews(1, 50);
+      setMyReviews(response.data.result || []);
+    } catch (err) {
+      setReviewsError('Failed to load your reviews. Please try again.');
+      console.error(err);
+    } finally {
+      setReviewsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadMyReviews();
+  }, [user?.id]);
 
   const formik = useFormik({
     initialValues: {
@@ -349,6 +404,71 @@ export default function ProfilePage() {
       }
     },
   });
+
+  const startReviewEdit = (review: AccessibilityReview) => {
+    setEditingReviewId(review._id || null);
+    setReviewForm({
+      title: review.title || '',
+      comment: review.comment || '',
+      rating: review.rating || 5,
+    });
+  };
+
+  const cancelReviewEdit = () => {
+    setEditingReviewId(null);
+    setReviewForm({ title: '', comment: '', rating: 5 });
+  };
+
+  const saveReviewEdit = async () => {
+    if (!editingReviewId) {
+      return;
+    }
+
+    setIsReviewSaving(true);
+
+    try {
+      await reviewService.updateReview(editingReviewId, {
+        title: reviewForm.title,
+        comment: reviewForm.comment,
+        rating: reviewForm.rating,
+      });
+      success('Review updated successfully');
+      cancelReviewEdit();
+      await loadMyReviews();
+    } catch (err) {
+      error('Failed to update review. Please try again.');
+      console.error(err);
+    } finally {
+      setIsReviewSaving(false);
+    }
+  };
+
+  const deleteReview = async (reviewId?: string) => {
+    if (!reviewId) {
+      return;
+    }
+
+    const confirmed = window.confirm('Delete this review? This action cannot be undone.');
+    if (!confirmed) {
+      return;
+    }
+
+    setIsReviewDeleting(reviewId);
+
+    try {
+      await reviewService.deleteReview(reviewId);
+      success('Review deleted successfully');
+      if (editingReviewId === reviewId) {
+        cancelReviewEdit();
+      }
+      await loadMyReviews();
+    } catch (err) {
+      error('Failed to delete review. Please try again.');
+      console.error(err);
+    } finally {
+      setIsReviewDeleting(null);
+    }
+  };
 
   const handleLogout = () => {
     AuthService.logout();
@@ -507,6 +627,150 @@ export default function ProfilePage() {
                   <ProfileInfoRow label="Email" value={user.email} />
                   <ProfileInfoRow label="First Name" value={user.name} />
                   <ProfileInfoRow label="Last Name" value={user.surname} />
+                </div>
+              )}
+            </ProfileCard>
+
+            <ProfileCard
+              title="My Reviews"
+              description="Manage reviews you submitted for public spaces."
+            >
+              {reviewsLoading ? (
+                <div className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-6 text-sm text-gray-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-300">
+                  Loading your reviews...
+                </div>
+              ) : reviewsError ? (
+                <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-4 dark:border-rose-400/30 dark:bg-rose-500/10">
+                  <p className="text-sm font-medium text-rose-700 dark:text-rose-300">{reviewsError}</p>
+                  <Button
+                    type="button"
+                    onClick={loadMyReviews}
+                    className="mt-3 h-9 rounded-lg bg-rose-600 px-4 text-xs text-white hover:bg-rose-700"
+                  >
+                    Retry
+                  </Button>
+                </div>
+              ) : myReviews.length === 0 ? (
+                <div className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-6 text-sm text-gray-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-300">
+                  You have not submitted any reviews yet.
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {myReviews.map((review) => {
+                    const isEditingCurrent = editingReviewId === review._id;
+
+                    return (
+                      <div
+                        key={review._id}
+                        className="rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-white/10 dark:bg-white/5"
+                      >
+                        {isEditingCurrent ? (
+                          <div className="space-y-3">
+                            <input
+                              type="text"
+                              value={reviewForm.title}
+                              onChange={(event) =>
+                                setReviewForm((prev) => ({ ...prev, title: event.target.value }))
+                              }
+                              placeholder="Review title"
+                              className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition focus:border-[#7928CA] dark:border-white/10 dark:bg-slate-900 dark:text-white"
+                            />
+
+                            <textarea
+                              value={reviewForm.comment}
+                              onChange={(event) =>
+                                setReviewForm((prev) => ({ ...prev, comment: event.target.value }))
+                              }
+                              placeholder="Share your accessibility experience"
+                              rows={4}
+                              className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition focus:border-[#7928CA] dark:border-white/10 dark:bg-slate-900 dark:text-white"
+                            />
+
+                            <div className="flex items-center gap-3">
+                              <label className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-400 dark:text-slate-500">
+                                Rating
+                              </label>
+                              <select
+                                value={reviewForm.rating}
+                                onChange={(event) =>
+                                  setReviewForm((prev) => ({
+                                    ...prev,
+                                    rating: Number(event.target.value),
+                                  }))
+                                }
+                                className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition focus:border-[#7928CA] dark:border-white/10 dark:bg-slate-900 dark:text-white"
+                              >
+                                <option value={1}>1</option>
+                                <option value={2}>2</option>
+                                <option value={3}>3</option>
+                                <option value={4}>4</option>
+                                <option value={5}>5</option>
+                              </select>
+                            </div>
+
+                            <div className="flex flex-wrap gap-2 pt-1">
+                              <Button
+                                type="button"
+                                onClick={saveReviewEdit}
+                                disabled={isReviewSaving || reviewForm.comment.trim().length < 10}
+                                className="h-9 rounded-lg bg-linear-to-r from-[#FF0080] via-[#7928CA] to-[#0070F3] px-4 text-xs text-white disabled:opacity-50"
+                              >
+                                {isReviewSaving ? 'Saving...' : 'Save Review'}
+                              </Button>
+                              <Button
+                                type="button"
+                                onClick={cancelReviewEdit}
+                                className="h-9 rounded-lg bg-gray-200 px-4 text-xs text-gray-700 hover:bg-gray-300 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/15"
+                              >
+                                Cancel
+                              </Button>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="space-y-3">
+                            <div className="flex flex-wrap items-start justify-between gap-3">
+                              <div>
+                                <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
+                                  {review.title?.trim() || 'Untitled review'}
+                                </h3>
+                                <p className="mt-1 text-xs text-gray-500 dark:text-slate-400">
+                                  {getSpaceName(review.spaceId)} - {getReviewDate(review.createdAt)}
+                                </p>
+                              </div>
+                              <div className="flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700 dark:bg-amber-400/15 dark:text-amber-300">
+                                <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                                {review.rating}/5
+                              </div>
+                            </div>
+
+                            <p className="text-sm leading-6 text-gray-700 dark:text-slate-300">
+                              {review.comment}
+                            </p>
+
+                            <div className="flex flex-wrap items-center gap-2 border-t border-gray-200 pt-3 dark:border-white/10">
+                              <Button
+                                type="button"
+                                onClick={() => startReviewEdit(review)}
+                                className="h-8 rounded-lg bg-gray-200 px-3 text-xs text-gray-700 hover:bg-gray-300 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/15"
+                              >
+                                <MessageSquare className="mr-1.5 h-3.5 w-3.5" />
+                                Edit
+                              </Button>
+                              <Button
+                                type="button"
+                                onClick={() => deleteReview(review._id)}
+                                disabled={isReviewDeleting === review._id}
+                                className="h-8 rounded-lg bg-rose-600 px-3 text-xs text-white hover:bg-rose-700 disabled:opacity-60"
+                              >
+                                <Trash2 className="mr-1.5 h-3.5 w-3.5" />
+                                {isReviewDeleting === review._id ? 'Deleting...' : 'Delete'}
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </ProfileCard>
