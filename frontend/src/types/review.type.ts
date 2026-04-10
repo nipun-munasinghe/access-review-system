@@ -65,3 +65,60 @@ export interface ReviewSearchResponse {
   result: AccessibilityReview[];
   message: string;
 }
+
+export interface ReviewMutationPayload {
+  spaceId?: string;
+  rating?: number;
+  comment?: string;
+  features?: ReviewFeature[];
+  title?: string;
+}
+
+export interface SpaceReviewSummaryResponse {
+  success: boolean;
+  result: {
+    space: {
+      _id: string;
+      name: string;
+      category: string;
+    };
+    reviewsCount: number;
+    averageRating: string;
+    ratingBreakdown: Array<{
+      _id: number;
+      count: number;
+    }>;
+  } | null;
+  message: string;
+}
+
+export interface SpaceReviewWeatherResponse {
+  success: boolean;
+  result: {
+    source?: string;
+    space: {
+      _id: string;
+      name: string;
+      category: string;
+      coordinates: {
+        lat: number;
+        lng: number;
+      };
+    };
+    weather: {
+      temperature_2m?: number | null;
+      apparent_temperature?: number | null;
+      precipitation?: number | null;
+      wind_speed_10m?: number | null;
+      weather_code?: number | null;
+      time?: string | null;
+    } | null;
+    units?: {
+      temperature_2m?: string;
+      apparent_temperature?: string;
+      precipitation?: string;
+      wind_speed_10m?: string;
+    } | null;
+  } | null;
+  message: string;
+}
