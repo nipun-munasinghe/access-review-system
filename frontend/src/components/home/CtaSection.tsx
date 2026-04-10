@@ -69,13 +69,13 @@ export default function CtaSection() {
   };
 
   return (
-    <section className="relative w-full overflow-hidden bg-white px-4 py-24 transition-colors duration-300 dark:bg-slate-950 sm:px-6 lg:px-8">
+    <section className="relative w-full overflow-hidden bg-transparent px-4 py-20 transition-colors duration-300 dark:bg-slate-950 sm:px-6 sm:py-24 lg:px-8">
       {/* Decorative Blob */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-[#FF0080]/10 via-[#7928CA]/10 to-[#38BDF8]/10 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto">
         <motion.div
-          className="relative overflow-hidden rounded-[3rem] border border-white/50 bg-white/60 shadow-2xl shadow-[#7928CA]/5 backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/75 dark:shadow-black/25"
+          className="relative overflow-hidden rounded-[2rem] border border-white/50 bg-white/60 shadow-2xl shadow-[#7928CA]/5 backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/75 dark:shadow-black/25 sm:rounded-[3rem]"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
@@ -83,25 +83,25 @@ export default function CtaSection() {
           {/* Subtle inner gradient highlight */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#FF0080]/5 via-[#7928CA]/5 to-[#38BDF8]/10 pointer-events-none"></div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-16 items-center p-8 lg:p-16 relative z-10">
+          <div className="relative z-10 grid grid-cols-1 items-center p-5 sm:p-8 lg:grid-cols-2 lg:gap-16 lg:p-16">
             {/* Left Content */}
             <motion.div
               variants={containerVariants}
-              className="max-w-2xl text-left space-y-8 pb-12 lg:pb-0"
+              className="max-w-2xl space-y-6 pb-10 text-left sm:space-y-8 lg:pb-0"
             >
               <motion.div
                 variants={itemVariants}
                 className="inline-flex items-center space-x-2 rounded-full border border-blue-100 bg-blue-50/80 px-4 py-2 backdrop-blur-sm dark:border-blue-400/20 dark:bg-blue-400/10"
               >
                 <Accessibility className="w-4 h-4 text-blue-600" />
-                <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">
+                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-600 sm:text-sm sm:tracking-wider">
                   Built for Inclusive Exploration
                 </span>
               </motion.div>
 
               <motion.h2
                 variants={itemVariants}
-                className="text-5xl font-extrabold leading-[1.15] tracking-tight text-gray-900 dark:text-white lg:text-6xl"
+                className="text-[clamp(2.3rem,10vw,3.8rem)] font-extrabold leading-[1.1] tracking-tight text-gray-900 dark:text-white lg:text-6xl"
               >
                 Help Build More <br />
                 <span className="bg-brand-gradient text-transparent bg-clip-text pr-2">
@@ -111,13 +111,13 @@ export default function CtaSection() {
 
               <motion.p
                 variants={itemVariants}
-                className="max-w-xl text-lg leading-relaxed text-gray-600 dark:text-slate-300"
+                className="max-w-xl text-base leading-relaxed text-gray-600 dark:text-slate-300 sm:text-lg"
               >
                 Discover accessible places, share real experiences, and help others navigate public
                 spaces with confidence. Your review can make every journey easier.
               </motion.p>
 
-              <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 pt-4">
+              <motion.div variants={itemVariants} className="flex flex-col gap-3 pt-2 sm:flex-row sm:gap-4 sm:pt-4">
                 <motion.a
                   href="/spaces"
                   whileHover={{
@@ -125,7 +125,7 @@ export default function CtaSection() {
                     boxShadow: '0px 10px 30px -10px rgba(0, 112, 243, 0.5)',
                   }}
                   whileTap={{ scale: 0.98 }}
-                  className="inline-flex justify-center items-center px-8 py-4 text-base font-semibold text-white bg-brand-gradient rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-lg shadow-blue-500/25 transition-all"
+                  className="inline-flex w-full items-center justify-center rounded-full bg-brand-gradient px-8 py-4 text-base font-semibold text-white shadow-lg shadow-blue-500/25 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto"
                 >
                   Explore Spaces
                 </motion.a>
@@ -133,14 +133,14 @@ export default function CtaSection() {
                   href="/write-review"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
-                  className="inline-flex items-center justify-center rounded-full border border-gray-200 bg-white/80 px-8 py-4 text-base font-semibold text-gray-700 shadow-sm transition-all backdrop-blur-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 dark:border-white/10 dark:bg-white/8 dark:text-slate-100 dark:hover:bg-white/12"
+                  className="inline-flex w-full items-center justify-center rounded-full border border-gray-200 bg-white/80 px-8 py-4 text-base font-semibold text-gray-700 shadow-sm transition-all backdrop-blur-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 dark:border-white/10 dark:bg-white/8 dark:text-slate-100 dark:hover:bg-white/12 sm:w-auto"
                 >
                   Write a Review
                 </motion.a>
               </motion.div>
 
               {/* Floating trust badges below */}
-              <motion.div variants={itemVariants} className="flex items-center gap-6 pt-8 pb-2">
+              <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-4 pt-6 pb-2 sm:gap-6 sm:pt-8">
                 <div className="flex flex-col">
                   <span className="text-2xl font-bold text-gray-900 dark:text-white">1,200+</span>
                   <span className="text-xs font-medium text-gray-500 dark:text-slate-400">
@@ -189,7 +189,7 @@ export default function CtaSection() {
                 </div>
               </motion.div>
 
-              <div className="w-[280px] sm:w-[320px] lg:w-[340px] drop-shadow-2xl">
+              <div className="w-[240px] sm:w-[320px] lg:w-[340px] drop-shadow-2xl">
                 <Iphone className="w-full h-auto">
                   {/* Internal Phone App UI */}
                   <div className="relative flex h-full w-full flex-col overflow-hidden bg-[#f8fafc] px-4 pt-12 pb-6 dark:bg-slate-950">

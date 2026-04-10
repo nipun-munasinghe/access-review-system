@@ -3,7 +3,7 @@ import { AuroraText } from './AuroraText';
 const Footer = () => {
   return (
     <footer
-      className="relative w-full overflow-hidden bg-white px-6 pt-10 text-sm text-gray-600 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-300 md:px-16 lg:px-24 xl:px-32"
+      className="relative w-full overflow-hidden border-t border-white/60 bg-white/45 px-6 pt-10 text-base text-gray-600 backdrop-blur-xl transition-colors duration-300 dark:border-transparent dark:bg-slate-950 dark:text-slate-300 md:px-16 lg:px-24 xl:px-32"
       style={{
         backgroundImage:
           'radial-gradient(ellipse 80% 60% at 10% 110%, rgba(121,40,202,0.06) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 90% 100%, rgba(0,112,243,0.05) 0%, transparent 60%)',
@@ -38,17 +38,20 @@ const Footer = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-14">
         {/* Brand / Logo Section */}
         <div className="sm:col-span-2 lg:col-span-1">
-          <AuroraText className="text-xl font-black tracking-tighter">ACCESSIFY</AuroraText>
-          <p className="mt-6 text-sm/7 text-gray-600 dark:text-slate-300">
-            Accessify is a platform that helps people discover, review, and understand the
-            accessibility of public spaces through real community experiences.
+          <AuroraText className="text-2xl font-black tracking-tighter sm:text-[1.7rem]">
+            ACCESSIFY
+          </AuroraText>
+          <p className="mt-6 max-w-md text-base/8 text-gray-600 dark:text-slate-300 sm:text-[1.05rem]/8">
+            Accessify helps people discover, review, and understand the accessibility of public
+            spaces through trusted community experiences, clearer accessibility insights, and more
+            confident everyday navigation.
           </p>
         </div>
 
         {/* Company Links Section */}
         <div className="flex flex-col lg:items-center lg:justify-center">
-          <div className="flex flex-col text-sm space-y-2.5">
-            <h2 className="mb-5 font-semibold text-gray-900 dark:text-white">Platform</h2>
+          <div className="flex flex-col space-y-3 text-base">
+            <h2 className="mb-5 text-lg font-semibold text-gray-900 dark:text-white">Platform</h2>
             <a
               className="text-gray-600 transition-colors duration-200 dark:text-slate-300"
               href="#"
@@ -129,19 +132,20 @@ const Footer = () => {
 
         {/* Newsletter Section */}
         <div>
-          <h2 className="mb-5 font-semibold text-gray-900 dark:text-white">Stay Updated</h2>
-          <div className="text-sm space-y-6 max-w-sm">
-            <p className="text-gray-600 dark:text-slate-300">
-              Get updates about accessible locations, new features, and community insights.
+          <h2 className="mb-5 text-lg font-semibold text-gray-900 dark:text-white">Stay Updated</h2>
+          <div className="max-w-sm space-y-6 text-base">
+            <p className="text-gray-600 dark:text-slate-300 sm:text-[1.02rem]/7">
+              Get updates about accessible locations, new features, community insights, and the
+              latest improvements we are building for inclusive exploration.
             </p>
             <div className="flex items-center">
               <input
-                className="h-11 w-full max-w-64 rounded-l-md border border-r-0 border-gray-200 bg-gray-50 px-3 text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-purple-300 focus:ring-2 focus:ring-purple-100 dark:border-white/10 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500"
+                className="h-12 w-full max-w-64 rounded-l-md border border-r-0 border-gray-200 bg-gray-50 px-4 text-base text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-purple-300 focus:ring-2 focus:ring-purple-100 dark:border-white/10 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500"
                 type="email"
                 placeholder="Enter your email"
               />
               <button
-                className="cursor-pointer h-11 px-4 text-white rounded-r-md font-medium transition-all duration-300 hover:opacity-90 hover:shadow-lg"
+                className="cursor-pointer h-12 rounded-r-md px-5 text-base font-medium text-white transition-all duration-300 hover:opacity-90 hover:shadow-lg"
                 style={{
                   background: 'linear-gradient(135deg, #FF0080 0%, #7928CA 50%, #0070F3 100%)',
                   boxShadow: '0 2px 12px rgba(121,40,202,0.25)',
@@ -162,7 +166,7 @@ const Footer = () => {
 
       {/* Bottom Copyright Row */}
       <div className="mt-6 flex flex-col items-center justify-between gap-4 border-t border-gray-100 py-4 dark:border-white/10 md:flex-row">
-        <p className="text-center text-gray-400 dark:text-slate-500">
+        <p className="text-center text-sm text-gray-400 dark:text-slate-500 sm:text-base">
           Copyright 2026 ©{' '}
           <a
             href="/"
@@ -180,7 +184,7 @@ const Footer = () => {
         <div className="flex items-center gap-4">
           <a
             href="/"
-            className="text-gray-400 transition-colors duration-200 dark:text-slate-500"
+            className="text-sm text-gray-400 transition-colors duration-200 dark:text-slate-500 sm:text-base"
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundImage = 'linear-gradient(90deg, #FF0080, #7928CA)';
               e.currentTarget.style.webkitBackgroundClip = 'text';
@@ -195,7 +199,7 @@ const Footer = () => {
           </a>
           <a
             href="/"
-            className="text-gray-400 transition-colors duration-200 dark:text-slate-500"
+            className="text-sm text-gray-400 transition-colors duration-200 dark:text-slate-500 sm:text-base"
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundImage = 'linear-gradient(90deg, #7928CA, #0070F3)';
               e.currentTarget.style.webkitBackgroundClip = 'text';
@@ -210,7 +214,7 @@ const Footer = () => {
           </a>
           <a
             href="/"
-            className="text-gray-400 transition-colors duration-200 dark:text-slate-500"
+            className="text-sm text-gray-400 transition-colors duration-200 dark:text-slate-500 sm:text-base"
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundImage = 'linear-gradient(90deg, #0070F3, #38BDF8)';
               e.currentTarget.style.webkitBackgroundClip = 'text';

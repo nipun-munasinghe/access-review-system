@@ -4,7 +4,7 @@ import { Globe } from '@/components/shared/Globe';
 export function Hero() {
   return (
     <section
-      className="relative flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden bg-white px-4 pt-24 transition-colors duration-300 dark:bg-slate-950 sm:pt-28 md:pt-32"
+      className="relative flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden bg-transparent px-4 pt-24 transition-colors duration-300 dark:bg-slate-950 sm:pt-28 md:pt-32"
       aria-labelledby="hero-heading"
     >
       {/* ── Decorative background blobs ── */}
@@ -18,12 +18,11 @@ export function Hero() {
       {/* ── Globe in background ── */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-center"
-        style={{ top: '10vw' }}
+        className="pointer-events-none absolute inset-0 flex items-center justify-center"
       >
         {/* Glow behind globe */}
         <div className="absolute left-1/2 top-1/2 h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#FF0080]/10 via-[#7928CA]/15 to-[#0070F3]/10 blur-3xl" />
-        <Globe className="w-full max-w-4xl opacity-60 sm:opacity-70 md:opacity-80" />
+        <Globe className="w-[140%] max-w-4xl opacity-50 sm:w-full sm:opacity-70 md:opacity-80" />
       </div>
 
       {/* ── Radial overlay to keep text readable over the globe ── */}
@@ -35,12 +34,12 @@ export function Hero() {
       {/* ── Main content (above globe) ── */}
       <div className="relative z-10 flex w-full max-w-4xl flex-col items-center gap-6 text-center">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-[#7928CA]/20 bg-white/80 px-4 py-1.5 shadow-sm backdrop-blur-sm dark:border-white/10 dark:bg-white/8">
+        <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-[#7928CA]/20 bg-white/80 px-3 py-1.5 shadow-sm backdrop-blur-sm dark:border-white/10 dark:bg-white/8 sm:px-4">
           <span
             aria-hidden="true"
             className="h-1.5 w-1.5 animate-pulse rounded-full bg-gradient-to-r from-[#FF0080] to-[#7928CA]"
           />
-          <span className="text-[11px] font-semibold uppercase tracking-widest text-[#7928CA] dark:text-[#b9a5ff]">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7928CA] dark:text-[#b9a5ff] sm:text-[11px] sm:tracking-widest">
             Accessibility Review Platform
           </span>
         </div>
@@ -48,7 +47,7 @@ export function Hero() {
         {/* Heading */}
         <h1
           id="hero-heading"
-          className="text-[5vw] font-bold leading-[1.15] tracking-tight text-gray-900 dark:text-white"
+          className="text-[clamp(2.5rem,11vw,5rem)] font-bold leading-[1.05] tracking-tight text-gray-900 dark:text-white sm:leading-[1.15]"
         >
           {/* Mobile: "Making" alone */}
           <span className="block sm:hidden">Making</span>
@@ -72,23 +71,23 @@ export function Hero() {
         </h1>
 
         {/* Subtitle */}
-        <p className="max-w-lg text-base leading-relaxed text-gray-500 dark:text-slate-300 sm:text-lg">
+        <p className="max-w-lg px-2 text-sm leading-relaxed text-gray-500 dark:text-slate-300 sm:px-0 sm:text-lg">
           Discover, review, and improve accessibility in public spaces.{' '}
           <strong className="font-semibold text-gray-700 dark:text-white">Your voice</strong> helps
           build a more inclusive world.
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
+        <div className="flex w-full max-w-sm flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:items-center sm:justify-center sm:gap-4">
           <button
             type="button"
-            className="rounded-2xl bg-gradient-to-r from-[#FF0080] via-[#7928CA] to-[#0070F3] px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#7928CA]/20 transition-all duration-200 hover:scale-[1.03] hover:shadow-xl hover:shadow-[#7928CA]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7928CA] focus-visible:ring-offset-2"
+            className="w-full rounded-2xl bg-gradient-to-r from-[#FF0080] via-[#7928CA] to-[#0070F3] px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#7928CA]/20 transition-all duration-200 hover:scale-[1.03] hover:shadow-xl hover:shadow-[#7928CA]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7928CA] focus-visible:ring-offset-2 sm:w-auto"
           >
             Explore Spaces
           </button>
           <button
             type="button"
-            className="rounded-2xl border border-gray-200 bg-white/80 px-8 py-3.5 text-sm font-semibold text-gray-600 shadow-sm backdrop-blur-sm transition-all duration-200 hover:border-[#7928CA]/30 hover:bg-[#7928CA]/5 hover:text-[#7928CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7928CA] focus-visible:ring-offset-2 dark:border-white/10 dark:bg-white/8 dark:text-slate-200 dark:hover:bg-white/12 dark:hover:text-white"
+            className="w-full rounded-2xl border border-gray-200 bg-white/80 px-8 py-3.5 text-sm font-semibold text-gray-600 shadow-sm backdrop-blur-sm transition-all duration-200 hover:border-[#7928CA]/30 hover:bg-[#7928CA]/5 hover:text-[#7928CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7928CA] focus-visible:ring-offset-2 dark:border-white/10 dark:bg-white/8 dark:text-slate-200 dark:hover:bg-white/12 dark:hover:text-white sm:w-auto"
           >
             Write a Review
           </button>

@@ -37,10 +37,7 @@ function MapMockup() {
   ];
 
   return (
-    <div
-      className="relative w-full overflow-hidden rounded-2xl border border-gray-100 bg-gradient-to-br from-slate-50 to-blue-50 shadow-inner dark:border-white/10 dark:from-slate-900 dark:to-slate-950"
-      style={{ height: '220px' }}
-    >
+    <div className="relative h-[170px] w-full overflow-hidden rounded-2xl border border-gray-100 bg-gradient-to-br from-slate-50 to-blue-50 shadow-inner dark:border-white/10 dark:from-slate-900 dark:to-slate-950 sm:h-[220px]">
       <svg
         className="absolute inset-0 w-full h-full opacity-[0.07]"
         xmlns="http://www.w3.org/2000/svg"
@@ -89,24 +86,25 @@ function MapMockup() {
           }}
         >
           <div
-            className="flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-black text-white shadow-lg ring-2 ring-white dark:ring-slate-950"
+            className="flex h-6 w-6 items-center justify-center rounded-full text-[9px] font-black text-white shadow-lg ring-2 ring-white dark:ring-slate-950 sm:h-7 sm:w-7 sm:text-[10px]"
             style={{ backgroundColor: p.color }}
           >
             <MapPinned size={12} />
           </div>
           <div
-            className="mt-0.5 px-2 py-0.5 rounded-full text-[8px] font-bold text-white shadow-md whitespace-nowrap"
+            className="mt-0.5 rounded-full px-1.5 py-0.5 text-[7px] font-bold text-white shadow-md whitespace-nowrap sm:px-2 sm:text-[8px]"
             style={{ backgroundColor: p.color }}
           >
-            {p.label}
+            <span className="sm:hidden">{p.label.split(' ')[0]}</span>
+            <span className="hidden sm:inline">{p.label}</span>
           </div>
         </div>
       ))}
-      <div className="absolute bottom-3 left-3 right-3 flex gap-2 flex-wrap">
-        {features.map((f) => (
+      <div className="absolute bottom-3 left-3 right-3 flex gap-1.5 flex-wrap sm:gap-2">
+        {features.slice(0, 3).map((f) => (
           <span
             key={f.label}
-            className="inline-flex items-center gap-1 rounded-full border border-gray-100 bg-white/90 px-2.5 py-1 text-[10px] font-semibold text-gray-700 shadow-sm backdrop-blur-sm dark:border-white/10 dark:bg-slate-900/85 dark:text-slate-200"
+            className="inline-flex items-center gap-1 rounded-full border border-gray-100 bg-white/90 px-2 py-0.5 text-[9px] font-semibold text-gray-700 shadow-sm backdrop-blur-sm dark:border-white/10 dark:bg-slate-900/85 dark:text-slate-200 sm:px-2.5 sm:py-1 sm:text-[10px]"
           >
             <span>{f.icon}</span> {f.label}
           </span>
@@ -144,7 +142,7 @@ const featureCards = [
   {
     id: 'header',
     content: (
-      <div className="mx-auto flex h-full max-w-4xl flex-col items-center justify-center gap-7 text-center">
+      <div className="mx-auto flex h-full max-w-4xl flex-col items-center justify-center gap-5 text-center sm:gap-7">
         <ScrollFloat
           containerClassName="!my-0 !overflow-visible"
           textClassName="!text-sm !leading-none uppercase tracking-[0.22em] text-gray-400 dark:text-slate-400 font-semibold"
@@ -159,7 +157,7 @@ const featureCards = [
 
         <h2
           className="w-full font-black leading-[1.05] tracking-tight text-gray-900 dark:text-white"
-          style={{ fontSize: 'clamp(2.8rem, 5vw, 6rem)' }}
+          style={{ fontSize: 'clamp(2.4rem, 8vw, 6rem)' }}
         >
           Designed for{' '}
           <span
@@ -173,7 +171,10 @@ const featureCards = [
           Exploration
         </h2>
 
-        <p className="max-w-2xl text-xl leading-relaxed text-gray-500 dark:text-slate-300">
+        <p className="max-w-xs text-sm leading-relaxed text-gray-500 dark:text-slate-300 sm:hidden">
+          Discover accessible spaces with quick, trusted insights from the community.
+        </p>
+        <p className="hidden max-w-2xl text-xl leading-relaxed text-gray-500 dark:text-slate-300 sm:block">
           AccessAble helps you discover, review, and truly understand the accessibility of public
           spaces — powered by community-driven insights and meaningful real-world data.
         </p>
@@ -186,26 +187,29 @@ const featureCards = [
     gradient: null,
     bg: 'bg-white',
     content: (
-      <div className="flex flex-col lg:flex-row gap-10 h-full items-center">
+      <div className="flex h-full flex-col items-center justify-between gap-5 sm:gap-8 lg:flex-row lg:gap-10">
         {/* Left: text */}
         <div className="flex-1 flex flex-col justify-center">
-          <div className="flex items-center gap-5 mb-8">
+          <div className="mb-6 flex items-center gap-4 sm:mb-8 sm:gap-5">
             <div
-              className="w-18 h-18 rounded-2xl flex items-center justify-center"
-              style={{ backgroundColor: '#FF008018', width: 72, height: 72 }}
+              className="flex items-center justify-center rounded-2xl"
+              style={{ backgroundColor: '#FF008018', width: 60, height: 60 }}
             >
-              <Map size={34} style={{ color: '#FF0080' }} />
+              <Map size={28} style={{ color: '#FF0080' }} />
             </div>
             <div>
               <p className="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400">
                 Live Discovery
               </p>
-              <h3 className="text-4xl font-black tracking-tight text-gray-900 dark:text-white">
+              <h3 className="text-3xl font-black tracking-tight text-gray-900 dark:text-white sm:text-4xl">
                 Interactive Map View
               </h3>
             </div>
           </div>
-          <p className="mb-8 text-lg leading-relaxed text-gray-500 dark:text-slate-300">
+          <p className="mb-5 max-w-xs text-sm leading-relaxed text-gray-500 dark:text-slate-300 sm:hidden">
+            Explore nearby accessible places with fast, visual navigation.
+          </p>
+          <p className="hidden mb-8 max-w-xl text-lg leading-relaxed text-gray-500 dark:text-slate-300 sm:block">
             Visualize accessible locations on a live, interactive map. Explore what's nearby, filter
             by facility type, and navigate every public space with total confidence.
           </p>
@@ -229,34 +233,37 @@ const featureCards = [
                 badge: 'Elevator ✓',
                 color: '#0070F3',
               },
-            ].map((loc) => (
-              <div
-                key={loc.name}
-                className="flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50 px-5 py-3 dark:border-white/10 dark:bg-slate-950"
-              >
+            ]
+              .slice(0, 2)
+              .map((loc) => (
                 <div
-                  className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: `${loc.color}18` }}
+                  key={loc.name}
+                  className="flex items-center gap-2.5 rounded-2xl border border-gray-100 bg-gray-50 px-3 py-2.5 dark:border-white/10 dark:bg-slate-950 sm:gap-3 sm:px-5 sm:py-3"
                 >
-                  <MapPinned size={16} style={{ color: loc.color }} />
+                  <div
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl sm:h-9 sm:w-9"
+                    style={{ backgroundColor: `${loc.color}18` }}
+                  >
+                    <MapPinned size={14} style={{ color: loc.color }} />
+                  </div>
+                  <div>
+                    <p className="mb-1 text-xs font-bold leading-none text-gray-900 dark:text-white sm:text-sm">
+                      {loc.name}
+                    </p>
+                    <Stars rating={loc.rating} />
+                  </div>
+                  <span
+                  className="ml-0.5 rounded-full px-2 py-0.5 text-[8px] font-bold sm:ml-1 sm:px-2.5 sm:py-1 sm:text-[10px]"
+                    style={{
+                      backgroundColor: `${loc.color}18`,
+                      color: loc.color,
+                    }}
+                  >
+                    <span className="sm:hidden">{loc.badge.split(' ')[0]} ✓</span>
+                    <span className="hidden sm:inline">{loc.badge}</span>
+                  </span>
                 </div>
-                <div>
-                  <p className="mb-1 text-sm font-bold leading-none text-gray-900 dark:text-white">
-                    {loc.name}
-                  </p>
-                  <Stars rating={loc.rating} />
-                </div>
-                <span
-                  className="ml-1 text-[10px] font-bold px-2.5 py-1 rounded-full"
-                  style={{
-                    backgroundColor: `${loc.color}18`,
-                    color: loc.color,
-                  }}
-                >
-                  {loc.badge}
-                </span>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
         {/* Right: map mockup */}
@@ -265,10 +272,10 @@ const featureCards = [
           <motion.div
             animate={{ y: [0, -8, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute -right-2 -bottom-4 z-10 flex items-center gap-3 rounded-2xl border border-white/10 bg-gray-900 px-5 py-3.5 text-white shadow-2xl dark:bg-slate-950"
+            className="absolute -right-2 -bottom-4 z-10 hidden items-center gap-3 rounded-2xl border border-white/10 bg-gray-900 px-5 py-3.5 text-white shadow-2xl dark:bg-slate-950 lg:flex"
           >
             <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
               style={{ backgroundColor: '#FF008022' }}
             >
               <Navigation size={20} style={{ color: '#FF0080' }} />
@@ -286,35 +293,36 @@ const featureCards = [
   {
     id: 'accessibility',
     content: (
-      <div className="flex flex-col lg:flex-row gap-10 h-full items-center">
+      <div className="flex h-full flex-col items-center justify-between gap-5 sm:gap-8 lg:flex-row lg:gap-10">
         <div className="flex-1 flex flex-col justify-center">
           <div
-            className="w-18 h-18 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-8"
-            style={{ width: 72, height: 72 }}
+            className="mb-6 flex items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm sm:mb-8"
+            style={{ width: 60, height: 60 }}
           >
-            <Accessibility size={34} className="text-white" />
+            <Accessibility size={28} className="text-white" />
           </div>
-          <h3 className="text-4xl font-black tracking-tight text-white mb-5 leading-tight">
+          <h3 className="mb-4 text-3xl font-black leading-tight tracking-tight text-white sm:mb-5 sm:text-4xl">
             Explore Accessibility Features
           </h3>
-          <p className="text-white/75 text-lg leading-relaxed mb-8">
+          <p className="mb-5 max-w-xs text-sm leading-relaxed text-white/75 sm:hidden">
+            Check the most important accessibility details before you go.
+          </p>
+          <p className="hidden mb-8 max-w-xl text-lg leading-relaxed text-white/75 sm:block">
             Check wheelchair ramps, elevators, tactile paths, handrails, braille signage, quiet
             zones, and accessible entrances — all in one place.
           </p>
-          <div className="flex flex-wrap gap-2.5">
-            {['♿ Ramp', '🛗 Lift', '👁 Braille', '🔇 Quiet', '🚪 Entry', '🔊 Audio'].map(
-              (chip) => (
-                <span
-                  key={chip}
-                  className="text-sm font-bold bg-white/15 backdrop-blur-sm border border-white/20 text-white px-4 py-2 rounded-full"
-                >
-                  {chip}
-                </span>
-              ),
-            )}
+          <div className="flex flex-wrap gap-2">
+            {['♿ Ramp', '🛗 Lift', '👁 Braille', '🔇 Quiet'].map((chip) => (
+              <span
+                key={chip}
+                className="rounded-full border border-white/20 bg-white/15 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm sm:px-4 sm:py-2 sm:text-sm"
+              >
+                {chip}
+              </span>
+            ))}
           </div>
         </div>
-        <div className="flex-1 grid grid-cols-2 gap-5">
+        <div className="grid flex-1 grid-cols-2 gap-4 sm:gap-5">
           {[
             { label: 'Wheelchair Ramps', count: '340+', icon: '♿' },
             { label: 'Elevator Access', count: '180+', icon: '🛗' },
@@ -323,11 +331,11 @@ const featureCards = [
           ].map((item) => (
             <div
               key={item.label}
-              className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-3xl p-6 flex flex-col gap-3"
+              className="flex flex-col gap-2 rounded-3xl border border-white/15 bg-white/10 p-3.5 backdrop-blur-sm sm:gap-2.5 sm:p-5"
             >
-              <span className="text-3xl">{item.icon}</span>
-              <span className="text-3xl font-black text-white">{item.count}</span>
-              <span className="text-sm text-white/60 font-semibold">{item.label}</span>
+              <span className="text-xl sm:text-3xl">{item.icon}</span>
+              <span className="text-xl font-black text-white sm:text-3xl">{item.count}</span>
+              <span className="text-[11px] font-semibold leading-tight text-white/60 sm:text-sm">{item.label}</span>
             </div>
           ))}
         </div>
@@ -339,23 +347,26 @@ const featureCards = [
   {
     id: 'trusted',
     content: (
-      <div className="flex flex-col lg:flex-row gap-10 h-full items-center">
+      <div className="flex h-full flex-col items-center justify-between gap-5 sm:gap-8 lg:flex-row lg:gap-10">
         <div className="flex-1 flex flex-col justify-center">
           <div
-            className="rounded-2xl flex items-center justify-center mb-8"
-            style={{ backgroundColor: '#38BDF818', width: 72, height: 72 }}
+            className="mb-6 flex items-center justify-center rounded-2xl sm:mb-8"
+            style={{ backgroundColor: '#38BDF818', width: 60, height: 60 }}
           >
-            <ShieldCheck size={34} style={{ color: '#38BDF8' }} />
+            <ShieldCheck size={28} style={{ color: '#38BDF8' }} />
           </div>
-          <h3 className="mb-5 text-4xl font-black leading-tight tracking-tight text-gray-900 dark:text-white">
+          <h3 className="mb-4 text-3xl font-black leading-tight tracking-tight text-gray-900 dark:text-white sm:mb-5 sm:text-4xl">
             Trusted & Inclusive Platform
           </h3>
-          <p className="text-lg leading-relaxed text-gray-500 dark:text-slate-300">
+          <p className="max-w-xs text-sm leading-relaxed text-gray-500 dark:text-slate-300 sm:hidden">
+            Reliable accessibility info, shaped by real community experiences.
+          </p>
+          <p className="hidden max-w-xl text-lg leading-relaxed text-gray-500 dark:text-slate-300 sm:block">
             Community-powered and built on transparency — giving everyone reliable information to
             move freely through the world.
           </p>
         </div>
-        <div className="flex-1 grid grid-cols-3 gap-5">
+        <div className="grid flex-1 grid-cols-3 gap-3 sm:gap-5">
           {[
             { val: '1200+', label: 'Reviews', color: '#FF0080' },
             { val: '250+', label: 'Places', color: '#7928CA' },
@@ -363,13 +374,13 @@ const featureCards = [
           ].map(({ val, label, color }) => (
             <div
               key={label}
-              className="flex flex-col items-center justify-center text-center rounded-3xl py-10 px-4"
+              className="flex flex-col items-center justify-center rounded-3xl px-2 py-5 text-center sm:px-4 sm:py-8"
               style={{ backgroundColor: `${color}0D` }}
             >
-              <span className="text-5xl font-black leading-none" style={{ color }}>
+              <span className="text-2xl font-black leading-none sm:text-5xl" style={{ color }}>
                 {val}
               </span>
-              <span className="mt-3 text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400">
+              <span className="mt-2 text-[9px] font-bold uppercase tracking-[0.18em] text-gray-400 dark:text-slate-400 sm:mt-3 sm:text-xs sm:tracking-widest">
                 {label}
               </span>
             </div>
@@ -382,23 +393,26 @@ const featureCards = [
   {
     id: 'discover',
     content: (
-      <div className="flex flex-col lg:flex-row gap-10 h-full items-center">
+      <div className="flex h-full flex-col items-center justify-between gap-5 sm:gap-8 lg:flex-row lg:gap-10">
         <div className="flex-1 flex flex-col justify-center">
           <div
-            className="rounded-2xl flex items-center justify-center mb-8"
-            style={{ backgroundColor: '#FF008018', width: 72, height: 72 }}
+            className="mb-6 flex items-center justify-center rounded-2xl sm:mb-8"
+            style={{ backgroundColor: '#FF008018', width: 60, height: 60 }}
           >
-            <MapPinned size={34} style={{ color: '#FF0080' }} />
+            <MapPinned size={28} style={{ color: '#FF0080' }} />
           </div>
-          <h3 className="mb-5 text-4xl font-black leading-tight tracking-tight text-gray-900 dark:text-white">
+          <h3 className="mb-4 text-3xl font-black leading-tight tracking-tight text-gray-900 dark:text-white sm:mb-5 sm:text-4xl">
             Discover Public Spaces
           </h3>
-          <p className="text-lg leading-relaxed text-gray-500 dark:text-slate-300">
+          <p className="max-w-xs text-sm leading-relaxed text-gray-500 dark:text-slate-300 sm:hidden">
+            Browse public places with quick accessibility summaries.
+          </p>
+          <p className="hidden max-w-xl text-lg leading-relaxed text-gray-500 dark:text-slate-300 sm:block">
             Find parks, malls, transit hubs, and buildings with community-verified accessibility
             details. Never second-guess a venue again.
           </p>
         </div>
-        <div className="flex-1 flex flex-col gap-4">
+        <div className="flex-1 flex flex-col gap-3 sm:gap-4">
           {[
             {
               label: 'Parks & Recreation',
@@ -420,28 +434,34 @@ const featureCards = [
               places: '52 places',
               color: '#38BDF8',
             },
-          ].map((item) => (
-            <div
-              key={item.label}
-              className="flex items-center justify-between rounded-2xl border border-gray-100 bg-gray-50 px-6 py-4 dark:border-white/10 dark:bg-slate-950"
+          ]
+            .slice(0, 3)
+            .map((item) => (
+              <div
+                key={item.label}
+              className="flex items-center justify-between rounded-2xl border border-gray-100 bg-gray-50 px-3.5 py-2.5 dark:border-white/10 dark:bg-slate-950 sm:px-6 sm:py-4"
             >
-              <div className="flex items-center gap-4">
-                <div className="w-3.5 h-3.5 rounded-full" style={{ backgroundColor: item.color }} />
-                <span className="text-base font-semibold text-gray-800 dark:text-slate-100">
-                  {item.label}
+                <div className="flex items-center gap-2.5 sm:gap-4">
+                  <div
+                    className="h-2.5 w-2.5 rounded-full sm:h-3.5 sm:w-3.5"
+                    style={{ backgroundColor: item.color }}
+                  />
+                  <span className="text-sm font-semibold text-gray-800 dark:text-slate-100 sm:text-base">
+                    <span className="sm:hidden">{item.label.split('&')[0]}</span>
+                    <span className="hidden sm:inline">{item.label}</span>
+                  </span>
+                </div>
+                <span
+                  className="rounded-full px-2.5 py-1 text-[10px] font-bold sm:px-4 sm:py-1.5 sm:text-sm"
+                  style={{
+                    backgroundColor: `${item.color}18`,
+                    color: item.color,
+                  }}
+                >
+                  {item.places}
                 </span>
               </div>
-              <span
-                className="text-sm font-bold px-4 py-1.5 rounded-full"
-                style={{
-                  backgroundColor: `${item.color}18`,
-                  color: item.color,
-                }}
-              >
-                {item.places}
-              </span>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     ),
@@ -450,23 +470,26 @@ const featureCards = [
   {
     id: 'reviews',
     content: (
-      <div className="flex flex-col lg:flex-row gap-10 h-full items-center">
+      <div className="flex h-full flex-col items-center justify-between gap-5 sm:gap-8 lg:flex-row lg:gap-10">
         <div className="flex-1 flex flex-col justify-center">
           <div
-            className="rounded-2xl flex items-center justify-center mb-8"
-            style={{ backgroundColor: '#7928CA18', width: 72, height: 72 }}
+            className="mb-6 flex items-center justify-center rounded-2xl sm:mb-8"
+            style={{ backgroundColor: '#7928CA18', width: 60, height: 60 }}
           >
-            <Star size={34} style={{ color: '#7928CA' }} />
+            <Star size={28} style={{ color: '#7928CA' }} />
           </div>
-          <h3 className="mb-5 text-4xl font-black leading-tight tracking-tight text-gray-900 dark:text-white">
+          <h3 className="mb-4 text-3xl font-black leading-tight tracking-tight text-gray-900 dark:text-white sm:mb-5 sm:text-4xl">
             Share Accessibility Reviews
           </h3>
-          <p className="text-lg leading-relaxed text-gray-500 dark:text-slate-300">
+          <p className="max-w-xs text-sm leading-relaxed text-gray-500 dark:text-slate-300 sm:hidden">
+            Share fast, honest reviews that help others plan with confidence.
+          </p>
+          <p className="hidden max-w-xl text-lg leading-relaxed text-gray-500 dark:text-slate-300 sm:block">
             Submit honest, experience-based reviews that help others navigate with confidence. Your
             voice makes every space more accessible.
           </p>
         </div>
-        <div className="flex-1 flex flex-col gap-4">
+        <div className="flex-1 flex flex-col gap-3 sm:gap-4">
           {[
             {
               name: 'Ayesha M.',
@@ -486,31 +509,38 @@ const featureCards = [
               stars: 5,
               tag: 'Quiet Zone ✓',
             },
-          ].map((r) => (
-            <div
-              key={r.name}
-              className="rounded-2xl border border-gray-100 bg-gray-50 px-6 py-5 dark:border-white/10 dark:bg-slate-950"
+          ]
+            .slice(0, 2)
+            .map((r) => (
+              <div
+                key={r.name}
+              className="rounded-2xl border border-gray-100 bg-gray-50 px-3.5 py-3 dark:border-white/10 dark:bg-slate-950 sm:px-6 sm:py-5"
             >
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#7928CA] to-[#0070F3] flex items-center justify-center text-white text-sm font-black">
-                    {r.name[0]}
+                <div className="mb-2.5 flex items-center justify-between">
+                  <div className="flex items-center gap-2.5 sm:gap-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[#7928CA] to-[#0070F3] text-[11px] font-black text-white sm:h-10 sm:w-10 sm:text-sm">
+                      {r.name[0]}
+                    </div>
+                    <span className="text-xs font-bold text-gray-900 dark:text-white sm:text-sm">
+                      {r.name}
+                    </span>
                   </div>
-                  <span className="text-sm font-bold text-gray-900 dark:text-white">{r.name}</span>
+                  <Stars rating={r.stars} />
                 </div>
-                <Stars rating={r.stars} />
+                <p className="mb-3 text-xs leading-relaxed text-gray-500 dark:text-slate-300 sm:text-sm">
+                  <span className="sm:hidden">
+                    "{r.review.split('!')[0] || r.review}"{!r.review.includes('!') ? '' : '!'}
+                  </span>
+                  <span className="hidden sm:inline">"{r.review}"</span>
+                </p>
+                <span
+                  className="rounded-full px-2.5 py-0.5 text-[10px] font-bold text-[#7928CA] sm:px-3 sm:py-1 sm:text-xs"
+                  style={{ backgroundColor: '#7928CA18' }}
+                >
+                  {r.tag}
+                </span>
               </div>
-              <p className="mb-3 text-sm leading-relaxed text-gray-500 dark:text-slate-300">
-                "{r.review}"
-              </p>
-              <span
-                className="text-xs font-bold px-3 py-1 rounded-full text-[#7928CA]"
-                style={{ backgroundColor: '#7928CA18' }}
-              >
-                {r.tag}
-              </span>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     ),
@@ -519,39 +549,46 @@ const featureCards = [
   {
     id: 'profile',
     content: (
-      <div className="flex flex-col lg:flex-row gap-10 h-full items-center">
+      <div className="flex h-full flex-col items-center justify-between gap-5 sm:gap-8 lg:flex-row lg:gap-10">
         <div className="flex-1 flex flex-col justify-center">
           <div
-            className="rounded-2xl flex items-center justify-center mb-8"
-            style={{ backgroundColor: '#0070F318', width: 72, height: 72 }}
+            className="mb-6 flex items-center justify-center rounded-2xl sm:mb-8"
+            style={{ backgroundColor: '#0070F318', width: 60, height: 60 }}
           >
-            <UserRound size={34} style={{ color: '#0070F3' }} />
+            <UserRound size={28} style={{ color: '#0070F3' }} />
           </div>
-          <h3 className="mb-5 text-4xl font-black leading-tight tracking-tight text-gray-900 dark:text-white">
+          <h3 className="mb-4 text-3xl font-black leading-tight tracking-tight text-gray-900 dark:text-white sm:mb-5 sm:text-4xl">
             Personalised Profiles
           </h3>
-          <p className="text-lg leading-relaxed text-gray-500 dark:text-slate-300">
+          <p className="max-w-xs text-sm leading-relaxed text-gray-500 dark:text-slate-300 sm:hidden">
+            Manage reviews, bookmarks, and your accessibility activity in one place.
+          </p>
+          <p className="hidden max-w-xl text-lg leading-relaxed text-gray-500 dark:text-slate-300 sm:block">
             Track your contributions, manage reviews, and bookmark favourite accessible places.
             Build your accessibility journey in one place.
           </p>
         </div>
-        <div className="flex-1 rounded-3xl border border-gray-100 bg-gray-50 p-8 dark:border-white/10 dark:bg-slate-950">
-          <div className="mb-7 flex items-center gap-4 border-b border-gray-100 pb-6 dark:border-white/10">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0070F3] to-[#7928CA] flex items-center justify-center text-white text-2xl font-black">
+        <div className="flex-1 rounded-3xl border border-gray-100 bg-gray-50 p-4 dark:border-white/10 dark:bg-slate-950 sm:p-8">
+          <div className="mb-4 flex items-center gap-3 border-b border-gray-100 pb-4 dark:border-white/10 sm:mb-7 sm:gap-4 sm:pb-6">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0070F3] to-[#7928CA] text-base font-black text-white sm:h-16 sm:w-16 sm:text-2xl">
               A
             </div>
             <div>
-              <p className="text-lg font-black text-gray-900 dark:text-white">Alex Johnson</p>
-              <p className="text-sm text-gray-400 dark:text-slate-400">Accessibility Advocate</p>
+              <p className="text-base font-black text-gray-900 dark:text-white sm:text-lg">
+                Alex Johnson
+              </p>
+              <p className="text-xs text-gray-400 dark:text-slate-400 sm:text-sm">
+                Accessibility Advocate
+              </p>
             </div>
             <span
-              className="ml-auto text-xs font-bold px-3 py-1.5 rounded-full text-[#0070F3]"
+              className="ml-auto rounded-full px-2 py-1 text-[9px] font-bold text-[#0070F3] sm:px-3 sm:py-1.5 sm:text-xs"
               style={{ backgroundColor: '#0070F318' }}
             >
               Verified ✓
             </span>
           </div>
-          <div className="grid grid-cols-3 gap-4 mb-6">
+          <div className="mb-4 grid grid-cols-3 gap-2 sm:mb-6 sm:gap-4">
             {[
               { val: '24', label: 'Reviews', color: '#0070F3' },
               { val: '11', label: 'Bookmarks', color: '#7928CA' },
@@ -559,32 +596,30 @@ const featureCards = [
             ].map(({ val, label, color }) => (
               <div
                 key={label}
-                className="flex flex-col items-center rounded-2xl py-4"
+                className="flex flex-col items-center rounded-2xl py-2.5 sm:py-4"
                 style={{ backgroundColor: `${color}0D` }}
               >
-                <span className="text-2xl font-black" style={{ color }}>
+                <span className="text-lg font-black sm:text-2xl" style={{ color }}>
                   {val}
                 </span>
-                <span className="mt-1 text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-slate-400">
+                <span className="mt-1 text-[9px] font-bold uppercase tracking-wider text-gray-400 dark:text-slate-400 sm:text-[10px]">
                   {label}
                 </span>
               </div>
             ))}
           </div>
-          <div className="mb-3 text-sm font-semibold text-gray-400 dark:text-slate-400">
+          <div className="mb-2 text-[11px] font-semibold text-gray-400 dark:text-slate-400 sm:mb-3 sm:text-sm">
             Recent Activity
           </div>
-          {['Reviewed City Mall', 'Bookmarked Central Park', 'Added Metro Hub lift info'].map(
-            (a) => (
-              <div
-                key={a}
-                className="flex items-center gap-3 border-b border-gray-100 py-2.5 last:border-0 dark:border-white/10"
-              >
-                <div className="w-2 h-2 rounded-full bg-[#0070F3]" />
-                <span className="text-sm text-gray-600 dark:text-slate-300">{a}</span>
-              </div>
-            ),
-          )}
+          {['Reviewed City Mall', 'Bookmarked Central Park'].map((a) => (
+            <div
+              key={a}
+              className="flex items-center gap-2.5 border-b border-gray-100 py-2 last:border-0 dark:border-white/10 sm:gap-3 sm:py-2.5"
+            >
+              <div className="h-1.5 w-1.5 rounded-full bg-[#0070F3] sm:h-2 sm:w-2" />
+              <span className="text-xs text-gray-600 dark:text-slate-300 sm:text-sm">{a}</span>
+            </div>
+          ))}
         </div>
       </div>
     ),
@@ -597,29 +632,32 @@ const featureCards = [
 ───────────────────────────────────────────── */
 export default function FeaturesBento() {
   return (
-    <section className="relative w-full overflow-visible bg-white transition-colors duration-300 dark:bg-slate-950">
+    <section className="relative w-full overflow-visible bg-transparent transition-colors duration-300 dark:bg-slate-950">
       {/* Background blobs */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[560px] w-[700px] rounded-full bg-gradient-to-br from-[#FF0080]/5 via-[#7928CA]/5 to-[#0070F3]/5 blur-3xl" />
       </div>
 
       {/* ScrollStack feature cards */}
-      <div className="relative z-10 mx-auto max-w-7xl px-6 pt-12 pb-32">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 pt-8 pb-10 sm:px-6 sm:pt-12 sm:pb-32">
         <ScrollStack
           useWindowScroll={true}
           itemDistance={90}
           itemScale={0.0}
           itemStackDistance={0}
-          stackPosition="20%"
+          stackPosition="25%"
           scaleEndPosition="10%"
           baseScale={1.05}
           rotationAmount={0}
           blurAmount={1}
+          mobileStackPosition="50%"
+          mobileScaleEndPosition="70%"
+          mobilePinAlignment="center"
         >
           {featureCards.map((card) => (
             <ScrollStackItem
               key={card.id}
-              itemClassName={`min-h-[650px] ${card.itemClassName ?? ''}`}
+              itemClassName={`mx-auto h-[34rem] w-full max-w-[26rem] overflow-hidden p-5 sm:h-auto sm:max-w-none sm:min-h-[650px] sm:p-12 ${card.itemClassName ?? ''}`}
               style={card.style}
             >
               {card.content}
