@@ -65,7 +65,10 @@ class ReviewService {
     params.append('page', page.toString());
     params.append('items', items.toString());
 
-    return axios.get<ReviewListResponse>(`${API_URL}/my-reviews?${params.toString()}`, getHeaders());
+    return axios.get<ReviewListResponse>(
+      `${API_URL}/my-reviews?${params.toString()}`,
+      getHeaders(),
+    );
   }
 
   getReviewsBySpace(spaceId: string, page = 1, items = 10) {
