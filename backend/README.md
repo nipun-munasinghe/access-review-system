@@ -271,6 +271,23 @@ All `/api/user/*` routes are protected by token middleware at router mount level
 | GET    | `/review/space/:spaceId/summary` | No   | Aggregate summary for a public space          |
 | GET    | `/review/space/:spaceId/weather` | No   | Weather integration for public space location |
 
+### 8.6 Frontend Wiring for Review APIs
+
+The current frontend consumes the review controller endpoints in these screens:
+
+- Admin reviews page (`frontend/src/pages/admin/ReviewsPage.tsx`): list + delete + inspect
+- Admin dashboard (`frontend/src/pages/admin/DashboardPage.tsx`): analytics feed + report export
+- User profile (`frontend/src/pages/ProfilePage.tsx`): my reviews list + update + delete
+- Explore spaces (`frontend/src/pages/ExploreSpacesPage.tsx`): list by space + summary + weather + create/update/delete own review
+
+Review API service client:
+
+- `frontend/src/services/review.service.ts`
+
+Review export utility:
+
+- `frontend/src/utils/downloadReviewsReport.ts` (PDF/CSV)
+
 ---
 
 ## 9) API Usage Notes

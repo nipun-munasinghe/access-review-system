@@ -56,6 +56,14 @@ Students working on this project learn:
 - 📊 **Data Aggregation**: Compute accessibility summaries and statistics
 - ⛅ **Third-party Integration**: Weather API integration (Open-Meteo)
 
+### Review Feature (Current Implementation)
+
+- ✅ **Admin Reviews Page**: view full review table, inspect details, delete reviews.
+- ✅ **Admin Dashboard Export**: export review data as PDF or CSV from the Recent Reviews panel.
+- ✅ **User Profile**: authenticated users can view, edit, and delete their own submitted reviews.
+- ✅ **Explore Spaces**: per-space review feed, summary metrics, optional weather context, and create/update/delete own review.
+- ✅ **Backend Contracts Wired**: `create`, `list`, `listBySpace`, `myReviews`, `update`, `delete`, `spaceSummary`, `spaceWeather`.
+
 ### Technical Highlights
 
 - ✅ **Comprehensive Testing**: Unit, integration, and performance tests
@@ -244,6 +252,13 @@ access-review-system/
 | GET    | `/api/review/my-reviews`             | ✅   | Get current user's reviews     |
 | PATCH  | `/api/review/update/:id`             | ✅   | Update review (owner only)     |
 | DELETE | `/api/review/delete/:id`             | ✅   | Delete review                  |
+
+The frontend review service methods are available in `frontend/src/services/review.service.ts` and are consumed by:
+
+- `frontend/src/pages/admin/ReviewsPage.tsx`
+- `frontend/src/pages/admin/DashboardPage.tsx`
+- `frontend/src/pages/ProfilePage.tsx`
+- `frontend/src/pages/ExploreSpacesPage.tsx`
 
 ### Access Features
 
