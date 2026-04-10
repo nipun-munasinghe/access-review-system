@@ -21,7 +21,7 @@ export function AccessifyMarquee() {
   const track = [...ITEMS, ...ITEMS];
 
   return (
-    <section className="w-full bg-white py-12 shadow-[0_2px_16px_0px_rgba(121,40,202,0.07),0_-2px_16px_0px_rgba(121,40,202,0.07)] transition-colors duration-300 dark:bg-slate-950 dark:shadow-[0_2px_18px_0px_rgba(15,23,42,0.45),0_-2px_18px_0px_rgba(15,23,42,0.35)] sm:py-16">
+    <section className="w-full border-y border-white/60 bg-white/55 py-12 backdrop-blur-xl transition-colors duration-300 dark:border-transparent dark:bg-slate-950 sm:py-16">
       {/* Section label */}
       <p className="mb-6 text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-400 dark:text-slate-400">
         Everything you need with <AuroraText>AccessAble</AuroraText>
@@ -63,8 +63,8 @@ export function AccessifyMarquee() {
         </div>
 
         {/* Edge fades */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent dark:from-slate-950 sm:w-40" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent dark:from-slate-950 sm:w-40" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#fbfcff] via-[#fbfcff]/90 to-transparent dark:from-slate-950 dark:via-slate-950/90 sm:w-40" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#fcf8fb] via-[#fcf8fb]/90 to-transparent dark:from-slate-950 dark:via-slate-950/90 sm:w-40" />
       </div>
 
       <style>{`

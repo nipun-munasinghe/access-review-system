@@ -41,7 +41,7 @@ const stats = [
 
 function RatingBadge() {
   return (
-    <div className="inline-flex flex-col gap-3 rounded-2xl border border-gray-100 bg-white px-5 py-5 shadow-[0_2px_16px_rgba(121,40,202,0.07)] dark:border-white/10 dark:bg-slate-900 dark:shadow-black/20">
+    <div className="hidden flex-col gap-3 rounded-2xl border border-gray-100 bg-white px-5 py-5 shadow-[0_2px_16px_rgba(121,40,202,0.07)] dark:border-white/10 dark:bg-slate-900 dark:shadow-black/20 md:inline-flex">
       {/* Stars */}
       <div className="flex items-center gap-0.5">
         {Array.from({ length: 5 }).map((_, i) => (
@@ -135,10 +135,10 @@ function StatColumn({ stat }: { stat: (typeof stats)[0] }) {
 
 export function About() {
   return (
-    <section className="w-full bg-white py-24 transition-colors duration-300 dark:bg-slate-950 md:py-32 lg:py-36">
-      <div className="mx-auto max-w-7xl px-6 md:px-10 lg:px-16">
+    <section className="w-full bg-transparent py-20 transition-colors duration-300 dark:bg-slate-950 md:py-32 lg:py-36">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-10 lg:px-16">
         {/* ── Top: heading block + badge ───────────────────── */}
-        <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
+        <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between md:gap-12">
           {/* Left column */}
           <div className="flex flex-col md:max-w-[60%]">
             {/* Eyebrow */}
@@ -156,7 +156,7 @@ export function About() {
 
             {/* Main heading */}
             <motion.h2
-              className="mt-5 text-[clamp(1.9rem,4vw,3.9rem)] font-black leading-[1.1] tracking-tight text-neutral-900 dark:text-white"
+              className="mt-5 text-[clamp(1.9rem,9vw,3.9rem)] font-black leading-[1.08] tracking-tight text-neutral-900 dark:text-white"
               initial={{ opacity: 0, y: 32 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, margin: '-80px' }}
@@ -200,7 +200,7 @@ export function About() {
           <div className="flex shrink-0 flex-col items-start gap-6 md:items-end md:pt-1.5">
             <RatingBadge />
             <motion.div
-              className="w-full overflow-hidden rounded-2xl border -ml-12 border-gray-100 shadow-[0_4px_24px_rgba(121,40,202,0.08)] dark:border-white/10 dark:shadow-black/20 md:w-[600px]"
+              className="w-full overflow-hidden rounded-2xl border border-gray-100 shadow-[0_4px_24px_rgba(121,40,202,0.08)] dark:border-white/10 dark:shadow-black/20 md:-ml-12 md:w-[600px]"
               initial={{ opacity: 0, x: 48, scale: 0.97 }}
               whileInView={{ opacity: 1, x: 0, scale: 1 }}
               viewport={{ once: false, margin: '-80px' }}
@@ -220,10 +220,10 @@ export function About() {
         </div>
 
         {/* ── Hairline divider ─────────────────────────────── */}
-        <div className="mt-16 h-px w-full bg-gray-100 dark:bg-white/10" />
+        <div className="mt-14 h-px w-full bg-gray-100 dark:bg-white/10 md:mt-16" />
 
         {/* ── Stats row ────────────────────────────────────── */}
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4">
           {stats.map((stat, i) => (
             <StatColumn key={i} stat={stat} />
           ))}
