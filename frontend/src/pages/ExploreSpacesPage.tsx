@@ -10,6 +10,7 @@ import {
   Building2,
   Leaf,
   Activity,
+  CloudSun,
   Train,
   Loader2,
   Navigation,
@@ -18,10 +19,16 @@ import {
   ChevronRight,
   Info,
   LayoutList,
+  MessageSquare,
+  Star,
+  Trash2,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import AuthService from '@/services/auth.service';
 import publicSpaceService from '@/services/public-space.service';
+import reviewService from '@/services/review.service';
 import type { PublicSpace, SpaceCategory } from '@/types/publicSpace.type';
+import type { AccessibilityReview } from '@/types/review.type';
 
 // Category config
 
@@ -55,6 +62,30 @@ const FEATURE_CATEGORY_COLOR: Record<string, string> = {
   Auditory: '#16a34a',
   Cognitive: '#f59e0b',
   Other: '#6b7280',
+};
+
+const WEATHER_CODE_LABELS: Record<number, string> = {
+  0: 'Clear sky',
+  1: 'Mainly clear',
+  2: 'Partly cloudy',
+  3: 'Overcast',
+  45: 'Fog',
+  48: 'Depositing rime fog',
+  51: 'Light drizzle',
+  53: 'Moderate drizzle',
+  55: 'Dense drizzle',
+  61: 'Slight rain',
+  63: 'Moderate rain',
+  65: 'Heavy rain',
+  71: 'Slight snow',
+  73: 'Moderate snow',
+  75: 'Heavy snow',
+  80: 'Rain showers',
+  81: 'Moderate rain showers',
+  82: 'Violent rain showers',
+  95: 'Thunderstorm',
+  96: 'Thunderstorm with slight hail',
+  99: 'Thunderstorm with heavy hail',
 };
 
 // Helpers
@@ -182,6 +213,178 @@ function SpaceDetailModal({ space, onClose }: { space: PublicSpace; onClose: () 
   const icon = CATEGORY_ICON[space.category];
   const coords = space.locationDetails.coordinates;
   const mapsUrl = `https://www.google.com/maps?q=${coords.lat},${coords.lng}`;
+  const currentUserId = AuthService.getCurrentUser()?.user?.id;
+
+  const [reviews, setReviews] = useState<AccessibilityReview[]>([]);
+  const [reviewsCount, setReviewsCount] = useState(0);
+  const [averageRating, setAverageRating] = useState('0.00');
+  const [weatherText, setWeatherText] = useState<string | null>(null);
+  const [reviewsLoading, setReviewsLoading] = useState(true);
+  const [reviewsError, setReviewsError] = useState<string | null>(null);
+  const [isSavingReview, setIsSavingReview] = useState(false);
+  const [isDeletingReview, setIsDeletingReview] = useState(false);
+  const [reviewForm, setReviewForm] = useState({
+    title: '',
+    comment: '',
+    rating: 5,
+  });
+
+  const ownReview = useMemo(() => {
+    if (!currentUserId) {
+      return null;
+    }
+
+    return (
+      reviews.find((review) => {
+        if (typeof review.userId === 'string') {
+          return review.userId === currentUserId;
+        }
+
+        return review.userId?._id === currentUserId;
+      }) || null
+    );
+  }, [reviews, currentUserId]);
+
+  const getReviewerLabel = (reviewer: AccessibilityReview['userId']) => {
+    if (typeof reviewer === 'string') {
+      return reviewer;
+    }
+
+    const name = [reviewer?.name, reviewer?.surname].filter(Boolean).join(' ').trim();
+    return name || reviewer?.email || 'Anonymous';
+  };
+
+  const loadSpaceReviews = useCallback(async () => {
+    if (!space._id) {
+      return;
+    }
+
+    setReviewsLoading(true);
+    setReviewsError(null);
+    setWeatherText('Loading weather context...');
+
+    try {
+      const [reviewsRes, summaryRes, weatherRes] = await Promise.all([
+        reviewService.getReviewsBySpace(space._id, 1, 20),
+        reviewService.getSpaceSummary(space._id),
+        reviewService.getSpaceWeather(space._id).catch(() => null),
+      ]);
+
+      setReviews(reviewsRes.data.result || []);
+      setReviewsCount(summaryRes.data.result?.reviewsCount ?? 0);
+      setAverageRating(summaryRes.data.result?.averageRating ?? '0.00');
+
+      if (weatherRes?.data?.result?.weather) {
+        const weather = weatherRes.data.result.weather;
+        const units = weatherRes.data.result.units;
+        const weatherCode = weather?.weather_code ?? -1;
+        const weatherLabel = WEATHER_CODE_LABELS[weatherCode] || 'Weather unavailable';
+        const temperature = weather?.temperature_2m;
+        const windSpeed = weather?.wind_speed_10m;
+        const tempUnit = units?.temperature_2m || 'degC';
+        const windUnit = units?.wind_speed_10m || 'km/h';
+
+        setWeatherText(
+          `${weatherLabel} · ${temperature ?? 'N/A'}${tempUnit} · Wind ${windSpeed ?? 'N/A'} ${windUnit}`,
+        );
+      } else {
+        setWeatherText('Weather context is currently unavailable for this space.');
+      }
+    } catch (err: unknown) {
+      setReviewsError('Failed to load space reviews.');
+      console.error(err);
+    } finally {
+      setReviewsLoading(false);
+    }
+  }, [space._id]);
+
+  useEffect(() => {
+    loadSpaceReviews();
+  }, [loadSpaceReviews]);
+
+  useEffect(() => {
+    if (!ownReview) {
+      setReviewForm({ title: '', comment: '', rating: 5 });
+      return;
+    }
+
+    setReviewForm({
+      title: ownReview.title || '',
+      comment: ownReview.comment || '',
+      rating: ownReview.rating || 5,
+    });
+  }, [ownReview?._id, ownReview?.title, ownReview?.comment, ownReview?.rating]);
+
+  const submitReview = async () => {
+    if (!space._id || !currentUserId) {
+      return;
+    }
+
+    if (reviewForm.comment.trim().length < 10) {
+      setReviewsError('Review comment must be at least 10 characters.');
+      return;
+    }
+
+    setIsSavingReview(true);
+    setReviewsError(null);
+
+    try {
+      if (ownReview?._id) {
+        await reviewService.updateReview(ownReview._id, {
+          title: reviewForm.title,
+          comment: reviewForm.comment,
+          rating: reviewForm.rating,
+        });
+      } else {
+        await reviewService.createReview({
+          spaceId: space._id,
+          title: reviewForm.title,
+          comment: reviewForm.comment,
+          rating: reviewForm.rating,
+        });
+      }
+
+      await loadSpaceReviews();
+    } catch (err: unknown) {
+      const message =
+        typeof err === 'object' && err !== null && 'response' in err
+          ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
+          : null;
+      setReviewsError(message || 'Failed to save your review.');
+      console.error(err);
+    } finally {
+      setIsSavingReview(false);
+    }
+  };
+
+  const deleteOwnReview = async () => {
+    if (!ownReview?._id) {
+      return;
+    }
+
+    const confirmed = window.confirm('Delete your review for this space?');
+    if (!confirmed) {
+      return;
+    }
+
+    setIsDeletingReview(true);
+    setReviewsError(null);
+
+    try {
+      await reviewService.deleteReview(ownReview._id);
+      setReviewForm({ title: '', comment: '', rating: 5 });
+      await loadSpaceReviews();
+    } catch (err: unknown) {
+      const message =
+        typeof err === 'object' && err !== null && 'response' in err
+          ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
+          : null;
+      setReviewsError(message || 'Failed to delete your review.');
+      console.error(err);
+    } finally {
+      setIsDeletingReview(false);
+    }
+  };
 
   return (
     <motion.div
@@ -287,6 +490,22 @@ function SpaceDetailModal({ space, onClose }: { space: PublicSpace; onClose: () 
             </div>
           )}
 
+          <div className="rounded-xl border border-sky-100 dark:border-sky-800/40 bg-linear-to-r from-sky-50/90 to-cyan-50/70 dark:from-sky-900/20 dark:to-cyan-900/15 p-4">
+            <div className="flex items-start gap-3">
+              <div className="mt-0.5 h-9 w-9 shrink-0 rounded-xl bg-white/80 dark:bg-slate-900/70 border border-sky-200/60 dark:border-sky-700/60 flex items-center justify-center">
+                <CloudSun className="w-4 h-4 text-sky-600 dark:text-sky-300" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-sky-700/80 dark:text-sky-300/80">
+                  Weather Context
+                </p>
+                <p className="mt-1 text-sm font-medium text-slate-700 dark:text-slate-200 leading-relaxed">
+                  {weatherText || 'Loading weather context...'}
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* Access features */}
           {space.accessFeatures && space.accessFeatures.length > 0 ? (
             <div>
@@ -337,6 +556,161 @@ function SpaceDetailModal({ space, onClose }: { space: PublicSpace; onClose: () 
               </p>
             </div>
           )}
+
+          <div className="rounded-xl border border-gray-100 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-800/70 p-4 space-y-3">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">
+                Review Snapshot
+              </p>
+              <button
+                onClick={loadSpaceReviews}
+                className="text-[11px] font-semibold text-[#7928CA] dark:text-purple-300 hover:underline"
+              >
+                Refresh
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-lg bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 p-3">
+                <p className="text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500">
+                  Average Rating
+                </p>
+                <p className="mt-1 text-sm font-bold text-gray-900 dark:text-white">{averageRating}/5</p>
+              </div>
+              <div className="rounded-lg bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 p-3">
+                <p className="text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500">
+                  Total Reviews
+                </p>
+                <p className="mt-1 text-sm font-bold text-gray-900 dark:text-white">{reviewsCount}</p>
+              </div>
+            </div>
+
+          </div>
+
+          <div className="space-y-3 rounded-xl border border-gray-100 dark:border-gray-700/60 bg-white dark:bg-gray-900 p-4">
+            <div className="flex items-center gap-2">
+              <MessageSquare className="w-4 h-4 text-[#7928CA]" />
+              <p className="text-sm font-bold text-gray-900 dark:text-white">Community Reviews</p>
+            </div>
+
+            {reviewsLoading ? (
+              <p className="text-xs text-gray-500 dark:text-gray-400">Loading reviews...</p>
+            ) : reviews.length === 0 ? (
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                No reviews yet. Be the first to share your accessibility experience.
+              </p>
+            ) : (
+              <div className="space-y-2.5">
+                {reviews.map((review) => (
+                  <div
+                    key={review._id}
+                    className="rounded-lg border border-gray-100 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-800 p-3"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="text-xs font-semibold text-gray-900 dark:text-gray-100">
+                          {review.title?.trim() || 'Untitled review'}
+                        </p>
+                        <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">
+                          {getReviewerLabel(review.userId)}
+                        </p>
+                      </div>
+                      <div className="inline-flex items-center gap-1 rounded-full bg-amber-50 dark:bg-amber-500/10 px-2 py-0.5 text-[11px] font-semibold text-amber-700 dark:text-amber-300">
+                        <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                        {review.rating}/5
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-600 dark:text-gray-300 mt-2 leading-relaxed">
+                      {review.comment}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-3 rounded-xl border border-gray-100 dark:border-gray-700/60 bg-white dark:bg-gray-900 p-4">
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-sm font-bold text-gray-900 dark:text-white">
+                {ownReview ? 'Update Your Review' : 'Write a Review'}
+              </p>
+              {!currentUserId && (
+                <Link
+                  to="/login"
+                  className="text-[11px] font-semibold text-[#7928CA] dark:text-purple-300 hover:underline"
+                >
+                  Login to review
+                </Link>
+              )}
+            </div>
+
+            <input
+              type="text"
+              disabled={!currentUserId || isSavingReview || isDeletingReview}
+              value={reviewForm.title}
+              onChange={(event) =>
+                setReviewForm((prev) => ({ ...prev, title: event.target.value }))
+              }
+              placeholder="Title (optional)"
+              className="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-xs text-gray-900 dark:text-white outline-none focus:border-[#7928CA]"
+            />
+
+            <textarea
+              rows={4}
+              disabled={!currentUserId || isSavingReview || isDeletingReview}
+              value={reviewForm.comment}
+              onChange={(event) =>
+                setReviewForm((prev) => ({ ...prev, comment: event.target.value }))
+              }
+              placeholder="Share details about accessibility, access features, and your experience."
+              className="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-xs text-gray-900 dark:text-white outline-none focus:border-[#7928CA]"
+            />
+
+            <div className="flex items-center gap-2">
+              <label className="text-[11px] font-semibold text-gray-500 dark:text-gray-400">
+                Rating
+              </label>
+              <select
+                disabled={!currentUserId || isSavingReview || isDeletingReview}
+                value={reviewForm.rating}
+                onChange={(event) =>
+                  setReviewForm((prev) => ({ ...prev, rating: Number(event.target.value) }))
+                }
+                className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-2 py-1.5 text-xs text-gray-900 dark:text-white outline-none focus:border-[#7928CA]"
+              >
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+                <option value={4}>4</option>
+                <option value={5}>5</option>
+              </select>
+            </div>
+
+            {reviewsError && (
+              <p className="text-xs text-rose-600 dark:text-rose-300">{reviewsError}</p>
+            )}
+
+            <div className="flex gap-2">
+              <button
+                onClick={submitReview}
+                disabled={!currentUserId || isSavingReview || isDeletingReview}
+                className="flex-1 h-10 rounded-lg text-xs font-bold text-white disabled:opacity-50"
+                style={{ background: 'linear-gradient(135deg,#FF0080,#7928CA)' }}
+              >
+                {isSavingReview ? 'Saving...' : ownReview ? 'Update Review' : 'Submit Review'}
+              </button>
+              {ownReview && (
+                <button
+                  onClick={deleteOwnReview}
+                  disabled={isSavingReview || isDeletingReview}
+                  className="h-10 px-3 rounded-lg bg-rose-600 text-white text-xs font-bold hover:bg-rose-700 disabled:opacity-50 inline-flex items-center gap-1"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  {isDeletingReview ? 'Deleting...' : 'Delete'}
+                </button>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Action buttons */}
