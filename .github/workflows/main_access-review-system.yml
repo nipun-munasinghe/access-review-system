@@ -29,7 +29,6 @@ jobs:
         working-directory: backend
         run: |
           pnpm install --config.ignore-engines=true
-          pnpm run build --if-present
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
