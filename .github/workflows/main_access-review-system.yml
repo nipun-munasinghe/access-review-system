@@ -28,7 +28,7 @@ jobs:
       - name: Install, build, and test
         working-directory: backend
         run: |
-          pnpm install --config.ignore-engines=true
+          pnpm install --config.ignore-engines=true --shamefully-hoist
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
